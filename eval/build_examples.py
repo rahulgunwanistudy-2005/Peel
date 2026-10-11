@@ -314,7 +314,9 @@ def main() -> None:
 
     first = all_specs[0]
     if first.id != "desk-apple":
-        print(f"NOTE: web/index.html preloads the first example's image; update it for {first.id!r}.")
+        print(
+            f"NOTE: web/index.html preloads the first example's image; update it for {first.id!r}."
+        )
     SOURCE_EDIT = first.edited
     how_figures(outputs[first.id], outputs.get("astronaut-face"))
     size = sum(f.stat().st_size for f in WEB_DIR.rglob("*") if f.is_file()) / 1e6

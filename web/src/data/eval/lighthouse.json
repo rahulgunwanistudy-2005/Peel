@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "url": "https://peel-xi.vercel.app/",
+    "fetched_at": "2026-10-11T21:06:26.459Z",
+    "lighthouse_version": "12.8.2",
+    "form_factor": "mobile",
+    "throttling": "simulate"
+  },
+  "scores": {
+    "performance": 96,
+    "accessibility": 100,
+    "best-practices": 100
+  },
+  "metrics": {
+    "first-contentful-paint": "1.8\u00a0s",
+    "largest-contentful-paint": "2.0\u00a0s",
+    "total-blocking-time": "10\u00a0ms",
+    "cumulative-layout-shift": "0",
+    "speed-index": "4.2\u00a0s"
+  }
+}

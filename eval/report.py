@@ -288,6 +288,22 @@ def full_report() -> str:
                 latency_table(data),
                 "",
             ]
+    lighthouse = load("lighthouse")
+    if lighthouse:
+        scores, metrics = lighthouse["scores"], lighthouse["metrics"]
+        parts += [
+            "## Lighthouse (web app)",
+            "",
+            f"{lighthouse['meta']['url']}, Lighthouse {lighthouse['meta']['lighthouse_version']}, {lighthouse['meta']['form_factor']} "
+            f"profile with {lighthouse['meta']['throttling']} throttling, {lighthouse['meta']['fetched_at']}. "
+            "Run by hand with `npx lighthouse`; the summary is stored in `eval/results/lighthouse.json`.",
+            "",
+            "| Performance | Accessibility | Best practices | LCP | CLS | TBT |",
+            "| ---: | ---: | ---: | ---: | ---: | ---: |",
+            f"| {scores['performance']} | {scores['accessibility']} | {scores['best-practices']} | "
+            f"{metrics['largest-contentful-paint']} | {metrics['cumulative-layout-shift']} | {metrics['total-blocking-time']} |",
+            "",
+        ]
     return "\n".join(parts)
 
 

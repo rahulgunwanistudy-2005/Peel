@@ -118,3 +118,11 @@ Not measured: No hand-labelled pairs were in eval/pairs/ when the evaluation ran
 | ledger | 3 | 3 |
 | **End to end** | **1204** | **1220** |
 
+## Lighthouse (web app)
+
+https://peel-xi.vercel.app/, Lighthouse 12.8.2, mobile profile with simulate throttling, 2026-10-11T21:06:26.459Z. Run by hand with `npx lighthouse`; the summary is stored in `eval/results/lighthouse.json`.
+
+| Performance | Accessibility | Best practices | LCP | CLS | TBT |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 96 | 100 | 100 | 2.0 s | 0 | 10 ms |
+

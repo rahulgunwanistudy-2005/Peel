@@ -10,6 +10,13 @@ test('load an example, toggle views, flip a region', async ({ page }) => {
   const stageImage = page.locator('.stage-frame img.layer').first()
   await expect(stageImage).toBeVisible()
   await expect(stageImage).toHaveAttribute('src', /peeled/)
+  // The registration marks come into register and the change map is revealed, also on a reload
+  // when the image comes straight from the cache.
+  await expect(page.locator('.marks')).toHaveAttribute('data-phase', 'registered')
+  await expect(page.locator('.stage-frame img.overlay')).toHaveAttribute('src', /change_map/)
+  await page.reload()
+  await expect(page.locator('.marks')).toHaveAttribute('data-phase', 'registered')
+  await expect(page.locator('.stage-frame img.overlay')).toHaveAttribute('src', /change_map/)
 
   // Toggle views.
   await page.getByRole('button', { name: 'Original', exact: true }).click()

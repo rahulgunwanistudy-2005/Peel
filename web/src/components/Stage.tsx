@@ -67,8 +67,12 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
   const [pinned, setPinned] = useState(false)
   const [loupeWanted, setLoupeWanted] = useState(false)
   const [phase, setPhase] = useState<MarkPhase>('out')
-  const [reveal, setReveal] = useState(false)
-  const [loaded, setLoaded] = useState(false)
+  // Keyed by analysis rather than reset in an effect: a cached image can fire `load` before effects
+  // run, and a reset would then wipe it out and leave the marks out of register for good.
+  const [loadedKey, setLoadedKey] = useState<string | null>(null)
+  const [revealedKey, setRevealedKey] = useState<string | null>(null)
+  const loaded = loadedKey === playKey
+  const reveal = revealedKey === playKey
 
   const urls = useMemo(
     () => ({
@@ -93,20 +97,17 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
 
   // Register, then reveal. Runs on first load and for every new analysis.
   useEffect(() => {
-    setLoaded(false)
-    setReveal(false)
-    setPhase('out')
-  }, [playKey])
-
-  useEffect(() => {
     if (busyStage !== null) {
       setPhase(busyStage === 'queued' || busyStage === 'decode' ? 'out' : busyStage === 'register' ? 'registering' : 'registered')
       return
     }
-    if (!loaded) return
+    if (!loaded) {
+      setPhase('out')
+      return
+    }
     setPhase('registering')
     const toRegistered = window.setTimeout(() => setPhase('registered'), 700)
-    const toReveal = window.setTimeout(() => setReveal(true), 760)
+    const toReveal = window.setTimeout(() => setRevealedKey(playKey), 760)
     return () => {
       window.clearTimeout(toRegistered)
       window.clearTimeout(toReveal)
@@ -220,7 +221,7 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
             crossOrigin="anonymous"
             decoding="async"
             fetchPriority="high"
-            onLoad={() => setLoaded(true)}
+            onLoad={() => setLoadedKey(playKey)}
             draggable={false}
           />
           {view === 'compare' && (
