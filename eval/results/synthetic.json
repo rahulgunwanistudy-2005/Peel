@@ -1,0 +1,252 @@
+{
+  "meta": {
+    "generated_at": "2026-10-11 20:42 UTC",
+    "git_sha": "079fc1692650",
+    "n_cases": 216,
+    "long_side": 448,
+    "bases": [
+      "astronaut (NASA, public domain)",
+      "coffee (CC0)",
+      "chelsea the cat (CC0)",
+      "rocket (CC0)",
+      "Banana100 input: fog (CC BY-NC-SA 4.0)",
+      "Banana100 input: library (CC BY-NC-SA 4.0)",
+      "Banana100 input: peacock (CC BY-NC-SA 4.0)",
+      "Banana100 input: sand (CC BY-NC-SA 4.0)",
+      "Banana100 input: table (CC BY-NC-SA 4.0)"
+    ],
+    "edit_kinds": [
+      "add",
+      "remove",
+      "recolor",
+      "replace"
+    ],
+    "drift_kinds": [
+      "blur",
+      "cast",
+      "jpeg",
+      "noise",
+      "patch_blur",
+      "patch_color",
+      "patch_warp",
+      "sharpen",
+      "shift"
+    ],
+    "psnr_cap_db": 60.0,
+    "errors": 0,
+    "seconds": 758.9
+  },
+  "metric_info": [
+    {
+      "key": "intended_iou",
+      "label": "Intended-region IoU",
+      "better": "higher",
+      "digits": 3,
+      "unit": ""
+    },
+    {
+      "key": "collateral_reverted_pct",
+      "label": "Collateral pixels reverted",
+      "better": "higher",
+      "digits": 1,
+      "unit": "%"
+    },
+    {
+      "key": "bit_identical_pct",
+      "label": "Byte-identical outside the edit",
+      "better": "higher",
+      "digits": 1,
+      "unit": "%"
+    },
+    {
+      "key": "unedited_psnr",
+      "label": "Unedited-region PSNR",
+      "better": "higher",
+      "digits": 1,
+      "unit": "dB, capped at 60"
+    },
+    {
+      "key": "unedited_lpips",
+      "label": "Unedited-region LPIPS",
+      "better": "lower",
+      "digits": 4,
+      "unit": ""
+    },
+    {
+      "key": "edit_psnr",
+      "label": "Kept-edit fidelity PSNR",
+      "better": "higher",
+      "digits": 1,
+      "unit": "dB"
+    }
+  ],
+  "variants": [
+    {
+      "id": "raw",
+      "label": "Raw AI edit",
+      "note": "No repair at all.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.02076610233183501,
+        "collateral_reverted_pct": 0.0,
+        "bit_identical_pct": 0.9590914471644466,
+        "unedited_psnr": 23.33501769599445,
+        "unedited_lpips": 0.16440519349891003,
+        "edit_psnr": 21.297065346978602
+      }
+    },
+    {
+      "id": "diff_merge",
+      "label": "Diff-merge baseline",
+      "note": "Composite every pixel whose difference exceeds a threshold.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.08284659815630688,
+        "collateral_reverted_pct": 38.08861781482852,
+        "bit_identical_pct": 38.48397418325854,
+        "unedited_psnr": 24.751152542671367,
+        "unedited_lpips": 0.13200236586163994,
+        "edit_psnr": 21.18281028095865
+      }
+    },
+    {
+      "id": "peel",
+      "label": "Peel",
+      "note": "Full pipeline.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.7619012042765382,
+        "collateral_reverted_pct": 98.69810258538827,
+        "bit_identical_pct": 98.69806589349281,
+        "unedited_psnr": 55.38611274026439,
+        "unedited_lpips": 0.028340973648785923,
+        "edit_psnr": 28.296329375078376
+      }
+    },
+    {
+      "id": "no_rereg",
+      "label": "Peel without re-registration",
+      "note": "No background-locked refit, no flow.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.7618715574038316,
+        "collateral_reverted_pct": 98.68479305025906,
+        "bit_identical_pct": 98.68511790546293,
+        "unedited_psnr": 55.50279991629932,
+        "unedited_lpips": 0.028384010618201165,
+        "edit_psnr": 28.247346087233705
+      }
+    },
+    {
+      "id": "no_intent",
+      "label": "Peel without intent grounding",
+      "note": "Every changed region is kept.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.49158531165959696,
+        "collateral_reverted_pct": 94.45530475359494,
+        "bit_identical_pct": 94.49812018934584,
+        "unedited_psnr": 41.84521896899637,
+        "unedited_lpips": 0.04746166446703784,
+        "edit_psnr": 28.65588384165724
+      }
+    },
+    {
+      "id": "no_cast",
+      "label": "Peel without cast separation",
+      "note": "The whole-image tint is not removed first.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.7793783965940241,
+        "collateral_reverted_pct": 98.48863517328553,
+        "bit_identical_pct": 98.49199662163647,
+        "unedited_psnr": 54.85157832826384,
+        "unedited_lpips": 0.029555730854756095,
+        "edit_psnr": 27.707484169497707
+      }
+    },
+    {
+      "id": "no_face",
+      "label": "Peel without face lock",
+      "note": "Faces are treated like any other region.",
+      "n": 216,
+      "metrics": {
+        "intended_iou": 0.7619012042765382,
+        "collateral_reverted_pct": 98.69810258538827,
+        "bit_identical_pct": 98.69806589349281,
+        "unedited_psnr": 55.38611274026439,
+        "unedited_lpips": 0.028340973648785923,
+        "edit_psnr": 28.296329375078376
+      }
+    }
+  ],
+  "peel_by_edit_kind": {
+    "add": {
+      "n": 54,
+      "intended_iou": 0.764,
+      "collateral_reverted_pct": 98.7
+    },
+    "recolor": {
+      "n": 54,
+      "intended_iou": 0.685,
+      "collateral_reverted_pct": 98.7
+    },
+    "remove": {
+      "n": 54,
+      "intended_iou": 0.816,
+      "collateral_reverted_pct": 98.8
+    },
+    "replace": {
+      "n": 54,
+      "intended_iou": 0.783,
+      "collateral_reverted_pct": 98.5
+    }
+  },
+  "peel_by_drift_kind": {
+    "blur": {
+      "n": 36,
+      "intended_iou": 0.767,
+      "collateral_reverted_pct": 98.8
+    },
+    "cast": {
+      "n": 108,
+      "intended_iou": 0.717,
+      "collateral_reverted_pct": 98.6
+    },
+    "jpeg": {
+      "n": 72,
+      "intended_iou": 0.726,
+      "collateral_reverted_pct": 98.5
+    },
+    "noise": {
+      "n": 36,
+      "intended_iou": 0.849,
+      "collateral_reverted_pct": 98.9
+    },
+    "patch_blur": {
+      "n": 72,
+      "intended_iou": 0.727,
+      "collateral_reverted_pct": 98.6
+    },
+    "patch_color": {
+      "n": 72,
+      "intended_iou": 0.786,
+      "collateral_reverted_pct": 98.7
+    },
+    "patch_warp": {
+      "n": 36,
+      "intended_iou": 0.849,
+      "collateral_reverted_pct": 98.9
+    },
+    "sharpen": {
+      "n": 36,
+      "intended_iou": 0.807,
+      "collateral_reverted_pct": 98.8
+    },
+    "shift": {
+      "n": 144,
+      "intended_iou": 0.76,
+      "collateral_reverted_pct": 98.7
+    }
+  }
+}

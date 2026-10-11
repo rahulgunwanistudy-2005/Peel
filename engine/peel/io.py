@@ -72,6 +72,14 @@ def decode_image(data: bytes, *, max_long_side: int = 4096, label: str = "image"
     img = _to_srgb(img)
     source_size = img.size
 
+    if img.mode in ("I", "F") or img.mode.startswith("I;16"):
+        # 16-bit and float images: scale to 8 bits ourselves; PIL's convert() would clip them.
+        deep = np.asarray(img, dtype=np.float32)
+        top = 65535.0 if float(deep.max(initial=0.0)) > 255.0 else 255.0
+        if img.mode == "F" and float(deep.max(initial=0.0)) <= 1.0:
+            top = 1.0
+        img = Image.fromarray(np.clip(deep / top * 255.0, 0, 255).astype(np.uint8), mode="L")
+
     alpha: U8 | None = None
     if img.mode in ("RGBA", "LA", "PA") or (img.mode == "P" and "transparency" in img.info):
         rgba = img.convert("RGBA")

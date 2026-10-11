@@ -209,6 +209,7 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
           onKeyDown={onKeyDown}
         >
           <img
+            key={playKey /* remount per analysis so onLoad fires even when the URL is unchanged */}
             className="layer"
             src={view === 'compare' ? urls.edited : baseUrl}
             alt={view === 'compare' ? `AI edit for the instruction: ${result.ledger.instruction}` : alt}

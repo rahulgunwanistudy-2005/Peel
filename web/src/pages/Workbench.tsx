@@ -45,6 +45,17 @@ export function Workbench() {
   const [loadState, setLoadState] = useState<'loading' | 'ready' | 'empty'>('loading')
   const noticeRef = useRef<HTMLDivElement>(null)
 
+  const show = useCallback((next: PeelResult, key: string) => {
+    setResult(next)
+    setPlayKey(key)
+    // With no distinct regions there is no map to show; the difference view of the raw edit is
+    // what tells the story (everything changed a little).
+    const hasRegions = next.ledger.regions.length > 0
+    setView(hasRegions ? 'peeled' : 'edited')
+    setOverlay(hasRegions ? 'map' : 'diff')
+    setHighlighted(null)
+  }, [])
+
   useEffect(() => {
     let live = true
     loadExamples()
@@ -53,8 +64,7 @@ export function Workbench() {
         setExamples(list)
         if (list.length > 0) {
           setExample(list[0])
-          setResult(list[0].result)
-          setPlayKey(`example-${list[0].id}`)
+          show(list[0].result, `example-${list[0].id}`)
           setLoadState('ready')
         } else {
           setLoadState('empty')
@@ -70,7 +80,7 @@ export function Workbench() {
     return () => {
       live = false
     }
-  }, [])
+  }, [show])
 
   // Only to learn whether live editing is offered. The page works without the server.
   useEffect(() => {
@@ -85,13 +95,6 @@ export function Workbench() {
     if (notice) noticeRef.current?.focus()
   }, [notice])
 
-  const show = useCallback((next: PeelResult, key: string) => {
-    setResult(next)
-    setPlayKey(key)
-    setView('peeled')
-    setOverlay('map')
-    setHighlighted(null)
-  }, [])
 
   const selectExample = (next: Example) => {
     setNotice(null)

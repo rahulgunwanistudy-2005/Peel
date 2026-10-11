@@ -90,4 +90,23 @@ an `input type="range"`, state is never colour-only (swatches always have a word
 
 ## Screenshot critique (after building)
 
-Recorded at the end of M3, once Playwright screenshots existed. See the bottom of this file.
+Screenshots were taken with Playwright (`scripts/screenshots.mjs`, 1440 × 900 and 375 × 812) and
+reviewed against the plan. What was wrong, and what was changed:
+
+| Seen in the screenshot | Change |
+| --- | --- |
+| "8 . 4" and "93 . 5%": the font's `tnum` feature also widens the full stop to a digit. | A `Num` component sets tabular figures on digits and normal spacing on the punctuation between them. |
+| Compare + Difference showed the plain AI edit on the left and the difference on the right: apples and oranges. | In that mode the left half shows the raw edit's difference and the right half the peeled result's, so the drift visibly disappears as the divider moves. |
+| Five rows in a row read "A patch … changed colour" for thin slivers along the lamp. | The classifier now recognises slivers as moved edges; the sentence says "redrawn or moved". |
+| Timings on a bundled example reported the laptop that precomputed it. | Bundled examples say they were analysed ahead of time; only live runs show timings. |
+| Scrolling the ledger moved the image out of view, so hovering a region far down the list highlighted nothing visible. | On wide screens the stage is sticky while the ledger scrolls. |
+| The step numbers on "How it works" inherited tabular figures and looked spaced out. | Proportional figures in headings. |
+
+Checked and left as they are: the inks appear only on overlays, swatches, the drift scale and the
+registration marks; every surface is a neutral gray; nothing has a shadow or a radius above 2 px;
+the mobile layout stacks stage, examples, ledger in that order with the loupe docked under the
+stage.
+
+Known compromises: the registration marks are low-contrast as cyan and magenta on the gray stage
+(they are decorative until they register into a black mark, which is 4.2:1), and the loupe's
+floating panel covers part of the image next to the cursor on narrow desktop windows.

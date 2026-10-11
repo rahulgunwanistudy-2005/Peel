@@ -11,7 +11,7 @@ plain words.
 
 | | |
 | --- | --- |
-| Web app | https://peel-rahulgunwanistudy-5466s-projects.vercel.app |
+| Web app | https://peel-xi.vercel.app |
 | API | see [Deployment](#deployment) |
 | Built for | Banana Hacks 2026 |
 

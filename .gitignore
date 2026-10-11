@@ -17,3 +17,4 @@ web/playwright-report/
 eval/cache/
 eval/out/
 .vercel
+eval/out/

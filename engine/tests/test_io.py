@@ -94,3 +94,13 @@ def test_not_same_scene_on_unrelated_images(scene: U8, other_scene: U8, astronau
             require_same_scene(a, b)
         assert err.value.code == ErrorCode.NOT_SAME_SCENE
         assert "different photos" in err.value.message
+
+
+def test_sixteen_bit_png_is_scaled_not_clipped() -> None:
+    ramp = np.tile(np.linspace(0, 65535, 256, dtype=np.uint16), (64, 1))
+    buf = io.BytesIO()
+    Image.fromarray(ramp).save(buf, format="PNG")
+    decoded = decode_image(buf.getvalue())
+    assert decoded.rgb.shape == (64, 256, 3)
+    assert decoded.rgb[0, 0, 0] == 0 and decoded.rgb[0, -1, 0] == 255
+    assert 120 <= int(decoded.rgb[0, 128, 0]) <= 135, "mid-gray stays mid-gray"

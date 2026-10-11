@@ -68,3 +68,23 @@ test('unrelated images get a specific, human error', async ({ page }) => {
   await page.getByRole('button', { name: 'Peel it' }).click()
   await expect(page.getByRole('alert')).toContainText('These look like two different photos')
 })
+
+test('upload a pair, follow the stages, get a ledger', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Use your own images' }).click()
+  const inputs = page.locator('input[type=file]')
+  await inputs.nth(0).setInputFiles('public/examples/desk-apple/original.webp')
+  await inputs.nth(1).setInputFiles('public/examples/desk-apple/edited.webp')
+  await page.getByLabel('What you asked the editor to do').fill('Add an apple on the table')
+  await page.getByRole('button', { name: 'Peel it' }).click()
+
+  // Real stage names arrive over Server-Sent Events while the job runs.
+  await expect(page.locator('.progress')).toBeVisible()
+  const ledger = page.getByRole('complementary', { name: 'Drift ledger' })
+  await expect(ledger).toContainText('Add an apple on the table', { timeout: 90_000 })
+  await expect(ledger).toContainText('Kept 1 requested change')
+  await expect(ledger).toContainText('Analysed in')
+  await expect(page.locator('.stage-frame img.layer').first()).toHaveAttribute('src', /\/v1\/jobs\/[0-9a-f]+\/images\/peeled\.png/)
+  await expect(page.locator('.marks')).toHaveAttribute('data-phase', 'registered')
+  await expect(page.locator('.stage-frame img.overlay')).toHaveAttribute('src', /change_map/)
+})

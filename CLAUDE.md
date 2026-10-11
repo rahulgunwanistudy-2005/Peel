@@ -22,9 +22,20 @@ Tagline: **Keep the edit. Peel the drift.**
 
 ## Commands
 - `make setup` — venv (uv, Python 3.11) + npm install. `make dev` — API on :7860, web on :5173.
-- `make test` / `make lint` — pytest (engine, api), ruff, `mypy --strict engine/peel`, tsc, eslint.
+- `make test` / `make lint` — pytest (engine, api), ruff, `mypy -p peel` (strict), tsc, eslint.
+- `cd web && npm run test:e2e` — Playwright smoke tests against the real API and web app.
 - `make openapi` — re-export `api/openapi.json` and regenerate `web/src/api/types.ts`.
-- `make eval` — reproduce every number. `make examples` — rebuild the curated examples.
+- `make eval` — reproduce every number, then render them into README and docs (`eval/report.py`).
+- `make examples` — rebuild curated examples (`api/examples_data`, `web/public/examples`, `web/public/how`).
+- `python deploy/deploy_space.py <user>/<space>` — push the API to a Hugging Face Space.
+
+## Things that bit us
+- Run mypy as `mypy -p peel` from `engine/`; `mypy peel` reports that `peel/types.py` shadows stdlib `types`.
+- First pipeline call in a process loads the models (several seconds). Timings of that call are not latency.
+- Banana100 cannot be read with pyarrow on a laptop: one 2 GB dictionary page per row group. Use `eval/banana100.py`.
+- The font's `tnum` feature widens the full stop; use the `Num` component for decimals.
+- Colour-cast correction is fitted as an affine Lab transform but only its mean shift may be applied to kept pixels.
+- In containers set `PEEL_THREADS` to the CPU quota; `os.cpu_count()` reports the host.
 
 ## Engine pipeline (order matters)
 decode → same-scene gate → register (SIFT + MAGSAC, background-locked second pass, DIS flow)
