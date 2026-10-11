@@ -27,6 +27,8 @@ from peel.types import (
 )
 
 TEXT_HEAT = 0.4
+SPILL_RATIO = 2.5
+SLIVER_PX = 7.0
 FACE_TARGET_OVERLAP = 0.5
 FACE_TARGET_OVERLAP_NAMED = 0.2
 
@@ -46,12 +48,13 @@ class _Stats:
     delta_low: float
     intent_overlap: float
     text_overlap: float
+    thickness: float  # widest inscribed radius, in working pixels: slivers are thin
 
 
 def _stats(mask: Bool, change: ChangeResult, intent: IntentResult, text_mask: Bool) -> _Stats:
     n = int(mask.sum())
     if n == 0:
-        return _Stats(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        return _Stats(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     return _Stats(
         area_pct=100.0 * n / mask.size,
         delta_e=float(change.delta_e[mask].mean()),
@@ -60,12 +63,15 @@ def _stats(mask: Bool, change: ChangeResult, intent: IntentResult, text_mask: Bo
         delta_low=float(change.delta_low[mask].mean()),
         intent_overlap=float(intent.mask[mask].mean()),
         text_overlap=float(text_mask[mask].mean()),
+        thickness=float(cv2.distanceTransform(mask.astype(np.uint8), cv2.DIST_L2, 3).max()),
     )
 
 
 def _region_type(stats: _Stats, classification: Classification) -> RegionType:
     if classification != "intended" and stats.text_overlap > 0.35 and stats.structure > 0.08:
         return "text"
+    if stats.thickness < SLIVER_PX and classification != "intended":
+        return "structure"  # a thin sliver along an edge: the edge itself moved
     if stats.structure < 0.10 and stats.lpips < 0.15:
         return "color_cast"  # colour moved, edges did not
     if stats.delta_low >= 6.0 and (stats.structure >= 0.15 or stats.lpips >= 0.30):
@@ -203,7 +209,9 @@ def classify_regions(
                     parts = [(component, "ambiguous")]
                 else:
                     intended_part, remainder = split
-                    spill = remainder.sum() < 0.5 * intended_part.sum()
+                    # What is attached to the edit and of similar size is usually part of it (a
+                    # shadow, a reflection): keep it, but flag it. Anything much larger is drift.
+                    spill = remainder.sum() <= SPILL_RATIO * intended_part.sum()
                     parts = [
                         (intended_part, "intended"),
                         (remainder, "ambiguous" if spill else "collateral"),

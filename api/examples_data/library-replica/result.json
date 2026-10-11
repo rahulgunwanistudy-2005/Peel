@@ -1,0 +1,87 @@
+{
+  "id": "ex-library-replica",
+  "width": 1024,
+  "height": 558,
+  "ledger": {
+    "instruction": "Produce an exact replica of the provided image, with no alterations.",
+    "target_phrases": [],
+    "mode": "local",
+    "drift_score": 10.0,
+    "headline": "No single region stands out, but fine detail was re-rendered across the frame. The result is your original.",
+    "confidence": "high",
+    "summary": {
+      "n_regions": 0,
+      "n_intended": 0,
+      "n_collateral": 0,
+      "n_ambiguous": 0,
+      "changed_area_pct": 0.0,
+      "kept_area_pct": 0.0,
+      "peeled_area_pct": 0.0,
+      "bit_identical_pct": 100.0,
+      "background_delta_e": 1.83
+    },
+    "global_cast": {
+      "detected": false,
+      "delta_l": -0.49,
+      "delta_a": -0.68,
+      "delta_b": 0.43,
+      "magnitude": 0.94,
+      "sentence": "No whole-image colour shift."
+    },
+    "registration": {
+      "confidence": "high",
+      "inlier_ratio": 0.955,
+      "reprojection_error_px": 0.381,
+      "n_matches": 1427,
+      "shift_px": 5.9,
+      "flow_applied": false,
+      "residual_flow_px": 0.0,
+      "resized": true,
+      "sentence": "The edit came back at a different size and was shifted by up to 5.9 px; Peel aligned it before comparing."
+    },
+    "regions": [],
+    "warnings": [
+      "The edit does not cover 2% of the original frame (it was cropped or shifted). Those pixels come from the original."
+    ]
+  },
+  "timings": [
+    {
+      "stage": "register",
+      "ms": 191.0
+    },
+    {
+      "stage": "change",
+      "ms": 254.1
+    },
+    {
+      "stage": "intent",
+      "ms": 2121.3
+    },
+    {
+      "stage": "faces",
+      "ms": 10.3
+    },
+    {
+      "stage": "classify",
+      "ms": 0.7
+    },
+    {
+      "stage": "composite",
+      "ms": 7.0
+    },
+    {
+      "stage": "ledger",
+      "ms": 3.0
+    }
+  ],
+  "total_ms": 2587.4,
+  "images": {
+    "original": "/v1/jobs/ex-library-replica/images/original.png",
+    "edited": "/v1/jobs/ex-library-replica/images/edited.png",
+    "peeled": "/v1/jobs/ex-library-replica/images/peeled.png",
+    "change_map": "/v1/jobs/ex-library-replica/images/change_map.png",
+    "diff": "/v1/jobs/ex-library-replica/images/diff.png",
+    "raw_diff": "/v1/jobs/ex-library-replica/images/raw_diff.png"
+  },
+  "cached": false
+}

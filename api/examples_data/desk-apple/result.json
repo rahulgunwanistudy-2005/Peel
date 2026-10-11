@@ -1,0 +1,985 @@
+{
+  "id": "ex-desk-apple",
+  "width": 1024,
+  "height": 558,
+  "ledger": {
+    "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+    "target_phrases": [
+      "apple",
+      "noise"
+    ],
+    "mode": "local",
+    "drift_score": 8.4,
+    "headline": "Kept 1 requested change, plus 1 to review. Peeled 5 unrequested changes and a whole-image colour shift.",
+    "confidence": "medium",
+    "summary": {
+      "n_regions": 7,
+      "n_intended": 1,
+      "n_collateral": 5,
+      "n_ambiguous": 1,
+      "changed_area_pct": 7.33,
+      "kept_area_pct": 5.25,
+      "peeled_area_pct": 2.08,
+      "bit_identical_pct": 93.481,
+      "background_delta_e": 1.58
+    },
+    "global_cast": {
+      "detected": true,
+      "delta_l": -0.45,
+      "delta_a": -0.78,
+      "delta_b": 0.83,
+      "magnitude": 1.23,
+      "sentence": "Whole image shifted warmer: +0.8 b* (yellow), -0.8 a* (green)."
+    },
+    "registration": {
+      "confidence": "high",
+      "inlier_ratio": 0.914,
+      "reprojection_error_px": 0.335,
+      "n_matches": 304,
+      "shift_px": 5.95,
+      "flow_applied": false,
+      "residual_flow_px": 0.51,
+      "resized": true,
+      "sentence": "The edit came back at a different size and was shifted by up to 5.9 px; Peel aligned it before comparing."
+    },
+    "regions": [
+      {
+        "id": "r1",
+        "bbox": {
+          "x": 341,
+          "y": 347,
+          "w": 293,
+          "h": 206
+        },
+        "polygon": [
+          [
+            623,
+            454
+          ],
+          [
+            604,
+            441
+          ],
+          [
+            605,
+            430
+          ],
+          [
+            588,
+            426
+          ],
+          [
+            588,
+            414
+          ],
+          [
+            572,
+            415
+          ],
+          [
+            559,
+            380
+          ],
+          [
+            527,
+            372
+          ],
+          [
+            528,
+            348
+          ],
+          [
+            508,
+            347
+          ],
+          [
+            497,
+            359
+          ],
+          [
+            459,
+            363
+          ],
+          [
+            468,
+            394
+          ],
+          [
+            481,
+            402
+          ],
+          [
+            541,
+            395
+          ],
+          [
+            572,
+            415
+          ],
+          [
+            577,
+            469
+          ],
+          [
+            564,
+            497
+          ],
+          [
+            512,
+            505
+          ],
+          [
+            469,
+            482
+          ],
+          [
+            459,
+            465
+          ],
+          [
+            459,
+            425
+          ],
+          [
+            472,
+            402
+          ],
+          [
+            453,
+            421
+          ],
+          [
+            433,
+            422
+          ],
+          [
+            439,
+            443
+          ],
+          [
+            428,
+            447
+          ],
+          [
+            437,
+            467
+          ],
+          [
+            341,
+            486
+          ],
+          [
+            417,
+            501
+          ],
+          [
+            443,
+            529
+          ],
+          [
+            421,
+            534
+          ],
+          [
+            424,
+            547
+          ],
+          [
+            376,
+            551
+          ],
+          [
+            632,
+            551
+          ],
+          [
+            571,
+            545
+          ],
+          [
+            609,
+            499
+          ],
+          [
+            584,
+            459
+          ]
+        ],
+        "area_pct": 3.331,
+        "type": "texture",
+        "classification": "ambiguous",
+        "decision": "keep",
+        "overridden": false,
+        "confidence": "low",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 1.96,
+        "mean_lpips": 0.503,
+        "face_distance": null,
+        "sentence": "A change at the bottom sits partly inside what you asked for (3.3% of the image). Kept unless you peel it."
+      },
+      {
+        "id": "r2",
+        "bbox": {
+          "x": 460,
+          "y": 394,
+          "w": 117,
+          "h": 112
+        },
+        "polygon": [
+          [
+            461,
+            421
+          ],
+          [
+            461,
+            469
+          ],
+          [
+            471,
+            482
+          ],
+          [
+            487,
+            495
+          ],
+          [
+            505,
+            502
+          ],
+          [
+            532,
+            505
+          ],
+          [
+            561,
+            497
+          ],
+          [
+            571,
+            489
+          ],
+          [
+            576,
+            469
+          ],
+          [
+            575,
+            425
+          ],
+          [
+            571,
+            415
+          ],
+          [
+            559,
+            404
+          ],
+          [
+            535,
+            395
+          ],
+          [
+            504,
+            395
+          ],
+          [
+            480,
+            403
+          ]
+        ],
+        "area_pct": 1.919,
+        "type": "object",
+        "classification": "intended",
+        "decision": "keep",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 1.0,
+        "mean_delta_e": 18.79,
+        "mean_lpips": 0.826,
+        "face_distance": null,
+        "sentence": "The change you asked for, at the bottom (1.9% of the image)."
+      },
+      {
+        "id": "r3",
+        "bbox": {
+          "x": 908,
+          "y": 302,
+          "w": 116,
+          "h": 186
+        },
+        "polygon": [
+          [
+            959,
+            303
+          ],
+          [
+            955,
+            308
+          ],
+          [
+            968,
+            308
+          ],
+          [
+            971,
+            319
+          ],
+          [
+            991,
+            334
+          ],
+          [
+            972,
+            348
+          ],
+          [
+            975,
+            356
+          ],
+          [
+            967,
+            368
+          ],
+          [
+            959,
+            370
+          ],
+          [
+            951,
+            360
+          ],
+          [
+            967,
+            331
+          ],
+          [
+            944,
+            342
+          ],
+          [
+            925,
+            330
+          ],
+          [
+            908,
+            334
+          ],
+          [
+            945,
+            346
+          ],
+          [
+            949,
+            362
+          ],
+          [
+            932,
+            370
+          ],
+          [
+            944,
+            372
+          ],
+          [
+            947,
+            380
+          ],
+          [
+            968,
+            384
+          ],
+          [
+            977,
+            367
+          ],
+          [
+            993,
+            363
+          ],
+          [
+            996,
+            368
+          ],
+          [
+            979,
+            380
+          ],
+          [
+            987,
+            404
+          ],
+          [
+            953,
+            406
+          ],
+          [
+            949,
+            416
+          ],
+          [
+            963,
+            426
+          ],
+          [
+            948,
+            437
+          ],
+          [
+            935,
+            423
+          ],
+          [
+            913,
+            425
+          ],
+          [
+            937,
+            435
+          ],
+          [
+            957,
+            458
+          ],
+          [
+            979,
+            435
+          ],
+          [
+            989,
+            446
+          ],
+          [
+            984,
+            458
+          ],
+          [
+            1000,
+            457
+          ],
+          [
+            1003,
+            479
+          ],
+          [
+            1019,
+            486
+          ],
+          [
+            1023,
+            316
+          ],
+          [
+            1009,
+            324
+          ],
+          [
+            1001,
+            311
+          ]
+        ],
+        "area_pct": 1.677,
+        "type": "color_cast",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 5.48,
+        "mean_lpips": 0.003,
+        "face_distance": null,
+        "sentence": "A patch in the bottom right changed colour without being asked (ΔE 5.5)."
+      },
+      {
+        "id": "r4",
+        "bbox": {
+          "x": 169,
+          "y": 56,
+          "w": 48,
+          "h": 77
+        },
+        "polygon": [
+          [
+            192,
+            56
+          ],
+          [
+            189,
+            57
+          ],
+          [
+            184,
+            67
+          ],
+          [
+            183,
+            75
+          ],
+          [
+            184,
+            84
+          ],
+          [
+            177,
+            91
+          ],
+          [
+            177,
+            96
+          ],
+          [
+            181,
+            101
+          ],
+          [
+            184,
+            111
+          ],
+          [
+            188,
+            112
+          ],
+          [
+            191,
+            117
+          ],
+          [
+            185,
+            121
+          ],
+          [
+            176,
+            120
+          ],
+          [
+            171,
+            125
+          ],
+          [
+            169,
+            132
+          ],
+          [
+            187,
+            129
+          ],
+          [
+            193,
+            123
+          ],
+          [
+            197,
+            124
+          ],
+          [
+            203,
+            131
+          ],
+          [
+            207,
+            128
+          ],
+          [
+            199,
+            119
+          ],
+          [
+            199,
+            116
+          ],
+          [
+            192,
+            113
+          ],
+          [
+            184,
+            105
+          ],
+          [
+            180,
+            96
+          ],
+          [
+            187,
+            89
+          ],
+          [
+            197,
+            100
+          ],
+          [
+            201,
+            91
+          ],
+          [
+            193,
+            85
+          ],
+          [
+            193,
+            81
+          ],
+          [
+            199,
+            77
+          ],
+          [
+            205,
+            80
+          ],
+          [
+            205,
+            76
+          ],
+          [
+            211,
+            72
+          ],
+          [
+            216,
+            73
+          ],
+          [
+            216,
+            71
+          ],
+          [
+            211,
+            65
+          ],
+          [
+            204,
+            65
+          ],
+          [
+            197,
+            69
+          ],
+          [
+            192,
+            65
+          ],
+          [
+            193,
+            60
+          ]
+        ],
+        "area_pct": 0.201,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 2.86,
+        "mean_lpips": 0.005,
+        "face_distance": null,
+        "sentence": "Shapes and edges in the top left were redrawn or moved without being asked (ΔE 2.9)."
+      },
+      {
+        "id": "r5",
+        "bbox": {
+          "x": 32,
+          "y": 395,
+          "w": 81,
+          "h": 80
+        },
+        "polygon": [
+          [
+            112,
+            400
+          ],
+          [
+            105,
+            395
+          ],
+          [
+            84,
+            425
+          ],
+          [
+            77,
+            431
+          ],
+          [
+            71,
+            434
+          ],
+          [
+            41,
+            461
+          ],
+          [
+            40,
+            465
+          ],
+          [
+            32,
+            471
+          ],
+          [
+            32,
+            474
+          ],
+          [
+            39,
+            473
+          ],
+          [
+            39,
+            469
+          ],
+          [
+            43,
+            465
+          ],
+          [
+            56,
+            455
+          ],
+          [
+            77,
+            435
+          ],
+          [
+            79,
+            431
+          ],
+          [
+            96,
+            415
+          ],
+          [
+            99,
+            410
+          ],
+          [
+            105,
+            403
+          ],
+          [
+            108,
+            402
+          ],
+          [
+            111,
+            403
+          ]
+        ],
+        "area_pct": 0.099,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 3.52,
+        "mean_lpips": 0.002,
+        "face_distance": null,
+        "sentence": "Shapes and edges in the bottom left were redrawn or moved without being asked (ΔE 3.5)."
+      },
+      {
+        "id": "r6",
+        "bbox": {
+          "x": 29,
+          "y": 206,
+          "w": 24,
+          "h": 27
+        },
+        "polygon": [
+          [
+            48,
+            206
+          ],
+          [
+            45,
+            206
+          ],
+          [
+            39,
+            212
+          ],
+          [
+            37,
+            211
+          ],
+          [
+            32,
+            212
+          ],
+          [
+            29,
+            211
+          ],
+          [
+            32,
+            219
+          ],
+          [
+            37,
+            224
+          ],
+          [
+            40,
+            231
+          ],
+          [
+            41,
+            231
+          ],
+          [
+            41,
+            226
+          ],
+          [
+            48,
+            220
+          ],
+          [
+            48,
+            215
+          ],
+          [
+            52,
+            211
+          ],
+          [
+            52,
+            208
+          ]
+        ],
+        "area_pct": 0.054,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 2.7,
+        "mean_lpips": 0.004,
+        "face_distance": null,
+        "sentence": "Shapes and edges on the left were redrawn or moved without being asked (ΔE 2.7)."
+      },
+      {
+        "id": "r7",
+        "bbox": {
+          "x": 116,
+          "y": 419,
+          "w": 12,
+          "h": 41
+        },
+        "polygon": [
+          [
+            119,
+            419
+          ],
+          [
+            116,
+            434
+          ],
+          [
+            120,
+            437
+          ],
+          [
+            120,
+            442
+          ],
+          [
+            119,
+            443
+          ],
+          [
+            119,
+            453
+          ],
+          [
+            116,
+            457
+          ],
+          [
+            123,
+            459
+          ],
+          [
+            125,
+            455
+          ],
+          [
+            123,
+            451
+          ],
+          [
+            123,
+            442
+          ],
+          [
+            127,
+            438
+          ],
+          [
+            125,
+            434
+          ],
+          [
+            127,
+            426
+          ]
+        ],
+        "area_pct": 0.053,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 2.68,
+        "mean_lpips": 0.005,
+        "face_distance": null,
+        "sentence": "Shapes and edges in the bottom left were redrawn or moved without being asked (ΔE 2.7)."
+      }
+    ],
+    "warnings": [
+      "The edit does not cover 2% of the original frame (it was cropped or shifted). Those pixels come from the original."
+    ]
+  },
+  "timings": [
+    {
+      "stage": "register",
+      "ms": 168.1
+    },
+    {
+      "stage": "change",
+      "ms": 2064.9
+    },
+    {
+      "stage": "intent",
+      "ms": 8259.9
+    },
+    {
+      "stage": "faces",
+      "ms": 115.6
+    },
+    {
+      "stage": "classify",
+      "ms": 34.7
+    },
+    {
+      "stage": "composite",
+      "ms": 116.5
+    },
+    {
+      "stage": "ledger",
+      "ms": 5.2
+    }
+  ],
+  "total_ms": 10764.9,
+  "images": {
+    "original": "/v1/jobs/ex-desk-apple/images/original.png",
+    "edited": "/v1/jobs/ex-desk-apple/images/edited.png",
+    "peeled": "/v1/jobs/ex-desk-apple/images/peeled.png",
+    "change_map": "/v1/jobs/ex-desk-apple/images/change_map.png",
+    "diff": "/v1/jobs/ex-desk-apple/images/diff.png",
+    "raw_diff": "/v1/jobs/ex-desk-apple/images/raw_diff.png"
+  },
+  "cached": false
+}

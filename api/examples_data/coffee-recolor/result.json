@@ -1,0 +1,340 @@
+{
+  "id": "ex-coffee-recolor",
+  "width": 600,
+  "height": 400,
+  "ledger": {
+    "instruction": "Make the blue ball red",
+    "target_phrases": [
+      "blue ball"
+    ],
+    "mode": "local",
+    "drift_score": 37.0,
+    "headline": "Kept 1 requested change. Peeled 1 unrequested change and a whole-image colour shift.",
+    "confidence": "high",
+    "summary": {
+      "n_regions": 2,
+      "n_intended": 1,
+      "n_collateral": 1,
+      "n_ambiguous": 0,
+      "changed_area_pct": 6.23,
+      "kept_area_pct": 3.3,
+      "peeled_area_pct": 2.94,
+      "bit_identical_pct": 95.432,
+      "background_delta_e": 5.16
+    },
+    "global_cast": {
+      "detected": true,
+      "delta_l": 2.11,
+      "delta_a": -1.25,
+      "delta_b": -2.51,
+      "magnitude": 3.51,
+      "sentence": "Whole image shifted cooler: -2.5 b* (blue), +2.1 L* (lighter), -1.2 a* (green)."
+    },
+    "registration": {
+      "confidence": "high",
+      "inlier_ratio": 0.972,
+      "reprojection_error_px": 0.394,
+      "n_matches": 1092,
+      "shift_px": 0.08,
+      "flow_applied": false,
+      "residual_flow_px": 0.0,
+      "resized": false,
+      "sentence": "The edit was already pixel-aligned with the original."
+    },
+    "regions": [
+      {
+        "id": "r1",
+        "bbox": {
+          "x": 66,
+          "y": 65,
+          "w": 99,
+          "h": 102
+        },
+        "polygon": [
+          [
+            97,
+            67
+          ],
+          [
+            81,
+            78
+          ],
+          [
+            74,
+            85
+          ],
+          [
+            69,
+            94
+          ],
+          [
+            66,
+            106
+          ],
+          [
+            66,
+            123
+          ],
+          [
+            69,
+            134
+          ],
+          [
+            76,
+            146
+          ],
+          [
+            90,
+            159
+          ],
+          [
+            110,
+            166
+          ],
+          [
+            130,
+            164
+          ],
+          [
+            144,
+            156
+          ],
+          [
+            158,
+            139
+          ],
+          [
+            162,
+            129
+          ],
+          [
+            164,
+            116
+          ],
+          [
+            161,
+            96
+          ],
+          [
+            150,
+            79
+          ],
+          [
+            133,
+            68
+          ],
+          [
+            117,
+            65
+          ]
+        ],
+        "area_pct": 3.297,
+        "type": "object",
+        "classification": "intended",
+        "decision": "keep",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 1.0,
+        "mean_delta_e": 46.25,
+        "mean_lpips": 0.566,
+        "face_distance": null,
+        "sentence": "The change you asked for, in the top left (3.3% of the image)."
+      },
+      {
+        "id": "r2",
+        "bbox": {
+          "x": 411,
+          "y": 150,
+          "w": 68,
+          "h": 131
+        },
+        "polygon": [
+          [
+            420,
+            151
+          ],
+          [
+            416,
+            154
+          ],
+          [
+            413,
+            161
+          ],
+          [
+            413,
+            174
+          ],
+          [
+            417,
+            177
+          ],
+          [
+            414,
+            191
+          ],
+          [
+            415,
+            212
+          ],
+          [
+            413,
+            216
+          ],
+          [
+            415,
+            220
+          ],
+          [
+            412,
+            222
+          ],
+          [
+            411,
+            229
+          ],
+          [
+            417,
+            242
+          ],
+          [
+            415,
+            251
+          ],
+          [
+            421,
+            256
+          ],
+          [
+            420,
+            267
+          ],
+          [
+            422,
+            276
+          ],
+          [
+            438,
+            280
+          ],
+          [
+            464,
+            279
+          ],
+          [
+            467,
+            277
+          ],
+          [
+            473,
+            261
+          ],
+          [
+            478,
+            237
+          ],
+          [
+            475,
+            196
+          ],
+          [
+            467,
+            187
+          ],
+          [
+            466,
+            181
+          ],
+          [
+            468,
+            178
+          ],
+          [
+            460,
+            175
+          ],
+          [
+            462,
+            171
+          ],
+          [
+            465,
+            171
+          ],
+          [
+            464,
+            168
+          ],
+          [
+            459,
+            172
+          ],
+          [
+            448,
+            159
+          ],
+          [
+            448,
+            156
+          ],
+          [
+            442,
+            151
+          ]
+        ],
+        "area_pct": 2.936,
+        "type": "object",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 11.83,
+        "mean_lpips": 0.348,
+        "face_distance": null,
+        "sentence": "Content on the right was replaced without being asked (LPIPS 0.35)."
+      }
+    ],
+    "warnings": []
+  },
+  "timings": [
+    {
+      "stage": "register",
+      "ms": 150.1
+    },
+    {
+      "stage": "change",
+      "ms": 208.1
+    },
+    {
+      "stage": "intent",
+      "ms": 536.3
+    },
+    {
+      "stage": "faces",
+      "ms": 7.2
+    },
+    {
+      "stage": "classify",
+      "ms": 5.5
+    },
+    {
+      "stage": "composite",
+      "ms": 64.5
+    },
+    {
+      "stage": "ledger",
+      "ms": 2.1
+    }
+  ],
+  "total_ms": 973.8,
+  "images": {
+    "original": "/v1/jobs/ex-coffee-recolor/images/original.png",
+    "edited": "/v1/jobs/ex-coffee-recolor/images/edited.png",
+    "peeled": "/v1/jobs/ex-coffee-recolor/images/peeled.png",
+    "change_map": "/v1/jobs/ex-coffee-recolor/images/change_map.png",
+    "diff": "/v1/jobs/ex-coffee-recolor/images/diff.png",
+    "raw_diff": "/v1/jobs/ex-coffee-recolor/images/raw_diff.png"
+  },
+  "cached": false
+}

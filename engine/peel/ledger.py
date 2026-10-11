@@ -114,14 +114,7 @@ def describe_region(region: Region, width: int, height: int, mode: str) -> str:
     if region.classification == "intended":
         if mode == "global":
             return "The whole-image change you asked for."
-        flavour = {
-            "color_cast": "Recoloured as requested",
-            "object": "New or replaced content, as requested",
-            "structure": "Reshaped as requested",
-            "texture": "Reworked as requested",
-            "text": "Text changed as requested",
-        }.get(region.type, "Changed as requested")
-        return f"{flavour}, {where} ({area})."
+        return f"The change you asked for, {where} ({area})."
     if region.classification == "ambiguous":
         return (
             f"A change {where} sits partly inside what you asked for ({area}). "
@@ -132,8 +125,8 @@ def describe_region(region: Region, width: int, height: int, mode: str) -> str:
         f"(ΔE {region.mean_delta_e:.1f}).",
         "texture": f"Fine detail {where} was re-rendered without being asked "
         f"(LPIPS {region.mean_lpips:.2f}).",
-        "structure": f"Shapes and edges {where} were redrawn without being asked "
-        f"(LPIPS {region.mean_lpips:.2f}).",
+        "structure": f"Shapes and edges {where} were redrawn or moved without being asked "
+        f"(ΔE {region.mean_delta_e:.1f}).",
         "object": f"Content {where} was replaced without being asked "
         f"(LPIPS {region.mean_lpips:.2f}).",
         "text": f"Text or fine print {where} was redrawn without being asked.",
@@ -159,32 +152,55 @@ def _plural(n: int, word: str) -> str:
     return f"{n} {word}" if n == 1 else f"{n} {word}s"
 
 
-def _headline(regions: list[Region], cast: GlobalCast, mode: str, is_noop: bool) -> str:
+def _join(parts: list[str]) -> str:
+    if len(parts) <= 1:
+        return "".join(parts)
+    return ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
+def _headline(
+    regions: list[Region], cast: GlobalCast, mode: str, is_noop: bool, score: float
+) -> str:
     kept = [r for r in regions if r.decision == "keep"]
+    review = [r for r in kept if r.classification == "ambiguous" and not r.overridden]
+    requested = len(kept) - len(review)
     peeled = [r for r in regions if r.decision == "revert"]
     cast_drift = cast.detected and mode == "local"
     if not regions and not cast_drift:
+        if score >= 1.0:
+            return (
+                "No single region stands out, but fine detail was re-rendered across the frame. "
+                "The result is your original."
+            )
         return "Nothing changed beyond pixel noise. The result is the original."
-    extras = []
-    if any(r.type == "face_identity" for r in peeled):
-        extras.append("a re-rendered face")
-    if any(r.type == "text" for r in peeled):
-        extras.append("redrawn text")
-    if cast_drift:
-        extras.append("a whole-image colour shift")
-    kept_part = (
-        f"Kept {_plural(len(kept), 'requested change')}."
-        if kept
-        else ("Nothing was requested, so nothing was kept." if is_noop else "Nothing was kept.")
-    )
+
+    if requested:
+        kept_part = f"Kept {_plural(requested, 'requested change')}"
+        if review:
+            kept_part += f", plus {len(review)} to review"
+    elif review:
+        kept_part = f"Kept {_plural(len(review), 'change')} for you to review"
+    elif is_noop:
+        kept_part = "Nothing was requested, so nothing was kept"
+    else:
+        kept_part = "Nothing was kept"
+
     if not peeled and not cast_drift:
-        return f"{kept_part} No unrequested changes found."
-    n_unrequested = len(peeled)
-    peeled_part = f"Peeled {_plural(n_unrequested, 'unrequested change')}" if peeled else "Peeled"
-    if extras:
-        joiner = ", including " if peeled else " "
-        peeled_part += joiner + " and ".join(extras)
-    return f"{kept_part} {peeled_part}."
+        return f"{kept_part}. No unrequested changes found."
+    items: list[str] = []
+    if peeled:
+        notable = []
+        if any(r.type == "face_identity" for r in peeled):
+            notable.append("a re-rendered face")
+        if any(r.type == "text" for r in peeled):
+            notable.append("redrawn text")
+        item = _plural(len(peeled), "unrequested change")
+        if notable:
+            item += f" (including {_join(notable)})"
+        items.append(item)
+    if cast_drift:
+        items.append("a whole-image colour shift")
+    return f"{kept_part}. Peeled {_join(items)}."
 
 
 def build_ledger(
@@ -271,12 +287,13 @@ def build_ledger(
     elif registration.confidence == "medium" or summary.n_ambiguous > 0:
         confidence = "medium"
 
+    score = round(drift_score(change, unrequested), 1)
     return Ledger(
         instruction=instruction,
         target_phrases=intent.phrases,
         mode=mode,
-        drift_score=round(drift_score(change, unrequested), 1),
-        headline=_headline(items, cast, mode, intent.is_noop),
+        drift_score=score,
+        headline=_headline(items, cast, mode, intent.is_noop, score),
         confidence=confidence,
         summary=summary,
         global_cast=cast,

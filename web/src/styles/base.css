@@ -1,0 +1,219 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--t-15);
+  line-height: 1.47;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+img,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+code,
+pre {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+}
+
+/* One focus treatment everywhere: a black ring with a white halo, visible on the stage as well. */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #ffffff;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* The font's tabular full stop is a digit wide; punctuation inside numbers keeps normal spacing. */
+.num-point {
+  font-variant-numeric: normal;
+  font-feature-settings: 'tnum' 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Buttons: black on gray. Ink colours are never used for controls. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: transparent;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--ticket-2);
+}
+
+.btn-solid {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.btn-solid:hover:not(:disabled) {
+  background: #333333;
+}
+
+.btn:disabled {
+  border-color: var(--rule);
+  background: var(--ticket-2);
+  color: var(--ink-2);
+}
+
+.btn-small {
+  min-height: 32px;
+  padding: 0 var(--s-3);
+  font-size: var(--t-13);
+}
+
+/* Segmented control: a row of radio-like buttons. */
+.seg {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ticket);
+}
+
+.seg button {
+  min-height: 34px;
+  padding: 0 var(--s-3);
+  border: 0;
+  border-right: 1.5px solid var(--ink);
+  background: transparent;
+  font-size: var(--t-13);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.seg button:last-child {
+  border-right: 0;
+}
+
+.seg button:hover {
+  background: var(--ticket-2);
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+/* Ink swatch: the colour carries the decision, the word next to it says it. */
+.swatch {
+  display: inline-block;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--ink);
+}
+
+.swatch[data-ink='keep'] {
+  background: var(--cyan);
+}
+
+.swatch[data-ink='revert'] {
+  background: var(--magenta);
+}
+
+.swatch[data-ink='review'] {
+  background: var(--yellow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

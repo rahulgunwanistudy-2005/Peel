@@ -135,7 +135,7 @@ def composite(
 ) -> CompositeResult:
     """Paste ``top`` into ``base`` where ``mask_work`` (working resolution) is set.
 
-    ``cast`` (edit -> original colour transform) is applied to ``top`` before blending.
+    When ``cast`` was detected, its mean colour shift is removed from ``top`` before blending.
     ``stable_work`` marks pixels where the two images agree apart from noise.
     """
     height, width = base.shape[:2]
@@ -158,12 +158,12 @@ def composite(
     top_f = to_float(top_crop)
 
     if cast is not None and cast.detected:
-        top_f = lab_to_rgb(cast.apply(rgb_to_lab(top_f)))
+        top_f = lab_to_rgb(cast.remove_shift(rgb_to_lab(top_f)))
     if harmonize:
         base_work = cv2.resize(base, (ww, wh), interpolation=cv2.INTER_AREA)
         top_work = cv2.resize(top, (ww, wh), interpolation=cv2.INTER_AREA)
         if cast is not None and cast.detected:
-            top_work = to_u8(lab_to_rgb(cast.apply(rgb_to_lab(to_float(top_work)))))
+            top_work = to_u8(lab_to_rgb(cast.remove_shift(rgb_to_lab(to_float(top_work)))))
         offset = _ring_offset(base_work, top_work, grown, stable_work, harmonize_falloff)
         if offset is not None:
             full = cv2.resize(offset, (width, height), interpolation=cv2.INTER_LINEAR)

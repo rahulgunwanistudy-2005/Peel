@@ -1,0 +1,34 @@
+[
+  {
+    "id": "desk-apple",
+    "title": "One apple, please",
+    "blurb": "The prompt asked for one apple and said to keep everything else unchanged. The editor also reframed the shot, re-rendered the lamp and plant, and repainted the wall.",
+    "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+    "source": "Banana100 (Tang et al., CC BY-NC-SA 4.0): a real Nano Banana Pro edit, shown at reduced size.",
+    "synthetic": false
+  },
+  {
+    "id": "library-replica",
+    "title": "An exact replica",
+    "blurb": "The model was asked to return the image untouched. The ledger shows what it changed anyway; Peel hands back the original, byte for byte.",
+    "instruction": "Produce an exact replica of the provided image, with no alterations.",
+    "source": "Banana100 (Tang et al., CC BY-NC-SA 4.0): a real Nano Banana Pro edit, shown at reduced size.",
+    "synthetic": false
+  },
+  {
+    "id": "astronaut-face",
+    "title": "A re-rendered face",
+    "blurb": "A balloon was requested. The face was also redrawn with different proportions, the frame shifted two pixels and the whole image went warmer. Here the drift was generated in code, so the right answer is known exactly.",
+    "instruction": "Add a yellow balloon",
+    "source": "Photo: NASA (public domain), via scikit-image. Edit and drift are synthetic.",
+    "synthetic": true
+  },
+  {
+    "id": "coffee-recolor",
+    "title": "A recolour with side effects",
+    "blurb": "The ball was meant to turn red. The coffee also changed hue, the frame went cooler and the image was recompressed. Synthetic drift with a known answer.",
+    "instruction": "Make the blue ball red",
+    "source": "Photo: Rachel Michetti (CC0), via scikit-image. Edit and drift are synthetic.",
+    "synthetic": true
+  }
+]

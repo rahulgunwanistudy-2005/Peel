@@ -44,9 +44,15 @@ class CastFit:
         return float(np.linalg.norm(self.shift))
 
     def apply(self, lab: F32) -> F32:
+        """Full affine correction. Only valid on colours like the ones it was fitted on."""
         flat = lab.reshape(-1, 3).astype(np.float64)
         out = flat @ self.matrix.T + self.offset
         return out.reshape(lab.shape).astype(np.float32)
+
+    def remove_shift(self, lab: F32) -> F32:
+        """Undo only the mean shift. Safe on new content (a red apple on a beige desk), where
+        extrapolating the affine fit would bend saturated colours."""
+        return np.asarray(lab - np.array(self.shift, dtype=np.float32), dtype=np.float32)
 
 
 IDENTITY_CAST = CastFit(np.eye(3), np.zeros(3), (0.0, 0.0, 0.0), False)

@@ -1,0 +1,39 @@
+/* Design tokens. See web/DESIGN.md for the reasoning behind each one. */
+:root {
+  /* Neutrals: R = G = B on every surface, so the chrome never tints the image. */
+  --stage: #777777; /* L* 50, the neutral surround for judging colour */
+  --desk: #d9d9d9;
+  --ticket: #ededed;
+  --ticket-2: #e3e3e3;
+  --rule: #bdbdbd;
+  --ink: #141414;
+  --ink-2: #4a4a4a;
+  --on-stage: #ffffff;
+
+  /* Process inks. Each one means a decision and is used for nothing else. */
+  --cyan: #00aeef; /* kept */
+  --magenta: #ec008c; /* peeled */
+  --yellow: #ffdd00; /* review */
+
+  --font: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; /* code samples only */
+
+  --t-12: 0.75rem;
+  --t-13: 0.8125rem;
+  --t-15: 0.9375rem;
+  --t-18: 1.125rem;
+  --t-24: 1.5rem;
+  --t-40: 2.5rem;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+
+  --radius: 2px;
+  --ticket-width: 408px;
+  --bar-height: 52px;
+}

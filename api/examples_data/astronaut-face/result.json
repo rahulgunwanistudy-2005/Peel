@@ -1,0 +1,652 @@
+{
+  "id": "ex-astronaut-face",
+  "width": 512,
+  "height": 512,
+  "ledger": {
+    "instruction": "Add a yellow balloon",
+    "target_phrases": [
+      "yellow balloon"
+    ],
+    "mode": "local",
+    "drift_score": 27.1,
+    "headline": "Kept 1 requested change. Peeled 5 unrequested changes (including a re-rendered face) and a whole-image colour shift.",
+    "confidence": "high",
+    "summary": {
+      "n_regions": 6,
+      "n_intended": 1,
+      "n_collateral": 5,
+      "n_ambiguous": 0,
+      "changed_area_pct": 9.2,
+      "kept_area_pct": 2.86,
+      "peeled_area_pct": 6.68,
+      "bit_identical_pct": 96.103,
+      "background_delta_e": 3.6
+    },
+    "global_cast": {
+      "detected": true,
+      "delta_l": -0.21,
+      "delta_a": 1.17,
+      "delta_b": 3.66,
+      "magnitude": 3.85,
+      "sentence": "Whole image shifted warmer: +3.7 b* (yellow), +1.2 a* (magenta)."
+    },
+    "registration": {
+      "confidence": "high",
+      "inlier_ratio": 0.933,
+      "reprojection_error_px": 0.151,
+      "n_matches": 1128,
+      "shift_px": 2.15,
+      "flow_applied": false,
+      "residual_flow_px": 0.0,
+      "resized": false,
+      "sentence": "The edit was shifted by up to 2.2 px; Peel aligned it before comparing."
+    },
+    "regions": [
+      {
+        "id": "r1",
+        "bbox": {
+          "x": 162,
+          "y": 44,
+          "w": 123,
+          "h": 153
+        },
+        "polygon": [
+          [
+            216,
+            44
+          ],
+          [
+            191,
+            55
+          ],
+          [
+            174,
+            74
+          ],
+          [
+            164,
+            99
+          ],
+          [
+            162,
+            129
+          ],
+          [
+            169,
+            156
+          ],
+          [
+            182,
+            177
+          ],
+          [
+            205,
+            193
+          ],
+          [
+            229,
+            196
+          ],
+          [
+            251,
+            188
+          ],
+          [
+            271,
+            168
+          ],
+          [
+            282,
+            141
+          ],
+          [
+            284,
+            111
+          ],
+          [
+            276,
+            81
+          ],
+          [
+            258,
+            57
+          ],
+          [
+            235,
+            45
+          ]
+        ],
+        "area_pct": 5.632,
+        "type": "face_identity",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 12.07,
+        "mean_lpips": 0.194,
+        "face_distance": 0.637,
+        "sentence": "The face at the top was re-rendered as a different-looking person (identity distance 0.64)."
+      },
+      {
+        "id": "r2",
+        "bbox": {
+          "x": 385,
+          "y": 36,
+          "w": 93,
+          "h": 128
+        },
+        "polygon": [
+          [
+            437,
+            36
+          ],
+          [
+            412,
+            44
+          ],
+          [
+            398,
+            57
+          ],
+          [
+            388,
+            83
+          ],
+          [
+            390,
+            106
+          ],
+          [
+            385,
+            110
+          ],
+          [
+            392,
+            109
+          ],
+          [
+            409,
+            134
+          ],
+          [
+            413,
+            134
+          ],
+          [
+            420,
+            139
+          ],
+          [
+            420,
+            144
+          ],
+          [
+            425,
+            149
+          ],
+          [
+            426,
+            159
+          ],
+          [
+            431,
+            163
+          ],
+          [
+            434,
+            163
+          ],
+          [
+            437,
+            159
+          ],
+          [
+            438,
+            149
+          ],
+          [
+            443,
+            145
+          ],
+          [
+            443,
+            138
+          ],
+          [
+            460,
+            128
+          ],
+          [
+            469,
+            117
+          ],
+          [
+            477,
+            92
+          ],
+          [
+            475,
+            73
+          ],
+          [
+            468,
+            57
+          ],
+          [
+            457,
+            46
+          ],
+          [
+            441,
+            40
+          ]
+        ],
+        "area_pct": 2.859,
+        "type": "object",
+        "classification": "intended",
+        "decision": "keep",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 1.0,
+        "mean_delta_e": 36.53,
+        "mean_lpips": 0.778,
+        "face_distance": null,
+        "sentence": "The change you asked for, in the top right (2.9% of the image)."
+      },
+      {
+        "id": "r3",
+        "bbox": {
+          "x": 255,
+          "y": 52,
+          "w": 49,
+          "h": 81
+        },
+        "polygon": [
+          [
+            258,
+            52
+          ],
+          [
+            255,
+            54
+          ],
+          [
+            269,
+            68
+          ],
+          [
+            277,
+            81
+          ],
+          [
+            282,
+            95
+          ],
+          [
+            285,
+            111
+          ],
+          [
+            284,
+            132
+          ],
+          [
+            288,
+            129
+          ],
+          [
+            288,
+            127
+          ],
+          [
+            294,
+            118
+          ],
+          [
+            297,
+            116
+          ],
+          [
+            299,
+            111
+          ],
+          [
+            299,
+            104
+          ],
+          [
+            302,
+            98
+          ],
+          [
+            303,
+            78
+          ],
+          [
+            299,
+            65
+          ],
+          [
+            299,
+            61
+          ],
+          [
+            297,
+            56
+          ],
+          [
+            293,
+            52
+          ],
+          [
+            289,
+            55
+          ],
+          [
+            272,
+            53
+          ],
+          [
+            265,
+            54
+          ],
+          [
+            262,
+            52
+          ]
+        ],
+        "area_pct": 0.67,
+        "type": "texture",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 9.88,
+        "mean_lpips": 0.113,
+        "face_distance": null,
+        "sentence": "Fine detail at the top was re-rendered without being asked (LPIPS 0.11)."
+      },
+      {
+        "id": "r4",
+        "bbox": {
+          "x": 258,
+          "y": 176,
+          "w": 37,
+          "h": 37
+        },
+        "polygon": [
+          [
+            265,
+            176
+          ],
+          [
+            258,
+            184
+          ],
+          [
+            270,
+            196
+          ],
+          [
+            274,
+            197
+          ],
+          [
+            280,
+            203
+          ],
+          [
+            283,
+            209
+          ],
+          [
+            286,
+            212
+          ],
+          [
+            291,
+            210
+          ],
+          [
+            294,
+            211
+          ],
+          [
+            293,
+            205
+          ],
+          [
+            284,
+            193
+          ]
+        ],
+        "area_pct": 0.182,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 9.35,
+        "mean_lpips": 0.064,
+        "face_distance": null,
+        "sentence": "Shapes and edges in the centre were redrawn or moved without being asked (ΔE 9.3)."
+      },
+      {
+        "id": "r5",
+        "bbox": {
+          "x": 183,
+          "y": 179,
+          "w": 49,
+          "h": 34
+        },
+        "polygon": [
+          [
+            183,
+            179
+          ],
+          [
+            183,
+            181
+          ],
+          [
+            188,
+            188
+          ],
+          [
+            196,
+            191
+          ],
+          [
+            204,
+            199
+          ],
+          [
+            209,
+            198
+          ],
+          [
+            213,
+            201
+          ],
+          [
+            215,
+            204
+          ],
+          [
+            215,
+            206
+          ],
+          [
+            213,
+            208
+          ],
+          [
+            215,
+            212
+          ],
+          [
+            218,
+            210
+          ],
+          [
+            222,
+            211
+          ],
+          [
+            223,
+            209
+          ],
+          [
+            223,
+            202
+          ],
+          [
+            227,
+            198
+          ],
+          [
+            231,
+            196
+          ],
+          [
+            229,
+            197
+          ],
+          [
+            216,
+            197
+          ],
+          [
+            205,
+            194
+          ],
+          [
+            191,
+            186
+          ]
+        ],
+        "area_pct": 0.119,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 2.15,
+        "mean_lpips": 0.342,
+        "face_distance": null,
+        "sentence": "Shapes and edges in the centre were redrawn or moved without being asked (ΔE 2.1)."
+      },
+      {
+        "id": "r6",
+        "bbox": {
+          "x": 167,
+          "y": 53,
+          "w": 27,
+          "h": 28
+        },
+        "polygon": [
+          [
+            193,
+            53
+          ],
+          [
+            189,
+            54
+          ],
+          [
+            183,
+            59
+          ],
+          [
+            178,
+            57
+          ],
+          [
+            175,
+            58
+          ],
+          [
+            175,
+            60
+          ],
+          [
+            167,
+            67
+          ],
+          [
+            168,
+            74
+          ],
+          [
+            170,
+            76
+          ],
+          [
+            170,
+            80
+          ],
+          [
+            177,
+            68
+          ]
+        ],
+        "area_pct": 0.078,
+        "type": "structure",
+        "classification": "collateral",
+        "decision": "revert",
+        "overridden": false,
+        "confidence": "high",
+        "intent_overlap": 0.0,
+        "mean_delta_e": 4.29,
+        "mean_lpips": 0.062,
+        "face_distance": null,
+        "sentence": "Shapes and edges at the top were redrawn or moved without being asked (ΔE 4.3)."
+      }
+    ],
+    "warnings": []
+  },
+  "timings": [
+    {
+      "stage": "register",
+      "ms": 108.0
+    },
+    {
+      "stage": "change",
+      "ms": 241.5
+    },
+    {
+      "stage": "intent",
+      "ms": 558.8
+    },
+    {
+      "stage": "faces",
+      "ms": 48.0
+    },
+    {
+      "stage": "classify",
+      "ms": 16.7
+    },
+    {
+      "stage": "composite",
+      "ms": 85.6
+    },
+    {
+      "stage": "ledger",
+      "ms": 2.4
+    }
+  ],
+  "total_ms": 1061.0,
+  "images": {
+    "original": "/v1/jobs/ex-astronaut-face/images/original.png",
+    "edited": "/v1/jobs/ex-astronaut-face/images/edited.png",
+    "peeled": "/v1/jobs/ex-astronaut-face/images/peeled.png",
+    "change_map": "/v1/jobs/ex-astronaut-face/images/change_map.png",
+    "diff": "/v1/jobs/ex-astronaut-face/images/diff.png",
+    "raw_diff": "/v1/jobs/ex-astronaut-face/images/raw_diff.png"
+  },
+  "cached": false
+}

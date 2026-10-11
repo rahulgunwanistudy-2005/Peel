@@ -9,6 +9,7 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 
 import cv2
+import numpy as np
 from peel.arrays import U8
 from peel.chain import run_chain
 from peel.io import decode_image, encode_png
@@ -264,14 +265,15 @@ def run_chain_job(
 _examples: list[Example] = []
 
 
-def _png_to_rgb(data: bytes) -> U8:
-    import numpy as np
-
+def _decode(data: bytes) -> U8:
     return np.ascontiguousarray(np.asarray(Image.open(io.BytesIO(data)).convert("RGB")))
 
 
 def load_examples() -> list[Example]:
-    """Register every precomputed example as a permanent job. No compute at request time."""
+    """Register every precomputed example as a permanent job. No compute at request time.
+
+    Examples are stored as WebP (lossless for the photographs) and encoded to PNG on first request.
+    """
     _examples.clear()
     root = settings.examples_dir
     index = root / "index.json"
@@ -281,14 +283,13 @@ def load_examples() -> list[Example]:
         folder = root / entry["id"]
         try:
             result = PeelResult.model_validate_json((folder / "result.json").read_text())
-            files = {name: (folder / f"{name}.png").read_bytes() for name in IMAGE_NAMES}
-            source_edit = (folder / "source_edit.png").read_bytes()
+            files = {name: (folder / f"{name}.webp").read_bytes() for name in IMAGE_NAMES}
+            source_edit = (folder / "source_edit.webp").read_bytes()
         except (OSError, ValueError) as exc:
             log.warning("skipping example %s: %s", entry.get("id"), exc)
             continue
         job = store.create("peel", job_id=f"ex-{entry['id']}", permanent=True)
-        job.encoded = {(name, 0): data for name, data in files.items()}
-        job.renderers = {name: (lambda d=data: _png_to_rgb(d)) for name, data in files.items()}
+        job.renderers = {name: (lambda d=data: _decode(d)) for name, data in files.items()}
         job.source = (files["original"], source_edit, entry["instruction"])
         job.result = result.model_copy(update={"id": job.id, "images": images_for(job)})
         job.state = "done"

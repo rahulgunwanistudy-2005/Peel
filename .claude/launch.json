@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "peel-api",
+      "runtimeExecutable": "/Users/rahul/Peel/.venv/bin/python",
+      "runtimeArgs": ["-m", "uvicorn", "app.main:app", "--app-dir", "/Users/rahul/Peel/api", "--host", "127.0.0.1", "--port", "7860"],
+      "port": 7860
+    },
+    {
+      "name": "peel-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/rahul/Peel/web", "run", "dev", "--", "--host", "127.0.0.1", "--port", "5173", "--strictPort"],
+      "port": 5173
+    }
+  ]
+}
