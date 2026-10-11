@@ -47,6 +47,9 @@ export function Workbench() {
   const [own, setOwn] = useState(first === null)
   const [editModel, setEditModel] = useState<string | null>(null)
   const [limits, setLimits] = useState<Limits | null>(null)
+  const [stateless, setStateless] = useState(false)
+  // What the current result was made from, so a stateless host can re-run it with a region flipped.
+  const source = useRef<{ original: Blob; edited: Blob; instruction: string } | null>(null)
   const noticeRef = useRef<HTMLDivElement>(null)
 
   const show = useCallback((next: PeelResult, key: string) => {
@@ -68,6 +71,7 @@ export function Workbench() {
       .then((health) => {
         setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null)
         setLimits(health.limits)
+        setStateless(health.stateless)
       })
       .catch(() => setEditModel(null))
     return () => controller.abort()
@@ -80,6 +84,7 @@ export function Workbench() {
 
   const selectExample = (next: Example) => {
     setNotice(null)
+    source.current = null
     setExample(next)
     show(next.result, `example-${next.id}-${Date.now()}`)
   }
@@ -91,7 +96,9 @@ export function Workbench() {
       // Hosts with a small request limit get both images scaled down to the same size first.
       const budget = limits && limits.max_request_bytes > 0 ? limits.max_request_bytes - 64_000 : 0
       const fitted = await fitImages([original, edited], budget, Math.min(limits?.max_long_side ?? 4096, 1536))
-      const next = await peel(fitted.files[0], fitted.files[1], instruction, { onProgress: setProgress })
+      const request = { original: fitted.files[0], edited: fitted.files[1], instruction }
+      const next = await peel({ ...request, inline: stateless }, { onProgress: setProgress })
+      source.current = request
       setExample(null)
       show(next, `job-${next.id}`)
       if (fitted.resizedTo !== null) {
@@ -129,8 +136,20 @@ export function Workbench() {
     const wasOverridden = region.overridden
     if (!wasOverridden) overrides[region.id] = decision // flipping back restores the classifier's choice
     try {
-      const next = await recomposite(result.id, overrides)
-      setResult(next)
+      if (stateless) {
+        // No server-side memory to recomposite from: send the pair again with the decisions.
+        if (!source.current && example) {
+          const folder = `./examples/${example.id}`
+          const [original, edited] = await Promise.all(
+            ['original.webp', 'source_edit.webp'].map(async (name) => (await fetch(`${folder}/${name}`)).blob()),
+          )
+          source.current = { original, edited, instruction: example.instruction }
+        }
+        if (!source.current) throw new ApiError('JOB_NOT_FOUND', 'This result can no longer be changed. Run it again.')
+        setResult(await peel({ ...source.current, overrides, inline: true }, { onProgress: () => undefined }))
+      } else {
+        setResult(await recomposite(result.id, overrides))
+      }
     } catch (error) {
       setNotice(toNotice(error))
     } finally {

@@ -34,4 +34,5 @@ def healthz() -> Health:
             max_long_side=settings.max_long_side,
             max_chain_steps=settings.max_chain_steps,
         ),
+        stateless=settings.stateless,
     )

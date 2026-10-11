@@ -102,6 +102,22 @@ Images were read at reduced size (long side 1280, evaluated at 1024). Only chain
 
 Not measured: No hand-labelled pairs were in eval/pairs/ when the evaluation ran.
 
+## Latency on the deployed hardware
+
+20 runs, a 1024 × 558 px original with a 1024 × 547 px edit, peel-api-rahulgunwanistudy-5466s-projects.vercel.app (1 vCPU, Linux x86_64).
+
+| Stage | p50 ms | p95 ms |
+| --- | ---: | ---: |
+| decode | 36 | 41 |
+| register | 303 | 328 |
+| change | 393 | 485 |
+| intent | 2291 | 2803 |
+| faces | 22 | 38 |
+| classify | 26 | 35 |
+| composite | 107 | 133 |
+| ledger | 4 | 5 |
+| **End to end** | **3212** | **3769** |
+
 ## Latency on a laptop limited to 2 threads
 
 20 runs, a 1024 × 558 px original with a 1024 × 547 px edit, arm64 Darwin laptop, limited to 2 threads.

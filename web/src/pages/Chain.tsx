@@ -22,12 +22,16 @@ export default function Chain() {
   const [progress, setProgress] = useState<ProgressEvent | null>(null)
   const [problem, setProblem] = useState<string | null>(null)
   const [limits, setLimits] = useState<Limits | null>(null)
+  const [stateless, setStateless] = useState(false)
 
   useEffect(() => {
     if (!API_ENABLED) return
     const controller = new AbortController()
     getHealth(controller.signal)
-      .then((health) => setLimits(health.limits))
+      .then((health) => {
+        setLimits(health.limits)
+        setStateless(health.stateless)
+      })
       .catch(() => undefined)
     return () => controller.abort()
   }, [])
@@ -149,6 +153,12 @@ export default function Chain() {
           Upload the step-0 image and the editor's outputs in order (file names are sorted, so name them 01, 02, 03).
           Up to 8 steps.
         </p>
+        {(stateless || !API_ENABLED) && (
+          <p className="empty-data">
+            Chains need a server that keeps each step in memory, and the public demo server does not. The example
+            above is real; to run your own chain, start Peel locally with <code>make dev</code>.
+          </p>
+        )}
         <form
           className="chain-form"
           onSubmit={(e) => {
@@ -180,7 +190,7 @@ export default function Chain() {
             </p>
           )}
           <div className="upload-actions">
-            <button type="submit" className="btn btn-solid" disabled={!ready || progress !== null}>
+            <button type="submit" className="btn btn-solid" disabled={!ready || progress !== null || stateless || !API_ENABLED}>
               {progress ? progress.label || 'Working' : 'Peel the chain'}
             </button>
             <p className="upload-need" aria-live="polite">

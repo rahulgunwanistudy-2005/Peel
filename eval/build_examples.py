@@ -278,6 +278,8 @@ def main() -> None:
         write_webp(WEB_DIR / spec.id / "thumb.webp", thumb, quality=78)
         # The API re-analyses an example from its inputs the first time a region is flipped.
         write_webp(API_DIR / spec.id / "source_edit.webp", spec.edited, lossless=True)
+        # The web build carries it too: a stateless API host is sent the pair again to flip a region.
+        write_webp(WEB_DIR / spec.id / "source_edit.webp", spec.edited, lossless=True)
         assert np.array_equal(read_rgb(WEB_DIR / spec.id / "peeled.webp"), output.peeled), (
             "lossless check"
         )

@@ -8,7 +8,7 @@ flowchart LR
     W1[Workbench: stage, loupe, ledger]
     W2[Chains · Numbers · How it works · API]
   end
-  subgraph API["api/ · FastAPI (Hugging Face Space, CPU)"]
+  subgraph API["api/ · FastAPI (Vercel container, 1 vCPU)"]
     A1["POST /v1/peel · /v1/peel/jobs + SSE"]
     A2["POST /v1/recomposite"]
     A3["POST /v1/chain · /v1/edit · GET /v1/examples"]
@@ -70,7 +70,7 @@ bounding box of the kept regions only.
 
 ## API
 
-One worker process, one pipeline at a time (the target box has two vCPUs). Jobs live in a
+One worker process, one pipeline at a time (the hosts have one or two vCPUs). Jobs live in a
 byte-budgeted LRU with a 30-minute TTL; identical requests are answered from a SHA-256 content
 hash. Progress is real: each pipeline stage emits an event that the web app receives over SSE.
 Curated examples are permanent jobs loaded from disk, so they are served without compute and still

@@ -45,7 +45,8 @@ test('load an example, toggle views, flip a region', async ({ page }) => {
   await kept.getByRole('button', { name: 'Peel', exact: true }).click()
   await expect(kept.locator('.region-state')).toContainText('Peeled by you')
   await expect(ledger).toContainText('100.0% of the result is byte-for-byte your original')
-  await expect(stageImage).toHaveAttribute('src', /\/v1\/jobs\/ex-astronaut-face\/images\/peeled\.png\?v=\d+/)
+  // A server with memory recomposites the stored job; a stateless one re-runs and returns the image inline.
+  await expect(stageImage).toHaveAttribute('src', /\/v1\/jobs\/ex-astronaut-face\/images\/peeled\.png\?v=\d+|^blob:/)
 
   // Flip it back.
   await kept.getByRole('button', { name: 'Keep', exact: true }).click()
@@ -91,7 +92,7 @@ test('upload a pair, follow the stages, get a ledger', async ({ page }) => {
   await expect(ledger).toContainText('Add an apple on the table', { timeout: 90_000 })
   await expect(ledger).toContainText('Kept 1 requested change')
   await expect(ledger).toContainText('Analysed in')
-  await expect(page.locator('.stage-frame img.layer').first()).toHaveAttribute('src', /\/v1\/jobs\/[0-9a-f]+\/images\/peeled\.png/)
+  await expect(page.locator('.stage-frame img.layer').first()).toHaveAttribute('src', /\/v1\/jobs\/[0-9a-f]+\/images\/peeled\.png|^blob:/)
   await expect(page.locator('.marks')).toHaveAttribute('data-phase', 'registered')
-  await expect(page.locator('.stage-frame img.overlay')).toHaveAttribute('src', /change_map/)
+  await expect(page.locator('.stage-frame img.overlay')).toHaveAttribute('src', /change_map|^blob:/)
 })

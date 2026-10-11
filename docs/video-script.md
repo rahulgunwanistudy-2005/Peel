@@ -24,7 +24,10 @@ generated from `eval/results`.
   `web/public/examples/desk-apple/`: `original.webp` and `edited.webp`; instruction: "Add an apple on
   the table"). The run takes a few seconds; do not cut the progress stages, they are real.
 - Set the browser zoom so the stage and the top of the ledger fit without scrolling.
-- If the API is asleep, open `/healthz` first and wait for `"status": "ok"`.
+- The API host stops idle instances after five minutes. Before recording, open https://peel-api-rahulgunwanistudy-5466s-projects.vercel.app/healthz and
+  wait for `"status": "ok"`.
+- On the public site uploads over about 4 MB in total are resized in the browser; for the video use
+  the bundled 1024-px pair, or record against `make dev` for full resolution.
 - Do not say any number that is not in the block below.
 
 ## Numbers that may be quoted
@@ -35,5 +38,5 @@ generated from `eval/results`.
 - Ablations: without instruction grounding the kept-region IoU falls from 0.76 to 0.49; without cast separation kept-edit fidelity falls from 28.3 to 27.7 dB (while IoU moves from 0.76 to 0.78); removing the background-locked re-registration changes IoU from 0.762 to 0.762 on this suite, where shifts are global and the first-pass fit already solves them.
 - On a real Nano Banana chain from Banana100, after 20 chained edits the untouched areas of the raw chain are at LPIPS 0.388 and 17.5 dB PSNR against step 0; the peeled chain is at LPIPS 0.087 and 56.7 dB.
 - When a re-rendered face touches the edit (24 cases), the face lock restores 90% of face pixels to the original (without it: 43%).
-- End-to-end latency is 1.2 s at the median and 1.2 s at p95 on a 1024 × 558 px original with a 1024 × 547 px edit (arm64 Darwin laptop, limited to 2 threads), CPU only.
+- End-to-end latency is 3.2 s at the median and 3.8 s at p95 on a 1024 × 558 px original with a 1024 × 547 px edit (peel-api-rahulgunwanistudy-5466s-projects.vercel.app (1 vCPU, Linux x86_64)), CPU only.
 <!-- END NUMBERS -->

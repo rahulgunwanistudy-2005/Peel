@@ -177,6 +177,47 @@
         "title": "Body_edit_v1_edit_post",
         "type": "object"
       },
+      "Body_peel_stream_v1_peel_stream_post": {
+        "properties": {
+          "edited": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image the AI editor returned.",
+            "title": "Edited",
+            "type": "string"
+          },
+          "instruction": {
+            "description": "What you asked the editor to do.",
+            "maxLength": 2000,
+            "title": "Instruction",
+            "type": "string"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PeelOptions as a JSON string (optional).",
+            "title": "Options"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image before the AI edit.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "instruction"
+        ],
+        "title": "Body_peel_stream_v1_peel_stream_post",
+        "type": "object"
+      },
       "Body_peel_v1_peel_post": {
         "properties": {
           "edited": {
@@ -542,6 +583,11 @@
             "title": "Platform",
             "type": "string"
           },
+          "stateless": {
+            "description": "True when results cannot be fetched by later requests. Ask for inline images.",
+            "title": "Stateless",
+            "type": "boolean"
+          },
           "status": {
             "enum": [
               "ok",
@@ -564,7 +610,8 @@
           "examples",
           "cpus",
           "platform",
-          "limits"
+          "limits",
+          "stateless"
         ],
         "title": "Health",
         "type": "object"
@@ -1661,6 +1708,25 @@
     "/v1/peel": {
       "post": {
         "operationId": "peel_v1_peel_post",
+        "parameters": [
+          {
+            "description": "Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`.",
+            "in": "query",
+            "name": "inline",
+            "required": false,
+            "schema": {
+              "default": "none",
+              "description": "Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`.",
+              "enum": [
+                "none",
+                "dataurl",
+                "base64"
+              ],
+              "title": "Inline",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -1795,6 +1861,95 @@
           }
         },
         "summary": "Start a peel and follow its progress over Server-Sent Events",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/peel/stream": {
+      "post": {
+        "operationId": "peel_stream_v1_peel_stream_post",
+        "parameters": [
+          {
+            "description": "Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`.",
+            "in": "query",
+            "name": "inline",
+            "required": false,
+            "schema": {
+              "default": "none",
+              "description": "Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`.",
+              "enum": [
+                "none",
+                "dataurl",
+                "base64"
+              ],
+              "title": "Inline",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_peel_stream_v1_peel_stream_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/event-stream": {}
+            },
+            "description": "Events: `progress` (ProgressEvent), then `done` (PeelResult) or `error` (ErrorDetail). With `inline`, the result carries its images, so nothing has to be fetched afterwards."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "An upload is over 15 MB."
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not a PNG, JPEG or WebP."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Rate limited."
+          }
+        },
+        "summary": "Peel in one request: stage progress, then the result, as Server-Sent Events",
         "tags": [
           "peel"
         ]

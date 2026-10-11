@@ -146,20 +146,76 @@ async function poll(job: JobCreated, handlers: JobHandlers): Promise<JobStatus> 
   }
 }
 
-export async function peel(
-  original: Blob,
-  edited: Blob,
-  instruction: string,
-  handlers: JobHandlers,
-): Promise<PeelResult> {
+export interface PeelRequest {
+  original: Blob
+  edited: Blob
+  instruction: string
+  /** Region decisions to apply; used to "flip" a region on hosts that keep no state. */
+  overrides?: Record<string, Decision>
+  /** Ask for the images inside the response (needed when the host is stateless). */
+  inline?: boolean
+}
+
+/** Turn inline data URLs into object URLs: short strings that are cheap to put in the DOM. */
+async function materialize(result: PeelResult): Promise<PeelResult> {
+  const images = { ...result.images }
+  for (const name of Object.keys(images) as ImageName[]) {
+    const value = images[name]
+    if (value.startsWith('data:')) {
+      images[name] = URL.createObjectURL(await (await fetch(value)).blob())
+    }
+  }
+  return { ...result, images }
+}
+
+/**
+ * Peel one edit in a single request. The response is a Server-Sent Events stream: the pipeline's
+ * stages as they run, then the result.
+ */
+export async function peel(request: PeelRequest, handlers: JobHandlers): Promise<PeelResult> {
+  if (!API_ENABLED) throw NOT_CONNECTED
   const form = new FormData()
-  form.append('original', original, 'original')
-  form.append('edited', edited, 'edited')
-  form.append('instruction', instruction)
-  const job = await request<JobCreated>('/v1/peel/jobs', { method: 'POST', body: form })
-  const status = await follow(job, handlers)
-  if (!status.result) throw new ApiError('INTERNAL', 'The job finished without a result.')
-  return status.result
+  form.append('original', request.original, 'original')
+  form.append('edited', request.edited, 'edited')
+  form.append('instruction', request.instruction)
+  if (request.overrides && Object.keys(request.overrides).length > 0) {
+    form.append('options', JSON.stringify({ overrides: request.overrides }))
+  }
+  let response: Response
+  try {
+    response = await fetch(`${API_BASE}/v1/peel/stream?inline=${request.inline ? 'dataurl' : 'none'}`, {
+      method: 'POST',
+      body: form,
+    })
+  } catch {
+    throw OFFLINE
+  }
+  if (!response.ok || !response.body) return unwrap<PeelResult>(response)
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  for (;;) {
+    const { value, done } = await reader.read()
+    buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done })
+    let split = buffer.indexOf('\n\n')
+    while (split >= 0) {
+      const frame = buffer.slice(0, split)
+      buffer = buffer.slice(split + 2)
+      split = buffer.indexOf('\n\n')
+      const event = /^event: (.*)$/m.exec(frame)?.[1]
+      const data = /^data: (.*)$/m.exec(frame)?.[1]
+      if (!event || data === undefined) continue
+      if (event === 'progress') handlers.onProgress(JSON.parse(data) as ProgressEvent)
+      if (event === 'error') {
+        const detail = JSON.parse(data) as ErrorDetail
+        throw new ApiError(detail.code, detail.message)
+      }
+      if (event === 'done') return materialize(JSON.parse(data) as PeelResult)
+    }
+    if (done) break
+  }
+  throw new ApiError('INTERNAL', 'The server closed the connection before sending a result. Try again.')
 }
 
 export async function peelChain(

@@ -945,34 +945,34 @@
   "timings": [
     {
       "stage": "register",
-      "ms": 203.7
+      "ms": 211.9
     },
     {
       "stage": "change",
-      "ms": 1930.1
+      "ms": 2072.1
     },
     {
       "stage": "intent",
-      "ms": 8527.3
+      "ms": 8667.8
     },
     {
       "stage": "faces",
-      "ms": 102.5
+      "ms": 115.0
     },
     {
       "stage": "classify",
-      "ms": 34.5
+      "ms": 49.2
     },
     {
       "stage": "composite",
-      "ms": 109.5
+      "ms": 152.3
     },
     {
       "stage": "ledger",
-      "ms": 7.6
+      "ms": 8.1
     }
   ],
-  "total_ms": 10915.2,
+  "total_ms": 11276.4,
   "images": {
     "original": "/v1/jobs/ex-desk-apple/images/original.png",
     "edited": "/v1/jobs/ex-desk-apple/images/edited.png",

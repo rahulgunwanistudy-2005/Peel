@@ -174,6 +174,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/peel/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Peel in one request: stage progress, then the result, as Server-Sent Events */
+        post: operations["peel_stream_v1_peel_stream_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/recomposite": {
         parameters: {
             query?: never;
@@ -282,6 +299,29 @@ export interface components {
             /**
              * Original
              * @description The image to edit.
+             */
+            original: string;
+        };
+        /** Body_peel_stream_v1_peel_stream_post */
+        Body_peel_stream_v1_peel_stream_post: {
+            /**
+             * Edited
+             * @description The image the AI editor returned.
+             */
+            edited: string;
+            /**
+             * Instruction
+             * @description What you asked the editor to do.
+             */
+            instruction: string;
+            /**
+             * Options
+             * @description PeelOptions as a JSON string (optional).
+             */
+            options?: string | null;
+            /**
+             * Original
+             * @description The image before the AI edit.
              */
             original: string;
         };
@@ -453,6 +493,11 @@ export interface components {
             };
             /** Platform */
             platform: string;
+            /**
+             * Stateless
+             * @description True when results cannot be fetched by later requests. Ask for inline images.
+             */
+            stateless: boolean;
             /**
              * Status
              * @enum {string}
@@ -1092,7 +1137,10 @@ export interface operations {
     };
     peel_v1_peel_post: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`. */
+                inline?: "none" | "dataurl" | "base64";
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1170,6 +1218,70 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["JobCreated"];
+                };
+            };
+            /** @description An upload is over 15 MB. */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorBody"];
+                };
+            };
+            /** @description Not a PNG, JPEG or WebP. */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorBody"];
+                };
+            };
+            /** @description NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorBody"];
+                };
+            };
+            /** @description Rate limited. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorBody"];
+                };
+            };
+        };
+    };
+    peel_stream_v1_peel_stream_post: {
+        parameters: {
+            query?: {
+                /** @description Return the images inside the response instead of as URLs: `dataurl` or `base64` (WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`. */
+                inline?: "none" | "dataurl" | "base64";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_peel_stream_v1_peel_stream_post"];
+            };
+        };
+        responses: {
+            /** @description Events: `progress` (ProgressEvent), then `done` (PeelResult) or `error` (ErrorDetail). With `inline`, the result carries its images, so nothing has to be fetched afterwards. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                    "text/event-stream": unknown;
                 };
             };
             /** @description An upload is over 15 MB. */

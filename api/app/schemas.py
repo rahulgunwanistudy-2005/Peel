@@ -79,6 +79,9 @@ class Health(BaseModel):
     cpus: int = Field(description="CPU cores visible to the process.")
     platform: str
     limits: Limits
+    stateless: bool = Field(
+        description="True when results cannot be fetched by later requests. Ask for inline images."
+    )
 
 
 class ProgressEvent(BaseModel):

@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import base64
 import io
 import json
 import logging
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from typing import Literal
 
 import cv2
 import numpy as np
@@ -90,6 +92,42 @@ def _attach(job: Job, output: PeelOutput) -> None:
         "raw_diff": output.raw_diff,
     }
     job.encoded = {k: v for k, v in job.encoded.items() if k[0] not in VERSIONED}
+
+
+InlineMode = Literal["none", "dataurl", "base64"]
+
+
+def inline_images(output: PeelOutput, mode: InlineMode) -> PeelImages:
+    """Every image of a result as WebP inside the response (lossless for the three photographs).
+
+    For hosts that cannot serve a follow-up request from the same process, and for callers who
+    want one round trip. ``dataurl`` suits browsers; ``base64`` is the bare payload.
+    """
+    analysis = output.analysis
+    sources: dict[str, tuple[U8, bool]] = {
+        "original": (analysis.original, True),
+        "edited": (analysis.aligned, True),
+        "peeled": (output.peeled, True),
+        "change_map": (output.change_map(), False),
+        "diff": (output.diff(), False),
+        "raw_diff": (output.raw_diff(), False),
+    }
+    encoded: dict[str, str] = {}
+    for name, (rgb, lossless) in sources.items():
+        ok, buf = cv2.imencode(
+            ".webp", rgb[..., ::-1], [cv2.IMWRITE_WEBP_QUALITY, 101 if lossless else 86]
+        )
+        if not ok:
+            raise PeelError(ErrorCode.INTERNAL, "Could not encode the result image.", status=500)
+        payload = base64.b64encode(buf.tobytes()).decode("ascii")
+        encoded[name] = f"data:image/webp;base64,{payload}" if mode == "dataurl" else payload
+    return PeelImages(**encoded)
+
+
+def with_inline(result: PeelResult, output: PeelOutput, mode: InlineMode) -> PeelResult:
+    if mode == "none":
+        return result
+    return result.model_copy(update={"images": inline_images(output, mode)})
 
 
 def _result(job: Job, output: PeelOutput, *, cached: bool = False) -> PeelResult:

@@ -300,34 +300,34 @@
   "timings": [
     {
       "stage": "register",
-      "ms": 182.0
+      "ms": 190.1
     },
     {
       "stage": "change",
-      "ms": 208.0
+      "ms": 214.6
     },
     {
       "stage": "intent",
-      "ms": 565.1
+      "ms": 533.8
     },
     {
       "stage": "faces",
-      "ms": 7.3
+      "ms": 6.5
     },
     {
       "stage": "classify",
-      "ms": 7.6
+      "ms": 6.8
     },
     {
       "stage": "composite",
-      "ms": 67.7
+      "ms": 66.3
     },
     {
       "stage": "ledger",
-      "ms": 2.3
+      "ms": 2.2
     }
   ],
-  "total_ms": 1040.0,
+  "total_ms": 1020.3,
   "images": {
     "original": "/v1/jobs/ex-coffee-recolor/images/original.png",
     "edited": "/v1/jobs/ex-coffee-recolor/images/edited.png",

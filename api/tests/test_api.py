@@ -351,3 +351,53 @@ def test_health_reports_the_host_limits(client: TestClient) -> None:
     assert limits["max_upload_bytes"] == 15 * 1024 * 1024
     assert limits["max_long_side"] == 4096 and limits["max_request_bytes"] == 0
     assert limits["max_chain_steps"] == 8
+    assert client.get("/healthz").json()["stateless"] is False
+
+
+def test_inline_images_need_no_second_request(
+    client: TestClient, files: Files, case: SynthCase
+) -> None:
+    import base64
+
+    data = {"instruction": case.instruction, "options": json.dumps({"k_mad": 6.25})}
+    body = client.post("/v1/peel", params={"inline": "base64"}, files=files, data=data).json()
+    peeled = decode(base64.b64decode(body["images"]["peeled"]))
+    original = decode(base64.b64decode(body["images"]["original"]))
+    assert np.array_equal(original, case.original), "inline photographs are lossless"
+    assert peeled.shape == case.original.shape
+    identical = 100.0 * float(np.mean(np.all(peeled == case.original, axis=-1)))
+    assert identical == pytest.approx(body["ledger"]["summary"]["bit_identical_pct"], abs=0.01)
+    as_url = client.post("/v1/peel", params={"inline": "dataurl"}, files=files, data=data).json()
+    assert as_url["images"]["change_map"].startswith("data:image/webp;base64,")
+
+
+def test_single_request_stream(client: TestClient, files: Files, case: SynthCase) -> None:
+    data = {"instruction": case.instruction, "options": json.dumps({"k_mad": 6.75})}
+    with client.stream(
+        "POST", "/v1/peel/stream", params={"inline": "dataurl"}, files=files, data=data
+    ) as stream:
+        assert stream.headers["content-type"].startswith("text/event-stream")
+        events: list[tuple[str, dict]] = []
+        name = ""
+        for line in stream.iter_lines():
+            if line.startswith("event: "):
+                name = line[7:]
+            elif line.startswith("data: "):
+                events.append((name, json.loads(line[6:])))
+    kinds = [k for k, _ in events]
+    assert kinds[-1] == "done" and kinds.count("progress") >= 6
+    result = events[-1][1]
+    assert result["ledger"]["summary"]["n_intended"] == 1
+    assert result["images"]["peeled"].startswith("data:image/webp;base64,")
+
+    # A region override travels with the request, so a stateless host can "flip" by re-running.
+    intended = next(r for r in result["ledger"]["regions"] if r["classification"] == "intended")
+    data["options"] = json.dumps({"k_mad": 6.75, "overrides": {intended["id"]: "revert"}})
+    with client.stream("POST", "/v1/peel/stream", files=files, data=data) as stream:
+        text = "".join(stream.iter_text())
+    done = json.loads(text.split("event: done\ndata: ", 1)[1].split("\n", 1)[0])
+    assert done["ledger"]["summary"]["bit_identical_pct"] == 100.0
+    assert done["images"]["peeled"].startswith("/v1/jobs/")
+
+    errors = client.post("/v1/peel/stream", files=files, data={"instruction": " "})
+    assert errors.status_code == 422 and error_code(errors) == "EMPTY_INSTRUCTION"

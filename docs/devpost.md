@@ -13,7 +13,7 @@ editor changed without being asked.
 **Links**
 - Live: https://peel-xi.vercel.app
 - Code: https://github.com/rahulgunwanistudy-2005/Peel
-- API docs: `<API URL>/docs` (fill in once the API host is live)
+- API docs: https://peel-api-rahulgunwanistudy-5466s-projects.vercel.app/docs
 
 **Description:** use `docs/writeup.md` as is (under 500 words).
 

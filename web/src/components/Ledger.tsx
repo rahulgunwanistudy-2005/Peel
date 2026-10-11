@@ -61,7 +61,7 @@ export function Ledger({ result, busy, flipping, onFlip, onHighlight, highlighte
   const original = imageUrl(result.images.original, 2048)
   const edited = imageUrl(result.images.edited, 2048)
   const isGlobal = ledger.mode === 'global'
-  const precomputed = !result.images.peeled.startsWith('/v1/')
+  const precomputed = result.images.peeled.startsWith('./examples/')
 
   const downloadLedger = () => {
     const blob = new Blob([JSON.stringify(ledger, null, 2)], { type: 'application/json' })

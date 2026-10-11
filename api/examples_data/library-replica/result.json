@@ -47,34 +47,34 @@
   "timings": [
     {
       "stage": "register",
-      "ms": 223.9
+      "ms": 259.0
     },
     {
       "stage": "change",
-      "ms": 247.7
+      "ms": 274.3
     },
     {
       "stage": "intent",
-      "ms": 1109.3
+      "ms": 4741.6
     },
     {
       "stage": "faces",
-      "ms": 9.4
+      "ms": 24.1
     },
     {
       "stage": "classify",
-      "ms": 0.7
+      "ms": 1.0
     },
     {
       "stage": "composite",
-      "ms": 7.0
+      "ms": 7.8
     },
     {
       "stage": "ledger",
-      "ms": 2.9
+      "ms": 6.9
     }
   ],
-  "total_ms": 1600.9,
+  "total_ms": 5314.7,
   "images": {
     "original": "/v1/jobs/ex-library-replica/images/original.png",
     "edited": "/v1/jobs/ex-library-replica/images/edited.png",

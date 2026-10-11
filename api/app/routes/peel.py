@@ -31,6 +31,13 @@ Original = Annotated[UploadFile, File(description="The image before the AI edit.
 Edited = Annotated[UploadFile, File(description="The image the AI editor returned.")]
 Instruction = Annotated[str, Form(description="What you asked the editor to do.", max_length=2000)]
 Options = Annotated[str | None, Form(description="PeelOptions as a JSON string (optional).")]
+Inline = Annotated[
+    service.InlineMode,
+    Query(
+        description="Return the images inside the response instead of as URLs: `dataurl` or `base64` "
+        "(WebP, lossless for original/edited/peeled). Use it when `/healthz` reports `stateless`."
+    ),
+]
 
 
 def _job_or_404(job_id: str) -> Job:
@@ -64,19 +71,86 @@ def _status(job: Job) -> JobStatus:
     dependencies=[Depends(rate_limit())],
 )
 async def peel(
-    original: Original, edited: Edited, instruction: Instruction, options: Options = None
+    original: Original,
+    edited: Edited,
+    instruction: Instruction,
+    options: Options = None,
+    inline: Inline = "none",
 ) -> PeelResult:
     original_bytes = await read_upload(original, "original image")
     edited_bytes = await read_upload(edited, "edited image")
     parsed = service.parse_options(options)
     job = store.create("peel")
     try:
-        return await run_in_threadpool(
+        result = await run_in_threadpool(
             service.run_peel, job, original_bytes, edited_bytes, instruction, parsed
         )
     except Exception as exc:
         service.fail(job, exc)
         raise
+    assert job.output is not None
+    return service.with_inline(result, job.output, inline)
+
+
+@router.post(
+    "/peel/stream",
+    summary="Peel in one request: stage progress, then the result, as Server-Sent Events",
+    responses={
+        200: {
+            "content": {"text/event-stream": {}},
+            "description": "Events: `progress` (ProgressEvent), then `done` (PeelResult) or `error` (ErrorDetail). "
+            "With `inline`, the result carries its images, so nothing has to be fetched afterwards.",
+        },
+        **ERRORS,
+    },
+    dependencies=[Depends(rate_limit())],
+)
+async def peel_stream(
+    original: Original,
+    edited: Edited,
+    instruction: Instruction,
+    options: Options = None,
+    inline: Inline = "none",
+) -> StreamingResponse:
+    original_bytes = await read_upload(original, "original image")
+    edited_bytes = await read_upload(edited, "edited image")
+    parsed = service.parse_options(options)
+    if not instruction.strip():
+        raise PeelError(
+            ErrorCode.EMPTY_INSTRUCTION,
+            "Tell Peel what you asked the editor to do, for example “make the jacket red”.",
+            status=422,
+        )
+    job = store.create("peel")
+    job.emit("queued", 0.0, service.STAGE_LABELS["queued"])
+    service.submit(
+        job, lambda j: service.run_peel(j, original_bytes, edited_bytes, instruction, parsed)
+    )
+
+    def frame(event: str, payload: str) -> str:
+        return f"event: {event}\ndata: {payload}\n\n"
+
+    async def stream() -> AsyncIterator[str]:
+        sent = 0
+        while True:
+            while sent < len(job.events):
+                event = job.events[sent]
+                sent += 1
+                if event.stage not in ("done", "error"):
+                    yield frame("progress", event.model_dump_json())
+            if job.state == "done" and job.result is not None and job.output is not None:
+                result = await run_in_threadpool(
+                    service.with_inline, job.result, job.output, inline
+                )
+                yield frame("done", result.model_dump_json())
+                return
+            if job.state == "error" and job.error is not None:
+                yield frame("error", job.error.model_dump_json())
+                return
+            await asyncio.sleep(0.08)
+
+    headers = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
+    return StreamingResponse(stream(), media_type="text/event-stream", headers=headers)
 
 
 @router.post(

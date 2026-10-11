@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "hardware": "peel-api-rahulgunwanistudy-5466s-projects.vercel.app (1 vCPU, Linux x86_64)",
+    "n": 20,
+    "image": "a 1024 \u00d7 558 px original with a 1024 \u00d7 547 px edit",
+    "generated_at": "2026-10-11 21:20 UTC",
+    "git_sha": "79d308267fa4"
+  },
+  "stages": [
+    {
+      "stage": "decode",
+      "p50": 36.2,
+      "p95": 40.9
+    },
+    {
+      "stage": "register",
+      "p50": 302.9,
+      "p95": 327.6
+    },
+    {
+      "stage": "change",
+      "p50": 392.9,
+      "p95": 484.6
+    },
+    {
+      "stage": "intent",
+      "p50": 2290.8,
+      "p95": 2803.4
+    },
+    {
+      "stage": "faces",
+      "p50": 22.5,
+      "p95": 37.6
+    },
+    {
+      "stage": "classify",
+      "p50": 25.7,
+      "p95": 35.2
+    },
+    {
+      "stage": "composite",
+      "p50": 107.2,
+      "p95": 133.4
+    },
+    {
+      "stage": "ledger",
+      "p50": 4.2,
+      "p95": 5.1
+    }
+  ],
+  "total": {
+    "p50": 3211.7,
+    "p95": 3769.0
+  },
+  "wall": {
+    "p50": 4562.2,
+    "p95": 5223.8
+  }
+}

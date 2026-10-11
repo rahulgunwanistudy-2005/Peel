@@ -55,6 +55,9 @@ class Settings:
     rate_refill_seconds: float = float(os.environ.get("PEEL_RATE_REFILL", 5.0))
     warm_on_start: bool = os.environ.get("PEEL_WARM", "1") != "0"
     warm_examples: bool = os.environ.get("PEEL_WARM_EXAMPLES", "1") != "0"
+    # True on hosts that may answer consecutive requests from different instances: results cannot
+    # be fetched later, so clients ask for the images inline in the same response.
+    stateless: bool = os.environ.get("PEEL_STATELESS", "0") == "1"
     # Hosts with small request/response bodies or little memory tighten these.
     max_upload_bytes: int = int(os.environ.get("PEEL_MAX_UPLOAD_BYTES", 15 * 1024 * 1024))
     max_request_bytes: int = int(os.environ.get("PEEL_MAX_REQUEST_BYTES", 0))  # 0 = no extra cap

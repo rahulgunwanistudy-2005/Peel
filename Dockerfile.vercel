@@ -44,7 +44,8 @@ ENV PEEL_GIT_SHA=$VERCEL_GIT_COMMIT_SHA \
     PEEL_MEMORY_BUDGET_MB=250 \
     PEEL_MAX_JOBS=6 \
     PEEL_MAX_CHAIN_STEPS=6 \
-    PEEL_WARM_EXAMPLES=0
+    PEEL_WARM_EXAMPLES=0 \
+    PEEL_STATELESS=1
 
 # Vercel sends traffic to $PORT (80 unless the project overrides it).
 CMD ["sh", "-c", "exec python -m uvicorn app.main:app --app-dir api --host 0.0.0.0 --port ${PORT:-80} --proxy-headers --forwarded-allow-ips '*'"]
