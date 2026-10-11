@@ -5,12 +5,11 @@ import {
   ApiError,
   EXAMPLES,
   editWithModel,
-  getHealth,
+  ensureHealth,
   peel,
   recomposite,
   type Decision,
   type Example,
-  type Limits,
   type PeelResult,
   type ProgressEvent,
   type Region,
@@ -46,8 +45,6 @@ export function Workbench() {
   const [notice, setNotice] = useState<Notice | null>(null)
   const [own, setOwn] = useState(first === null)
   const [editModel, setEditModel] = useState<string | null>(null)
-  const [limits, setLimits] = useState<Limits | null>(null)
-  const [stateless, setStateless] = useState(false)
   // What the current result was made from, so a stateless host can re-run it with a region flipped.
   const source = useRef<{ original: Blob; edited: Blob; instruction: string } | null>(null)
   const noticeRef = useRef<HTMLDivElement>(null)
@@ -66,15 +63,15 @@ export function Workbench() {
   // Only to learn whether live editing is offered. The page works without the server.
   useEffect(() => {
     if (!API_ENABLED) return
-    const controller = new AbortController()
-    getHealth(controller.signal)
+    let live = true
+    ensureHealth()
       .then((health) => {
-        setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null)
-        setLimits(health.limits)
-        setStateless(health.stateless)
+        if (live) setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null)
       })
-      .catch(() => setEditModel(null))
-    return () => controller.abort()
+      .catch(() => undefined)
+    return () => {
+      live = false
+    }
   }, [])
 
   useEffect(() => {
@@ -91,11 +88,14 @@ export function Workbench() {
 
   const runPeel = async (original: Blob, edited: Blob, instruction: string) => {
     setNotice(null)
-    setProgress({ stage: 'queued', pct: 0, label: 'Sending the images' })
+    setProgress({ stage: 'queued', pct: 0, label: 'Contacting the analysis server' })
     try {
+      // What the host can take decides how the images are sent, so this comes first.
+      const { limits, stateless } = await ensureHealth()
+      setProgress({ stage: 'queued', pct: 0, label: 'Sending the images' })
       // Hosts with a small request limit get both images scaled down to the same size first.
-      const budget = limits && limits.max_request_bytes > 0 ? limits.max_request_bytes - 64_000 : 0
-      const fitted = await fitImages([original, edited], budget, Math.min(limits?.max_long_side ?? 4096, 1536))
+      const budget = limits.max_request_bytes > 0 ? limits.max_request_bytes - 64_000 : 0
+      const fitted = await fitImages([original, edited], budget, Math.min(limits.max_long_side, 1536))
       const request = { original: fitted.files[0], edited: fitted.files[1], instruction }
       const next = await peel({ ...request, inline: stateless }, { onProgress: setProgress })
       source.current = request
@@ -136,6 +136,7 @@ export function Workbench() {
     const wasOverridden = region.overridden
     if (!wasOverridden) overrides[region.id] = decision // flipping back restores the classifier's choice
     try {
+      const { stateless } = await ensureHealth()
       if (stateless) {
         // No server-side memory to recomposite from: send the pair again with the decisions.
         if (!source.current && example) {

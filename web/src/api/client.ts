@@ -97,6 +97,22 @@ export function getHealth(signal?: AbortSignal): Promise<Health> {
   return request<Health>('/healthz', { signal })
 }
 
+let healthOnce: Promise<Health> | null = null
+
+/**
+ * The host's capabilities, fetched once. Uploads wait for this: whether the host is stateless and
+ * how large a request it accepts decide how the images are sent. A failed attempt is not cached.
+ */
+export function ensureHealth(): Promise<Health> {
+  if (!healthOnce) {
+    healthOnce = getHealth().catch((error: unknown) => {
+      healthOnce = null
+      throw error
+    })
+  }
+  return healthOnce
+}
+
 export interface JobHandlers {
   onProgress: (event: ProgressEvent) => void
 }

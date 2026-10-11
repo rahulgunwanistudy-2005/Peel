@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { API_ENABLED, ApiError, getHealth, imageUrl, peelChain, type ChainResult, type Limits, type ProgressEvent } from '../api/client'
+import { API_ENABLED, ApiError, ensureHealth, imageUrl, peelChain, type ChainResult, type Limits, type ProgressEvent } from '../api/client'
 import { fitImages } from '../lib/fit'
 import { LineChart } from '../components/LineChart'
 import { Num } from '../components/Num'
@@ -26,14 +26,17 @@ export default function Chain() {
 
   useEffect(() => {
     if (!API_ENABLED) return
-    const controller = new AbortController()
-    getHealth(controller.signal)
+    let live = true
+    ensureHealth()
       .then((health) => {
+        if (!live) return
         setLimits(health.limits)
         setStateless(health.stateless)
       })
       .catch(() => undefined)
-    return () => controller.abort()
+    return () => {
+      live = false
+    }
   }, [])
 
   useEffect(() => {
