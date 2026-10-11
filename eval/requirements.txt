@@ -1,0 +1,2 @@
+matplotlib>=3.9
+huggingface_hub>=0.25

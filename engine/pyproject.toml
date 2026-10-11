@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "peel"
+version = "0.1.0"
+description = "Keep the edit. Peel the drift. Instruction-grounded compositing for AI image edits."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "numpy>=1.26,<3",
+  "opencv-python-headless>=4.10",
+  "scikit-image>=0.24",
+  "scipy>=1.13",
+  "pillow>=10.4",
+  "pydantic>=2.8",
+  "torch>=2.3",
+  "torchvision>=0.18",
+  "lpips>=0.1.4",
+  "transformers>=4.44,<5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+peel = "peel.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["peel*"]
+
+[tool.setuptools.package-data]
+peel = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["cv2.*", "lpips.*", "skimage.*", "scipy.*", "transformers.*", "torchvision.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
