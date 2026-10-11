@@ -160,6 +160,7 @@ def _ledger(analysis: Analysis, bit_identical_pct: float) -> Ledger:
         full_size=(a.original.shape[1], a.original.shape[0]),
         bit_identical_pct=bit_identical_pct,
         downscaled=a.downscaled,
+        max_long_side=a.options.max_long_side,
     )
 
 

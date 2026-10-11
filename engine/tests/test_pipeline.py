@@ -194,3 +194,13 @@ def test_identical_pair_is_reported_calmly(astronaut: U8) -> None:
     assert output.ledger.regions == [] and output.ledger.warnings == []
     assert output.ledger.confidence == "high" and output.ledger.drift_score == 0.0
     assert output.ledger.headline.startswith("Nothing changed")
+
+
+def test_downscale_is_reported_with_the_actual_limit(astronaut: U8) -> None:
+    from .conftest import png_bytes
+
+    output = peel_bytes(
+        png_bytes(astronaut), png_bytes(astronaut), "Add a hat", PeelOptions(max_long_side=256)
+    )
+    assert output.peeled.shape[:2] == (256, 256)
+    assert any("larger than 256 px" in w for w in output.ledger.warnings)

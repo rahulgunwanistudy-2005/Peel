@@ -29,4 +29,8 @@ One line each, newest last.
 - TypeScript pinned to 5.9: `openapi-typescript` does not accept 6.x yet. ESLint replaces the template's oxlint because the brief asks for it.
 - Vercel project uses Standard Protection (production domain public, previews private) and `VITE_API_BASE=off` until an API host exists.
 - Hugging Face refused the Space (Docker Spaces on free CPU need PRO as of this date); deployment files are ready and the API host is a human decision.
+- The API went live on Vercel's container runtime (free: 1 vCPU, 2 GB, 4.5 MB bodies) because it was the only host reachable without a payment; per-host limits are environment variables and `/healthz` reports them.
+- Vercel answers consecutive requests from different instances, so the web app uses one streamed request with inline images (`/v1/peel/stream?inline=dataurl`) and flips regions by re-sending the pair with overrides; job/recomposite endpoints remain for hosts with memory.
+- Inline images are WebP (lossless for the three photographs) to stay under the response limit while keeping the loupe's pixel check exact.
+- On the Vercel host analysis is capped at 1280 px and chain uploads are disabled in the UI; the bundled chain example is unaffected.
 - n8n workflow uses plain HTTP Request nodes for Gemini rather than a Gemini node, so it does not depend on a node version that supports image editing.

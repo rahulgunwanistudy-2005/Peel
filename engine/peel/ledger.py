@@ -214,6 +214,7 @@ def build_ledger(
     full_size: tuple[int, int],
     bit_identical_pct: float,
     downscaled: bool,
+    max_long_side: int = 4096,
 ) -> Ledger:
     width, height = full_size
     mode = intent.mode
@@ -280,7 +281,10 @@ def build_ledger(
             "shifted). Those pixels come from the original."
         )
     if downscaled:
-        warnings.append("The original was larger than 4096 px and was downscaled first.")
+        warnings.append(
+            f"The original was larger than {max_long_side} px on its long side, so it was "
+            "downscaled before analysis. The result has the downscaled size."
+        )
     if mode == "global":
         warnings.append(
             "This is a whole-image instruction, so the edit is kept everywhere except locked "
