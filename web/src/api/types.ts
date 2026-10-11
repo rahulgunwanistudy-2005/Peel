@@ -433,6 +433,11 @@ export interface components {
         };
         /** Health */
         Health: {
+            /**
+             * Cpus
+             * @description CPU cores visible to the process.
+             */
+            cpus: number;
             edit: components["schemas"]["EditStatus"];
             /** Examples */
             examples: number;
@@ -445,6 +450,8 @@ export interface components {
             models: {
                 [key: string]: boolean;
             };
+            /** Platform */
+            platform: string;
             /**
              * Status
              * @enum {string}

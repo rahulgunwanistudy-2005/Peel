@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import os
+import platform
+
 from fastapi import APIRouter
 from peel import models
 
@@ -20,4 +23,8 @@ def healthz() -> Health:
         models=flags,
         edit=gemini.status(),
         examples=len(service.examples()),
+        cpus=len(os.sched_getaffinity(0))
+        if hasattr(os, "sched_getaffinity")
+        else (os.cpu_count() or 1),
+        platform=f"{platform.system()} {platform.machine()}",
     )

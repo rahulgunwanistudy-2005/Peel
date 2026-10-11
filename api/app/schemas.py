@@ -64,6 +64,8 @@ class Health(BaseModel):
     models: dict[str, bool] = Field(description="Warm flag per model.")
     edit: EditStatus
     examples: int
+    cpus: int = Field(description="CPU cores visible to the process.")
+    platform: str
 
 
 class ProgressEvent(BaseModel):

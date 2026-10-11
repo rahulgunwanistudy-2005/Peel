@@ -511,6 +511,11 @@
       },
       "Health": {
         "properties": {
+          "cpus": {
+            "description": "CPU cores visible to the process.",
+            "title": "Cpus",
+            "type": "integer"
+          },
           "edit": {
             "$ref": "#/components/schemas/EditStatus"
           },
@@ -529,6 +534,10 @@
             "description": "Warm flag per model.",
             "title": "Models",
             "type": "object"
+          },
+          "platform": {
+            "title": "Platform",
+            "type": "string"
           },
           "status": {
             "enum": [
@@ -549,7 +558,9 @@
           "git_sha",
           "models",
           "edit",
-          "examples"
+          "examples",
+          "cpus",
+          "platform"
         ],
         "title": "Health",
         "type": "object"

@@ -1,0 +1,14 @@
+# Keeps the Space awake around the demo window. Set the repository variable PEEL_API_URL.
+name: keep-warm
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: ${{ vars.PEEL_API_URL != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS --max-time 120 "${{ vars.PEEL_API_URL }}/healthz"

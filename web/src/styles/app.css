@@ -909,6 +909,23 @@
   overflow-x: auto;
 }
 
+.subblock {
+  margin-top: var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.subblock > p {
+  max-width: 72ch;
+  margin-top: var(--s-2);
+  color: var(--ink-2);
+}
+
+td small {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

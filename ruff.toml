@@ -1,0 +1,5 @@
+# Root config for api/ and eval/. The engine package has its own, stricter config.
+extend = "engine/pyproject.toml"
+
+[lint]
+extend-ignore = ["E501"]

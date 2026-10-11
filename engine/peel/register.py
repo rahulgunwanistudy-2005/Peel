@@ -166,6 +166,79 @@ def _background_flow(
     return smooth, median
 
 
+def _detail_residual(a: U8, b: U8, mask: Bool) -> float:
+    """Mean difference of the high-pass images. Blind to a brightness or colour offset, which a
+    plain difference would let a spurious shift along a gradient "explain"."""
+
+    def high_pass(x: U8) -> F32:
+        f = x.astype(np.float32)
+        return np.asarray(f - cv2.GaussianBlur(f, (0, 0), 4.0), dtype=np.float32)
+
+    return float(np.mean(np.abs(high_pass(a) - high_pass(b))[mask]))
+
+
+def _ecc_refine(orig_gray: U8, edit_gray: U8, h_work: F64, *, trusted: bool) -> F64 | None:
+    """Sub-pixel affine refinement by direct intensity alignment (ECC), on the background only.
+
+    Keypoints need texture; smooth scenes (sky, sand, studio walls) have little, and that is where
+    a one-pixel error shows as a ghost edge. ECC works on gradients of the whole frame instead.
+    Returns the refined homography, or None when it does not measurably improve the alignment.
+    """
+    height, width = orig_gray.shape
+    aligned = cv2.warpPerspective(
+        edit_gray, h_work, (width, height), borderMode=cv2.BORDER_REPLICATE
+    )
+    covered = (
+        cv2.warpPerspective(np.full(edit_gray.shape, 255, np.uint8), h_work, (width, height)) > 0
+    )
+    background = covered & ~dilate(_rough_change(orig_gray, aligned), 8)
+    if background.mean() < 0.2:
+        return None
+    half = (max(32, width // 2), max(32, height // 2))
+    template = cv2.resize(orig_gray, half, interpolation=cv2.INTER_AREA)
+    moving = cv2.resize(aligned, half, interpolation=cv2.INTER_AREA)
+    mask = cv2.resize(background.astype(np.uint8) * 255, half, interpolation=cv2.INTER_NEAREST)
+    warp = np.eye(2, 3, dtype=np.float32)
+    criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 60, 1e-6)
+    try:
+        _, warp = cv2.findTransformECC(template, moving, warp, cv2.MOTION_AFFINE, criteria, mask, 5)
+    except cv2.error:
+        return None
+    # ``warp`` maps original (half-res) coordinates to aligned-edit coordinates.
+    to_half = _scale_matrix(half[0] / width, half[1] / height)
+    residual = (
+        np.linalg.inv(to_half) @ np.vstack([warp.astype(np.float64), [0.0, 0.0, 1.0]]) @ to_half
+    )
+    candidate = np.linalg.inv(residual) @ h_work
+    realigned = cv2.warpPerspective(
+        edit_gray, candidate, (width, height), borderMode=cv2.BORDER_REPLICATE
+    )
+    before = _detail_residual(orig_gray, aligned, background)
+    after = _detail_residual(orig_gray, realigned, background)
+    needed = 0.97 if trusted else 0.9
+    return candidate if after < needed * before else None
+
+
+def _beats_identity(orig_gray: U8, edit_gray: U8, h_work: F64) -> bool:
+    """True when warping by ``h_work`` leaves a smaller background residual than not warping."""
+    if np.allclose(h_work, np.eye(3), atol=1e-9):
+        return False
+    height, width = orig_gray.shape
+    aligned = cv2.warpPerspective(
+        edit_gray, h_work, (width, height), borderMode=cv2.BORDER_REPLICATE
+    )
+    covered = (
+        cv2.warpPerspective(np.full(edit_gray.shape, 255, np.uint8), h_work, (width, height)) > 0
+    )
+    changed = dilate(_rough_change(orig_gray, aligned) | _rough_change(orig_gray, edit_gray), 6)
+    background = covered & ~changed
+    if background.mean() < 0.1:
+        background = covered
+    moved = _detail_residual(orig_gray, aligned, background)
+    still = _detail_residual(orig_gray, edit_gray, background)
+    return moved < 0.98 * still
+
+
 def _warp(
     edited: U8,
     h_full: F64,
@@ -288,6 +361,18 @@ def register(
         h_work = np.array([[scale, 0, tx], [0, scale, ty], [0, 0, 1.0]])
         inlier_ratio, error, n_matches = 0.0, 99.0, len(src)
 
+    ecc_refined = False
+    if background_lock:
+        refined = _ecc_refine(orig_gray, edit_gray, h_work, trusted=keypoint_based)
+        if refined is not None and _plausible(refined, edit_work.shape[1], edit_work.shape[0]):
+            h_work = refined
+            ecc_refined = True
+
+    # "The edit did not move" is the null hypothesis. A transform has to beat it on the actual
+    # pixels; on smooth scenes a confident-looking fit can otherwise invent a shift.
+    if same_aspect and not _beats_identity(orig_gray, edit_gray, h_work):
+        h_work = np.eye(3)
+
     shift_work = _corner_shift(h_work, edit_work.shape[1], edit_work.shape[0])
     if same_aspect and shift_work < IDENTITY_TOLERANCE_PX:
         h_work = np.eye(3)  # do not resample for sub-pixel noise in the fit
@@ -308,8 +393,8 @@ def register(
                 aligned_gray, xs + flow_work[..., 0], ys + flow_work[..., 1], cv2.INTER_LINEAR
             )
             background = valid_work & ~dilate(changed, 6)
-            before = float(np.mean(np.abs(orig_gray.astype(np.float32) - aligned_gray)[background]))
-            after = float(np.mean(np.abs(orig_gray.astype(np.float32) - warped)[background]))
+            before = _detail_residual(orig_gray, aligned_gray, background)
+            after = _detail_residual(orig_gray, warped, background)
             if after < 0.92 * before:
                 flow_full = cv2.resize(flow_work, (width, height), interpolation=cv2.INTER_LINEAR)
                 flow_full = flow_full * np.float32(width / ww)
@@ -322,7 +407,7 @@ def register(
         aligned, valid = _warp(edited, h_full, (width, height), flow_full)
 
     confidence = _confidence(inlier_ratio, error, keypoint_based)
-    if not keypoint_based and not same_aspect:
+    if not keypoint_based and not same_aspect and not ecc_refined:
         confidence = "low"
     return Registration(
         aligned=aligned,

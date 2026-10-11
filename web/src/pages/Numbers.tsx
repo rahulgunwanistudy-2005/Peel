@@ -39,10 +39,18 @@ interface ChainPoint {
   peeled_psnr: number
 }
 
+interface ChainGroup {
+  id: string
+  label: string
+  note: string
+  chains: { image: string; chain: string; run: number; steps: ChainPoint[] }[]
+  mean_curve: (ChainPoint & { n_chains: number })[]
+  checkpoints: (ChainPoint & { n_chains: number })[]
+}
+
 interface Banana {
   meta: { generated_at: string; dataset: string; license: string; note: string }
-  chains: { image: string; chain: string; run: number; steps: ChainPoint[] }[]
-  checkpoints: (ChainPoint & { n_chains: number })[]
+  groups: ChainGroup[]
 }
 
 interface RealPairs {
@@ -111,7 +119,7 @@ export default function Numbers() {
   const synthetic = load<Synthetic>('synthetic')
   const banana = load<Banana>('banana100')
   const real = load<RealPairs>('real_pairs')
-  const latency = load<Latency>('latency')
+  const latency = load<Latency>('latency') ?? load<Latency>('latency_local')
 
   return (
     <div className="page">
@@ -165,49 +173,55 @@ export default function Numbers() {
 
       <section className="block">
         <h2>Banana100 chains</h2>
-        {banana && banana.chains.length > 0 ? (
+        {banana && banana.groups.length > 0 ? (
           <>
             <p>
-              Real Nano Banana Pro edit chains from the {banana.meta.dataset} dataset ({banana.meta.license}).{' '}
-              {banana.meta.note}
+              Real Nano Banana Pro edit chains from the {banana.meta.dataset} dataset ({banana.meta.license}). Each
+              chain is measured against its step-0 image, in the areas no edit touched. {banana.meta.note}
             </p>
-            <LineChart
-              title="Drift of untouched areas against step 0, raw chain and peeled chain"
-              xLabel="Edit step"
-              yLabel="LPIPS vs step 0"
-              yDigits={3}
-              series={[
-                { ink: 'raw', label: 'Raw chain', points: banana.chains[0].steps.map((s) => ({ x: s.step, y: s.raw_lpips })) },
-                { ink: 'peeled', label: 'Peeled chain', points: banana.chains[0].steps.map((s) => ({ x: s.step, y: s.peeled_lpips })) },
-              ]}
-            />
-            <div className="table-wrap">
-              <table>
-                <caption>Untouched-region quality against the step-0 image, averaged over the chains measured.</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Step</th>
-                    <th scope="col">Raw LPIPS ↓</th>
-                    <th scope="col">Peeled LPIPS ↓</th>
-                    <th scope="col">Raw PSNR (dB) ↑</th>
-                    <th scope="col">Peeled PSNR (dB) ↑</th>
-                    <th scope="col">Chains</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {banana.checkpoints.map((c) => (
-                    <tr key={c.step}>
-                      <td className="num">{c.step}</td>
-                      <td className="num">{c.raw_lpips.toFixed(3)}</td>
-                      <td className="num">{c.peeled_lpips.toFixed(3)}</td>
-                      <td className="num">{c.raw_psnr.toFixed(1)}</td>
-                      <td className="num">{c.peeled_psnr >= 99 ? 'identical' : c.peeled_psnr.toFixed(1)}</td>
-                      <td className="num">{c.n_chains}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {banana.groups.map((group) => (
+              <div key={group.id} className="subblock">
+                <h3>
+                  {group.label} <span className="num">(n = {group.chains.length})</span>
+                </h3>
+                <p>{group.note}</p>
+                <LineChart
+                  title={`${group.label}: drift of untouched areas against step 0`}
+                  xLabel="Edit step"
+                  yLabel="LPIPS vs step 0"
+                  yDigits={3}
+                  series={[
+                    { ink: 'raw', label: 'Raw chain', points: group.mean_curve.map((s) => ({ x: s.step, y: s.raw_lpips })) },
+                    { ink: 'peeled', label: 'Peeled chain', points: group.mean_curve.map((s) => ({ x: s.step, y: s.peeled_lpips })) },
+                  ]}
+                />
+                <div className="table-wrap">
+                  <table>
+                    <caption>Untouched-region quality against the step-0 image at selected steps.</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Step</th>
+                        <th scope="col">Raw LPIPS ↓</th>
+                        <th scope="col">Peeled LPIPS ↓</th>
+                        <th scope="col">Raw PSNR (dB) ↑</th>
+                        <th scope="col">Peeled PSNR (dB) ↑</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {group.checkpoints.map((c) => (
+                        <tr key={c.step}>
+                          <td className="num">{c.step}</td>
+                          <td className="num">{c.raw_lpips.toFixed(3)}</td>
+                          <td className="num">{c.peeled_lpips.toFixed(3)}</td>
+                          <td className="num">{c.raw_psnr.toFixed(1)}</td>
+                          <td className="num">{c.peeled_psnr >= 99 ? 'identical' : c.peeled_psnr.toFixed(1)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
           </>
         ) : (
           <Missing what="the Banana100 chain run" />

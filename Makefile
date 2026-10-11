@@ -46,7 +46,7 @@ build:
 	cd web && npm run build
 
 deploy:
-	./deploy/deploy_space.sh
+	$(PY) deploy/deploy_space.py $(SPACE)
 
 clean:
 	rm -rf web/dist eval/out .pytest_cache engine/.pytest_cache api/.pytest_cache

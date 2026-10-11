@@ -28,6 +28,8 @@ from peel.types import (
 
 TEXT_HEAT = 0.4
 SPILL_RATIO = 2.5
+SPILL_STRENGTH = 2.5
+TARGET_SHARE = 0.3
 SLIVER_PX = 7.0
 FACE_TARGET_OVERLAP = 0.5
 FACE_TARGET_OVERLAP_NAMED = 0.2
@@ -128,7 +130,24 @@ def _split_by_intent(
     remainder = component & ~intended
     if int(intended.sum()) < min_area or int(remainder.sum()) < min_area:
         return None
+    if remainder.sum() < 0.15 * component.sum():
+        return None  # nearly all of it is the target: not worth cutting a rim off
     return intended, remainder
+
+
+def _remainder_class(remainder: Bool, intended: Bool, change: ChangeResult) -> Classification:
+    """What is left of a component once the intended part is cut out.
+
+    A strongly changed area of similar size attached to the edit is usually part of it (a cast
+    shadow, a reflection): it is kept, flagged for review. A faint halo, a thin sliver along an
+    edge, or something much larger than the edit is drift.
+    """
+    similar_size = remainder.sum() <= SPILL_RATIO * intended.sum()
+    strong = float(change.score[remainder].mean()) >= SPILL_STRENGTH * change.threshold
+    thick = (
+        float(cv2.distanceTransform(remainder.astype(np.uint8), cv2.DIST_L2, 3).max()) >= SLIVER_PX
+    )
+    return "ambiguous" if (similar_size and strong and thick) else "collateral"
 
 
 def _face_targeted(face: Face, intent: IntentResult, named: bool, shape: tuple[int, int]) -> bool:
@@ -199,22 +218,30 @@ def classify_regions(
                 results.append((component, "intended", None, None, stats))
                 continue
             overlap = float(intent.mask[component].mean())
-            if overlap > options.intended_overlap:
-                parts: list[tuple[Bool, Classification]] = [(component, "intended")]
-            elif overlap < options.collateral_overlap:
+            inside = int((intent.mask & component).sum())
+            # A blob of drift can swallow the edit and push the overlap under the collateral
+            # threshold. If a real share of the instruction's target lies in this component, it
+            # is split rather than thrown away whole.
+            holds_target = inside >= max(min_area, TARGET_SHARE * int(intent.mask.sum()))
+            parts: list[tuple[Bool, Classification]]
+            if overlap < options.collateral_overlap and not holds_target:
                 parts = [(component, "collateral")]
             else:
                 split = _split_by_intent(component, intent, options.intent_threshold, min_area)
                 if split is None:
-                    parts = [(component, "ambiguous")]
+                    whole: Classification = (
+                        "intended"
+                        if overlap > options.intended_overlap
+                        else (
+                            "ambiguous" if overlap >= options.collateral_overlap else "collateral"
+                        )
+                    )
+                    parts = [(component, whole)]
                 else:
                     intended_part, remainder = split
-                    # What is attached to the edit and of similar size is usually part of it (a
-                    # shadow, a reflection): keep it, but flag it. Anything much larger is drift.
-                    spill = remainder.sum() <= SPILL_RATIO * intended_part.sum()
                     parts = [
                         (intended_part, "intended"),
-                        (remainder, "ambiguous" if spill else "collateral"),
+                        (remainder, _remainder_class(remainder, intended_part, change)),
                     ]
             for mask, classification in parts:
                 stats = _stats(mask, change, intent, text_mask)

@@ -55,12 +55,22 @@ def _weight_path(name: str) -> Path:
     return path
 
 
+def thread_count() -> int:
+    """Threads to use. ``PEEL_THREADS`` wins: in a container ``os.cpu_count()`` reports the host's
+    cores, not the CPU quota, and oversubscribing two vCPUs makes everything slower."""
+    configured = os.environ.get("PEEL_THREADS", "")
+    if configured.isdigit() and int(configured) > 0:
+        return int(configured)
+    return max(1, min(os.cpu_count() or 1, 8))
+
+
 def configure_torch() -> None:
     global _threads_configured
     with _lock:
         if _threads_configured:
             return
-        torch.set_num_threads(max(1, os.cpu_count() or 1))
+        torch.set_num_threads(thread_count())
+        cv2.setNumThreads(thread_count())
         torch.set_grad_enabled(False)
         cv2.setRNGSeed(0)
         _threads_configured = True
