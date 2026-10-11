@@ -138,7 +138,7 @@ export function Loupe({ images, point, docked }: { images: LoupeImages; point: L
           </>
         )}
       </p>
-      <p className="loupe-where num">
+      <p className="loupe-where">
         {Math.round(point.u * 100)}% across, {Math.round(point.v * 100)}% down · 4× · {LOUPE_WINDOW} px window
       </p>
     </div>

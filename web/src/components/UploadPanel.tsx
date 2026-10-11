@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 
 import { bytes } from '../lib/format'
+import { Num } from './Num'
 
 const ACCEPT = 'image/png,image/jpeg,image/webp'
 const MAX_BYTES = 15 * 1024 * 1024
@@ -88,7 +89,11 @@ function Slot({ label, hint, file, onFile, onProblem, disabled }: SlotProps) {
             Clear
           </button>
         )}
-        {file && <span className="slot-size num">{bytes(file.size)}</span>}
+        {file && (
+          <span className="slot-size">
+            <Num>{bytes(file.size)}</Num>
+          </span>
+        )}
       </div>
     </div>
   )

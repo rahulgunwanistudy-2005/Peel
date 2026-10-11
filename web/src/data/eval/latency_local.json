@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "hardware": "arm64 Darwin laptop, limited to 2 threads",
+    "n": 20,
+    "image": "a 1024 \u00d7 558 px original with a 1024 \u00d7 547 px edit",
+    "generated_at": "2026-10-11 20:49 UTC",
+    "git_sha": "8004a4f767d2"
+  },
+  "stages": [
+    {
+      "stage": "decode",
+      "p50": 29.5,
+      "p95": 29.7
+    },
+    {
+      "stage": "register",
+      "p50": 164.1,
+      "p95": 168.9
+    },
+    {
+      "stage": "change",
+      "p50": 263.2,
+      "p95": 271.8
+    },
+    {
+      "stage": "intent",
+      "p50": 608.3,
+      "p95": 622.5
+    },
+    {
+      "stage": "faces",
+      "p50": 8.4,
+      "p95": 8.7
+    },
+    {
+      "stage": "classify",
+      "p50": 25.8,
+      "p95": 25.8
+    },
+    {
+      "stage": "composite",
+      "p50": 101.2,
+      "p95": 102.3
+    },
+    {
+      "stage": "ledger",
+      "p50": 3.1,
+      "p95": 3.2
+    }
+  ],
+  "total": {
+    "p50": 1204.0,
+    "p95": 1219.9
+  },
+  "wall": {
+    "p50": 1204.2,
+    "p95": 1220.0
+  }
+}

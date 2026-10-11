@@ -1,0 +1,8 @@
+{
+  "meta": {
+    "n": 0,
+    "generated_at": "2026-10-11 20:49 UTC",
+    "git_sha": "8004a4f767d2"
+  },
+  "skipped": "No hand-labelled pairs were in eval/pairs/ when the evaluation ran."
+}

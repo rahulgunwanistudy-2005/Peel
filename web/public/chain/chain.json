@@ -1,0 +1,314 @@
+{
+  "title": "20 chained Nano Banana edits, raw and peeled",
+  "source": "Banana100 (kenantang/Banana100, CC BY-NC-SA 4.0): banana/table, chain \u201cadd_apple_denoise\u201d, run 1. Real model outputs, shown at reduced size.",
+  "chain": {
+    "id": "example",
+    "original": "./chain/original.webp",
+    "width": 1024,
+    "height": 558,
+    "steps": [
+      {
+        "step": 1,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step01_raw.webp",
+        "peeled": "./chain/step01_peeled.webp"
+      },
+      {
+        "step": 2,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step02_raw.webp",
+        "peeled": "./chain/step02_peeled.webp"
+      },
+      {
+        "step": 3,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step03_raw.webp",
+        "peeled": "./chain/step03_peeled.webp"
+      },
+      {
+        "step": 4,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step04_raw.webp",
+        "peeled": "./chain/step04_peeled.webp"
+      },
+      {
+        "step": 5,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step05_raw.webp",
+        "peeled": "./chain/step05_peeled.webp"
+      },
+      {
+        "step": 6,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step06_raw.webp",
+        "peeled": "./chain/step06_peeled.webp"
+      },
+      {
+        "step": 7,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step07_raw.webp",
+        "peeled": "./chain/step07_peeled.webp"
+      },
+      {
+        "step": 8,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step08_raw.webp",
+        "peeled": "./chain/step08_peeled.webp"
+      },
+      {
+        "step": 9,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step09_raw.webp",
+        "peeled": "./chain/step09_peeled.webp"
+      },
+      {
+        "step": 10,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step10_raw.webp",
+        "peeled": "./chain/step10_peeled.webp"
+      },
+      {
+        "step": 11,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step11_raw.webp",
+        "peeled": "./chain/step11_peeled.webp"
+      },
+      {
+        "step": 12,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step12_raw.webp",
+        "peeled": "./chain/step12_peeled.webp"
+      },
+      {
+        "step": 13,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step13_raw.webp",
+        "peeled": "./chain/step13_peeled.webp"
+      },
+      {
+        "step": 14,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step14_raw.webp",
+        "peeled": "./chain/step14_peeled.webp"
+      },
+      {
+        "step": 15,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step15_raw.webp",
+        "peeled": "./chain/step15_peeled.webp"
+      },
+      {
+        "step": 16,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step16_raw.webp",
+        "peeled": "./chain/step16_peeled.webp"
+      },
+      {
+        "step": 17,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step17_raw.webp",
+        "peeled": "./chain/step17_peeled.webp"
+      },
+      {
+        "step": 18,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step18_raw.webp",
+        "peeled": "./chain/step18_peeled.webp"
+      },
+      {
+        "step": 19,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step19_raw.webp",
+        "peeled": "./chain/step19_peeled.webp"
+      },
+      {
+        "step": 20,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw": "./chain/step20_raw.webp",
+        "peeled": "./chain/step20_peeled.webp"
+      }
+    ],
+    "metrics": [
+      {
+        "step": 1,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.0324,
+        "peeled_lpips": 0.0263,
+        "raw_psnr": 37.57,
+        "peeled_psnr": 69.56,
+        "drift_score": 11.3
+      },
+      {
+        "step": 2,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.0536,
+        "peeled_lpips": 0.0377,
+        "raw_psnr": 33.53,
+        "peeled_psnr": 65.75,
+        "drift_score": 19.0
+      },
+      {
+        "step": 3,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.0675,
+        "peeled_lpips": 0.0463,
+        "raw_psnr": 30.68,
+        "peeled_psnr": 63.2,
+        "drift_score": 23.2
+      },
+      {
+        "step": 4,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.0865,
+        "peeled_lpips": 0.0554,
+        "raw_psnr": 28.17,
+        "peeled_psnr": 61.59,
+        "drift_score": 30.4
+      },
+      {
+        "step": 5,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.1041,
+        "peeled_lpips": 0.0615,
+        "raw_psnr": 26.41,
+        "peeled_psnr": 60.61,
+        "drift_score": 35.7
+      },
+      {
+        "step": 6,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.1296,
+        "peeled_lpips": 0.0661,
+        "raw_psnr": 24.98,
+        "peeled_psnr": 59.49,
+        "drift_score": 41.5
+      },
+      {
+        "step": 7,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.1465,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 23.91,
+        "peeled_psnr": 57.16,
+        "drift_score": 44.9
+      },
+      {
+        "step": 8,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.1651,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 23.21,
+        "peeled_psnr": 57.16,
+        "drift_score": 49.4
+      },
+      {
+        "step": 9,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.1899,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 22.31,
+        "peeled_psnr": 57.16,
+        "drift_score": 54.5
+      },
+      {
+        "step": 10,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.2186,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 21.54,
+        "peeled_psnr": 57.16,
+        "drift_score": 58.8
+      },
+      {
+        "step": 11,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.2344,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 20.95,
+        "peeled_psnr": 57.16,
+        "drift_score": 63.6
+      },
+      {
+        "step": 12,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.2619,
+        "peeled_lpips": 0.0845,
+        "raw_psnr": 20.45,
+        "peeled_psnr": 57.16,
+        "drift_score": 70.4
+      },
+      {
+        "step": 13,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.2818,
+        "peeled_lpips": 0.0864,
+        "raw_psnr": 19.98,
+        "peeled_psnr": 56.72,
+        "drift_score": 74.7
+      },
+      {
+        "step": 14,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.3066,
+        "peeled_lpips": 0.0864,
+        "raw_psnr": 19.38,
+        "peeled_psnr": 56.72,
+        "drift_score": 81.1
+      },
+      {
+        "step": 15,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.314,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 19.2,
+        "peeled_psnr": 56.71,
+        "drift_score": 84.2
+      },
+      {
+        "step": 16,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.3301,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 18.78,
+        "peeled_psnr": 56.71,
+        "drift_score": 87.4
+      },
+      {
+        "step": 17,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.3613,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 18.24,
+        "peeled_psnr": 56.71,
+        "drift_score": 90.5
+      },
+      {
+        "step": 18,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.3781,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 17.99,
+        "peeled_psnr": 56.71,
+        "drift_score": 91.8
+      },
+      {
+        "step": 19,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.396,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 17.65,
+        "peeled_psnr": 56.71,
+        "drift_score": 92.7
+      },
+      {
+        "step": 20,
+        "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+        "raw_lpips": 0.3877,
+        "peeled_lpips": 0.0867,
+        "raw_psnr": 17.47,
+        "peeled_psnr": 56.71,
+        "drift_score": 92.7
+      }
+    ]
+  }
+}

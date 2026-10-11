@@ -1,4 +1,5 @@
 import { LineChart } from '../components/LineChart'
+import { Num } from '../components/Num'
 
 /**
  * Every number on this page is read from eval/results/*.json, copied into src/data/eval by
@@ -102,8 +103,8 @@ function SyntheticTable({ data, ids, caption }: { data: Synthetic; ids: string[]
               {data.metric_info.map((info) => {
                 const value = variant.metrics[info.key]
                 return (
-                  <td key={info.key} className="num" data-best={variant.id !== 'raw' && value === best(rows, info)}>
-                    {value.toFixed(info.digits)}
+                  <td key={info.key} data-best={variant.id !== 'raw' && value === best(rows, info)}>
+                    <Num>{value.toFixed(info.digits)}</Num>
                   </td>
                 )
               })}
@@ -138,7 +139,7 @@ export default function Numbers() {
             <p>
               <span className="num">{synthetic.meta.n_cases}</span> cases with ground truth by construction. Each
               takes a photo, applies one requested edit inside a known mask (add, remove, recolour or replace an
-              object) and then unrequested drift everywhere else ({synthetic.meta.drift_kinds.join(', ')}). The
+              object) and then unrequested drift everywhere else ({synthetic.meta.drift_kinds.map((d) => d.replace('_', ' ')).join(', ')}). The
               ideal answer is known exactly: the photo with only the requested edit.
             </p>
             <SyntheticTable
@@ -210,11 +211,21 @@ export default function Numbers() {
                     <tbody>
                       {group.checkpoints.map((c) => (
                         <tr key={c.step}>
-                          <td className="num">{c.step}</td>
-                          <td className="num">{c.raw_lpips.toFixed(3)}</td>
-                          <td className="num">{c.peeled_lpips.toFixed(3)}</td>
-                          <td className="num">{c.raw_psnr.toFixed(1)}</td>
-                          <td className="num">{c.peeled_psnr >= 99 ? 'identical' : c.peeled_psnr.toFixed(1)}</td>
+                          <td>
+                            <Num>{String(c.step)}</Num>
+                          </td>
+                          <td>
+                            <Num>{String(c.raw_lpips.toFixed(3))}</Num>
+                          </td>
+                          <td>
+                            <Num>{String(c.peeled_lpips.toFixed(3))}</Num>
+                          </td>
+                          <td>
+                            <Num>{String(c.raw_psnr.toFixed(1))}</Num>
+                          </td>
+                          <td>
+                            <Num>{String(c.peeled_psnr >= 99 ? 'identical' : c.peeled_psnr.toFixed(1))}</Num>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -247,15 +258,21 @@ export default function Numbers() {
                 <tbody>
                   <tr>
                     <td>Intended recall: share of the hand-drawn region that Peel kept</td>
-                    <td className="num">{real.summary.intended_recall.toFixed(3)}</td>
+                    <td>
+                            <Num>{String(real.summary.intended_recall.toFixed(3))}</Num>
+                          </td>
                   </tr>
                   <tr>
                     <td>Collateral-revert precision: share of what Peel restored that lies outside the hand-drawn region</td>
-                    <td className="num">{real.summary.collateral_revert_precision.toFixed(3)}</td>
+                    <td>
+                            <Num>{String(real.summary.collateral_revert_precision.toFixed(3))}</Num>
+                          </td>
                   </tr>
                   <tr>
                     <td>Mean drift score of the raw edits</td>
-                    <td className="num">{real.summary.mean_drift_score.toFixed(1)}</td>
+                    <td>
+                            <Num>{String(real.summary.mean_drift_score.toFixed(1))}</Num>
+                          </td>
                   </tr>
                 </tbody>
               </table>
@@ -290,14 +307,22 @@ export default function Numbers() {
                   {latency.stages.map((s) => (
                     <tr key={s.stage}>
                       <td>{s.stage}</td>
-                      <td className="num">{s.p50.toFixed(0)}</td>
-                      <td className="num">{s.p95.toFixed(0)}</td>
+                      <td>
+                            <Num>{String(s.p50.toFixed(0))}</Num>
+                          </td>
+                      <td>
+                            <Num>{String(s.p95.toFixed(0))}</Num>
+                          </td>
                     </tr>
                   ))}
                   <tr data-us="true">
                     <td>End to end</td>
-                    <td className="num">{latency.total.p50.toFixed(0)}</td>
-                    <td className="num">{latency.total.p95.toFixed(0)}</td>
+                    <td>
+                            <Num>{String(latency.total.p50.toFixed(0))}</Num>
+                          </td>
+                    <td>
+                            <Num>{String(latency.total.p95.toFixed(0))}</Num>
+                          </td>
                   </tr>
                 </tbody>
               </table>

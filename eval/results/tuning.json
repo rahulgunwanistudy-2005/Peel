@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "generated_at": "2026-10-11 20:46 UTC",
+    "git_sha": "8004a4f767d2",
+    "n_cases": 44
+  },
+  "grid": [
+    {
+      "k_mad": 4.0,
+      "threshold_ceiling": 0.3,
+      "is_default": false,
+      "lost_edits": 2,
+      "intended_iou": 0.6353,
+      "collateral_reverted_pct": 98.4055,
+      "bit_identical_pct": 98.4125,
+      "unedited_psnr": 53.5749,
+      "unedited_lpips": 0.0293,
+      "edit_psnr": 29.9085
+    },
+    {
+      "k_mad": 4.0,
+      "threshold_ceiling": 0.4,
+      "is_default": false,
+      "lost_edits": 2,
+      "intended_iou": 0.6826,
+      "collateral_reverted_pct": 98.5161,
+      "bit_identical_pct": 98.521,
+      "unedited_psnr": 54.179,
+      "unedited_lpips": 0.0292,
+      "edit_psnr": 29.9023
+    },
+    {
+      "k_mad": 6.0,
+      "threshold_ceiling": 0.4,
+      "is_default": false,
+      "lost_edits": 2,
+      "intended_iou": 0.7241,
+      "collateral_reverted_pct": 98.6378,
+      "bit_identical_pct": 98.6426,
+      "unedited_psnr": 54.9351,
+      "unedited_lpips": 0.029,
+      "edit_psnr": 29.696
+    },
+    {
+      "k_mad": 6.0,
+      "threshold_ceiling": 0.6,
+      "is_default": true,
+      "lost_edits": 2,
+      "intended_iou": 0.7855,
+      "collateral_reverted_pct": 98.8026,
+      "bit_identical_pct": 98.8054,
+      "unedited_psnr": 56.7277,
+      "unedited_lpips": 0.0287,
+      "edit_psnr": 29.3678
+    },
+    {
+      "k_mad": 8.0,
+      "threshold_ceiling": 0.4,
+      "is_default": false,
+      "lost_edits": 2,
+      "intended_iou": 0.7405,
+      "collateral_reverted_pct": 98.6519,
+      "bit_identical_pct": 98.6568,
+      "unedited_psnr": 54.8793,
+      "unedited_lpips": 0.0289,
+      "edit_psnr": 29.5552
+    },
+    {
+      "k_mad": 8.0,
+      "threshold_ceiling": 0.6,
+      "is_default": false,
+      "lost_edits": 2,
+      "intended_iou": 0.8194,
+      "collateral_reverted_pct": 98.9201,
+      "bit_identical_pct": 98.9227,
+      "unedited_psnr": 57.2967,
+      "unedited_lpips": 0.0283,
+      "edit_psnr": 28.9992
+    }
+  ]
+}

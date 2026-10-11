@@ -997,7 +997,6 @@ td[data-best='true'] {
   font-family: var(--font);
   font-size: 12px;
   fill: var(--ink-2);
-  font-variant-numeric: tabular-nums;
 }
 
 .chart .axis {

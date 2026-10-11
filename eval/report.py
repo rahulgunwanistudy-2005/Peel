@@ -130,6 +130,18 @@ def summary_sentences() -> list[str]:
             f"(diff-merge: {base['intended_iou']:.2f}), and unedited-region LPIPS drops from {raw['unedited_lpips']:.3f} "
             f"in the raw edit to {peel['unedited_lpips']:.3f}."
         )
+    if synthetic:
+        peel, no_intent, no_rereg, no_cast = (
+            variant(synthetic, v)["metrics"] for v in ("peel", "no_intent", "no_rereg", "no_cast")
+        )
+        out.append(
+            f"Ablations: without instruction grounding the kept-region IoU falls from {peel['intended_iou']:.2f} to "
+            f"{no_intent['intended_iou']:.2f}; without cast separation kept-edit fidelity falls from "
+            f"{peel['edit_psnr']:.1f} to {no_cast['edit_psnr']:.1f} dB (while IoU moves from {peel['intended_iou']:.2f} to "
+            f"{no_cast['intended_iou']:.2f}); removing the background-locked re-registration changes IoU from "
+            f"{peel['intended_iou']:.3f} to {no_rereg['intended_iou']:.3f} on this suite, where shifts are global and the "
+            f"first-pass fit already solves them."
+        )
     banana = load("banana100")
     if banana:
         edit = next((g for g in banana["groups"] if g["id"] == "edit"), None)
@@ -307,9 +319,8 @@ def main() -> None:
     (ROOT / "docs" / "numbers.md").write_text(full_report() + "\n")
     replace_block("README.md", readme_block())
     sentences = summary_sentences()
-    replace_block(
-        "docs/writeup.md", "\n".join(f"- {s}" for s in sentences[:3]) or "- Not measured yet."
-    )
+    brief = [s for s in sentences if not s.startswith("Ablations:")][:3]
+    replace_block("docs/writeup.md", "\n".join(f"- {s}" for s in brief) or "- Not measured yet.")
     replace_block(
         "docs/video-script.md", "\n".join(f"- {s}" for s in sentences) or "- Not measured yet."
     )

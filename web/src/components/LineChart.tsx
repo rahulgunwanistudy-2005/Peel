@@ -14,7 +14,7 @@ interface LineChartProps {
 
 const W = 640
 const H = 280
-const PAD = { left: 56, right: 16, top: 16, bottom: 44 }
+const PAD = { left: 74, right: 16, top: 16, bottom: 44 }
 
 function niceMax(value: number): number {
   if (value <= 0) return 1
@@ -60,7 +60,7 @@ export function LineChart({ series, xLabel, yLabel, title, yDigits = 2 }: LineCh
         <text x={(PAD.left + W - PAD.right) / 2} y={H - 6} textAnchor="middle">
           {xLabel}
         </text>
-        <text transform={`translate(14 ${(PAD.top + H - PAD.bottom) / 2}) rotate(-90)`} textAnchor="middle">
+        <text transform={`translate(13 ${(PAD.top + H - PAD.bottom) / 2}) rotate(-90)`} textAnchor="middle">
           {yLabel}
         </text>
         {series.map((s) => (

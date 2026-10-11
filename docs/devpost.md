@@ -30,11 +30,11 @@ huggingface-hub, pyarrow, matplotlib
 
 **Images to upload** (in `docs/screenshots/`)
 1. `hero.gif` — change map, then the compare sweep.
-2. `01-workbench.png` — stage and ledger on a real Nano Banana edit.
-3. `03-loupe.png` — the pixel-identity loupe.
-4. `05-face-example.png` — the identity lock.
-5. `07-chain.png` — raw versus peeled chain and the drift chart.
-6. `08-numbers.png` — evaluation tables.
+2. `01-workbench.jpg` — stage and ledger on a real Nano Banana edit.
+3. `03-loupe.jpg` — the pixel-identity loupe.
+4. `05-face-example.jpg` — the identity lock.
+5. `07-chain.jpg` — raw versus peeled chain and the drift chart.
+6. `08-numbers.jpg` — evaluation tables.
 
 **AI tools disclosure:** written with Claude Code (Claude Opus) during the hackathon; the optional
 live-edit feature calls Google Gemini.

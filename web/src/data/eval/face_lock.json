@@ -1,0 +1,363 @@
+{
+  "meta": {
+    "generated_at": "2026-10-11 20:51 UTC",
+    "git_sha": "8004a4f767d2",
+    "n_cases": 24,
+    "note": "One photo (astronaut, NASA, public domain) with a synthetic elastic face warp; the requested object touches the face."
+  },
+  "raw_identity_distance": 0.5407,
+  "variants": [
+    {
+      "id": "peel",
+      "label": "Peel",
+      "face_restored_pct": 89.7762,
+      "identity_distance": 0.0116,
+      "faces_flagged_pct": 95.8
+    },
+    {
+      "id": "no_face",
+      "label": "Peel without face lock",
+      "face_restored_pct": 42.5575,
+      "identity_distance": 0.3097,
+      "faces_flagged_pct": 0.0
+    }
+  ],
+  "cases": [
+    {
+      "instruction": "Add a red ball",
+      "raw_identity_distance": 0.6598,
+      "peel": {
+        "face_restored_pct": 96.57,
+        "identity_distance": 0.0062,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 0.82,
+        "identity_distance": 0.6561,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a blue balloon",
+      "raw_identity_distance": 0.6061,
+      "peel": {
+        "face_restored_pct": 99.95,
+        "identity_distance": 0.0002,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 2.32,
+        "identity_distance": 0.5985,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a green heart",
+      "raw_identity_distance": 0.4296,
+      "peel": {
+        "face_restored_pct": 99.88,
+        "identity_distance": 0.003,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 3.79,
+        "identity_distance": 0.4212,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a yellow star",
+      "raw_identity_distance": 0.5833,
+      "peel": {
+        "face_restored_pct": 80.64,
+        "identity_distance": 0.0057,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a purple ball",
+      "raw_identity_distance": 0.486,
+      "peel": {
+        "face_restored_pct": 92.42,
+        "identity_distance": 0.0056,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 0.82,
+        "identity_distance": 0.4896,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a orange balloon",
+      "raw_identity_distance": 0.5544,
+      "peel": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a pink heart",
+      "raw_identity_distance": 0.8921,
+      "peel": {
+        "face_restored_pct": 98.25,
+        "identity_distance": 0.0007,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 0.29,
+        "identity_distance": 0.8781,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a red star",
+      "raw_identity_distance": 0.696,
+      "peel": {
+        "face_restored_pct": 81.15,
+        "identity_distance": 0.0025,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0004,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a blue ball",
+      "raw_identity_distance": 0.6617,
+      "peel": {
+        "face_restored_pct": 94.61,
+        "identity_distance": 0.0036,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 3.09,
+        "identity_distance": 0.6602,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a green balloon",
+      "raw_identity_distance": 0.493,
+      "peel": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a yellow heart",
+      "raw_identity_distance": 0.5466,
+      "peel": {
+        "face_restored_pct": 99.9,
+        "identity_distance": 0.0052,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 94.11,
+        "identity_distance": 0.0069,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a purple star",
+      "raw_identity_distance": 0.5654,
+      "peel": {
+        "face_restored_pct": 71.17,
+        "identity_distance": 0.0063,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0002,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a orange ball",
+      "raw_identity_distance": 0.4944,
+      "peel": {
+        "face_restored_pct": 93.55,
+        "identity_distance": 0.004,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 1.71,
+        "identity_distance": 0.4953,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a pink balloon",
+      "raw_identity_distance": 0.5369,
+      "peel": {
+        "face_restored_pct": 98.99,
+        "identity_distance": 0.0005,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 2.63,
+        "identity_distance": 0.5441,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a red heart",
+      "raw_identity_distance": 0.5048,
+      "peel": {
+        "face_restored_pct": 99.61,
+        "identity_distance": 0.0013,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 94.73,
+        "identity_distance": 0.0074,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a blue star",
+      "raw_identity_distance": 0.5056,
+      "peel": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0001,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a green ball",
+      "raw_identity_distance": 0.6937,
+      "peel": {
+        "face_restored_pct": 97.76,
+        "identity_distance": 0.0059,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 0.08,
+        "identity_distance": 0.7075,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a yellow balloon",
+      "raw_identity_distance": 0.2091,
+      "peel": {
+        "face_restored_pct": 0.46,
+        "identity_distance": 0.2035,
+        "face_regions": 0
+      },
+      "no_face": {
+        "face_restored_pct": 0.46,
+        "identity_distance": 0.2035,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a purple heart",
+      "raw_identity_distance": 0.4209,
+      "peel": {
+        "face_restored_pct": 97.24,
+        "identity_distance": 0.0021,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 5.56,
+        "identity_distance": 0.4381,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a orange star",
+      "raw_identity_distance": 0.6578,
+      "peel": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0003,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0003,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a pink ball",
+      "raw_identity_distance": 0.4339,
+      "peel": {
+        "face_restored_pct": 97.92,
+        "identity_distance": 0.0055,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 4.27,
+        "identity_distance": 0.4435,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a red balloon",
+      "raw_identity_distance": 0.3578,
+      "peel": {
+        "face_restored_pct": 79.01,
+        "identity_distance": 0.0059,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 0.51,
+        "identity_distance": 0.428,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a blue heart",
+      "raw_identity_distance": 0.4493,
+      "peel": {
+        "face_restored_pct": 96.92,
+        "identity_distance": 0.0071,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 6.19,
+        "identity_distance": 0.4535,
+        "face_regions": 0
+      }
+    },
+    {
+      "instruction": "Add a green star",
+      "raw_identity_distance": 0.5375,
+      "peel": {
+        "face_restored_pct": 78.63,
+        "identity_distance": 0.0021,
+        "face_regions": 1
+      },
+      "no_face": {
+        "face_restored_pct": 100.0,
+        "identity_distance": 0.0006,
+        "face_regions": 0
+      }
+    }
+  ]
+}

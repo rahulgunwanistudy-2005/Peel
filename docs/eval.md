@@ -46,6 +46,11 @@ step); full Peel; and Peel with one component switched off at a time.
 - The general suite keeps edits away from faces, so the face lock shows no effect there. It is
   measured separately (section 2).
 - Kept regions include "review" regions (kept by default), which lowers IoU by design.
+- **Re-registration shows no measurable effect here.** The synthetic shifts are global, so the
+  first-pass homography already solves them. What the background lock protects against (an edit
+  that moves many keypoints and drags the fit) is covered by a unit test, not by this suite.
+- **Cast separation is a trade.** It costs a little intended IoU and buys kept-edit fidelity: the
+  kept object sits in the original's colour balance instead of the edit's.
 
 ## 2. Face lock
 
@@ -59,8 +64,11 @@ right across people, poses or real model re-renders.
 ## 3. Threshold sweep
 
 `eval/tuning.py` sweeps k in *median + k·MAD* and the threshold ceiling on a 44-case subset. The
-shipped default is the best row by intended IoU. The subset overlaps the main suite, so the main
-suite's Peel numbers are mildly tuned-on-test; the sweep table shows how much the choice matters.
+shipped default is k = 6 with a ceiling of 0.6. The sweep shows that the ceiling matters more than
+k, and that k = 8 is slightly ahead on intended IoU while k = 6 is slightly ahead on kept-edit
+fidelity; we did not move the default after seeing this, to avoid tuning on the test cases any
+further. The subset overlaps the main suite, so the main suite's Peel numbers are mildly
+tuned-on-test; the sweep table shows how much the choice matters.
 
 ## 4. Banana100 chains
 

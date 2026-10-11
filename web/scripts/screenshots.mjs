@@ -17,7 +17,7 @@ async function shot(name, { width, height, path = '#/', fullPage = false, prepar
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(1800)
   if (prepare) await prepare(page)
-  await page.screenshot({ path: `${out}/${name}.png`, fullPage })
+  await page.screenshot({ path: `${out}/${name}.jpg`, type: 'jpeg', quality: 86, fullPage })
   await context.close()
   console.log('wrote', name)
 }

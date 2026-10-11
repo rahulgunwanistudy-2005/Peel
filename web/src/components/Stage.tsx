@@ -315,8 +315,11 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
             ))}
           </div>
         </div>
-        <p className="slug-note num">
-          {result.width} × {result.height} px ·{' '}
+        <p className="slug-note">
+          <span className="num">
+            {result.width} × {result.height}
+          </span>{' '}
+          px ·{' '}
           {pinned ? 'Loupe pinned. Click the image or press Escape to release.' : 'Hover or tap the image for the loupe.'}
         </p>
       </div>

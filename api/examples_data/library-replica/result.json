@@ -47,19 +47,19 @@
   "timings": [
     {
       "stage": "register",
-      "ms": 191.0
+      "ms": 235.7
     },
     {
       "stage": "change",
-      "ms": 254.1
+      "ms": 251.5
     },
     {
       "stage": "intent",
-      "ms": 2121.3
+      "ms": 537.6
     },
     {
       "stage": "faces",
-      "ms": 10.3
+      "ms": 8.7
     },
     {
       "stage": "classify",
@@ -71,10 +71,10 @@
     },
     {
       "stage": "ledger",
-      "ms": 3.0
+      "ms": 3.1
     }
   ],
-  "total_ms": 2587.4,
+  "total_ms": 1044.3,
   "images": {
     "original": "/v1/jobs/ex-library-replica/images/original.png",
     "edited": "/v1/jobs/ex-library-replica/images/edited.png",

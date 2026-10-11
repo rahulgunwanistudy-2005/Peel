@@ -612,34 +612,34 @@
   "timings": [
     {
       "stage": "register",
-      "ms": 108.0
+      "ms": 146.3
     },
     {
       "stage": "change",
-      "ms": 241.5
+      "ms": 234.9
     },
     {
       "stage": "intent",
-      "ms": 558.8
+      "ms": 531.7
     },
     {
       "stage": "faces",
-      "ms": 48.0
+      "ms": 38.3
     },
     {
       "stage": "classify",
-      "ms": 16.7
+      "ms": 18.7
     },
     {
       "stage": "composite",
-      "ms": 85.6
+      "ms": 84.8
     },
     {
       "stage": "ledger",
       "ms": 2.4
     }
   ],
-  "total_ms": 1061.0,
+  "total_ms": 1057.1,
   "images": {
     "original": "/v1/jobs/ex-astronaut-face/images/original.png",
     "edited": "/v1/jobs/ex-astronaut-face/images/edited.png",

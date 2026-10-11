@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { ApiError, imageUrl, peelChain, type ChainResult, type ProgressEvent } from '../api/client'
 import { LineChart } from '../components/LineChart'
+import { Num } from '../components/Num'
 import { fixed } from '../lib/format'
 
 interface ChainExample {
@@ -85,7 +86,7 @@ export default function Chain() {
             {chain.steps.map((s, i) => (
               <button key={s.step} type="button" aria-pressed={i === step} onClick={() => setStep(i)}>
                 <img src={imageUrl(s.peeled, 320)} alt="" loading="lazy" width={chain.width} height={chain.height} />
-                <span className="num">
+                <span>
                   Step {s.step}: {s.instruction}
                 </span>
               </button>
@@ -96,8 +97,9 @@ export default function Chain() {
               <img src={imageUrl(current.raw, 1280)} alt={`Raw chain after step ${current.step}`} width={chain.width} height={chain.height} />
               <figcaption>
                 <strong>Raw chain</strong>
-                <span className="num">
-                  Untouched areas vs step 0: LPIPS {fixed(metric.raw_lpips, 3)}, PSNR {fixed(metric.raw_psnr, 1)} dB
+                <span>
+                  Untouched areas vs step 0: LPIPS <Num>{fixed(metric.raw_lpips, 3)}</Num>, PSNR{' '}
+                  <Num>{fixed(metric.raw_psnr, 1)}</Num> dB
                 </span>
               </figcaption>
             </figure>
@@ -105,9 +107,9 @@ export default function Chain() {
               <img src={imageUrl(current.peeled, 1280)} alt={`Peeled chain after step ${current.step}`} width={chain.width} height={chain.height} />
               <figcaption>
                 <strong>Peeled chain</strong>
-                <span className="num">
-                  Untouched areas vs step 0: LPIPS {fixed(metric.peeled_lpips, 3)}, PSNR{' '}
-                  {metric.peeled_psnr >= 99 ? 'identical' : `${fixed(metric.peeled_psnr, 1)} dB`}
+                <span>
+                  Untouched areas vs step 0: LPIPS <Num>{fixed(metric.peeled_lpips, 3)}</Num>, PSNR{' '}
+                  {metric.peeled_psnr >= 99 ? 'identical' : <Num>{`${fixed(metric.peeled_psnr, 1)} dB`}</Num>}
                 </span>
               </figcaption>
             </figure>

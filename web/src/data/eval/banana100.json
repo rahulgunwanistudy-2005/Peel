@@ -1,0 +1,1411 @@
+{
+  "meta": {
+    "generated_at": "2026-10-11 20:49 UTC",
+    "git_sha": "8004a4f767d2",
+    "dataset": "kenantang/Banana100",
+    "license": "CC BY-NC-SA 4.0",
+    "long_side": 1024,
+    "note": "Images were read at reduced size (long side 1280, evaluated at 1024). Only chains at the start of a parquet row group can be fetched cheaply, which is why these chains were chosen; see eval/BANANA100_NOTES.md."
+  },
+  "groups": [
+    {
+      "id": "edit",
+      "label": "Edit chain: one object added per step",
+      "note": "Each step asks for one more apple. The raw chain feeds every output back into the editor; the peeled chain keeps each new apple and anchors everything else to step 0.",
+      "chains": [
+        {
+          "image": "table",
+          "chain": "add_apple_denoise",
+          "run": 1,
+          "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+          "seconds": 24.6,
+          "steps": [
+            {
+              "step": 1,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.0324,
+              "peeled_lpips": 0.0263,
+              "raw_psnr": 37.57,
+              "peeled_psnr": 69.56,
+              "drift_score": 11.3
+            },
+            {
+              "step": 2,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.0536,
+              "peeled_lpips": 0.0377,
+              "raw_psnr": 33.53,
+              "peeled_psnr": 65.75,
+              "drift_score": 19.0
+            },
+            {
+              "step": 3,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.0675,
+              "peeled_lpips": 0.0463,
+              "raw_psnr": 30.68,
+              "peeled_psnr": 63.2,
+              "drift_score": 23.2
+            },
+            {
+              "step": 4,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.0865,
+              "peeled_lpips": 0.0554,
+              "raw_psnr": 28.17,
+              "peeled_psnr": 61.59,
+              "drift_score": 30.4
+            },
+            {
+              "step": 5,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.1041,
+              "peeled_lpips": 0.0615,
+              "raw_psnr": 26.41,
+              "peeled_psnr": 60.61,
+              "drift_score": 35.7
+            },
+            {
+              "step": 6,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.1296,
+              "peeled_lpips": 0.0661,
+              "raw_psnr": 24.98,
+              "peeled_psnr": 59.49,
+              "drift_score": 41.5
+            },
+            {
+              "step": 7,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.1465,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 23.91,
+              "peeled_psnr": 57.16,
+              "drift_score": 44.9
+            },
+            {
+              "step": 8,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.1651,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 23.21,
+              "peeled_psnr": 57.16,
+              "drift_score": 49.4
+            },
+            {
+              "step": 9,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.1899,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 22.31,
+              "peeled_psnr": 57.16,
+              "drift_score": 54.5
+            },
+            {
+              "step": 10,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.2186,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 21.54,
+              "peeled_psnr": 57.16,
+              "drift_score": 58.8
+            },
+            {
+              "step": 11,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.2344,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 20.95,
+              "peeled_psnr": 57.16,
+              "drift_score": 63.6
+            },
+            {
+              "step": 12,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.2619,
+              "peeled_lpips": 0.0845,
+              "raw_psnr": 20.45,
+              "peeled_psnr": 57.16,
+              "drift_score": 70.4
+            },
+            {
+              "step": 13,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.2818,
+              "peeled_lpips": 0.0864,
+              "raw_psnr": 19.98,
+              "peeled_psnr": 56.72,
+              "drift_score": 74.7
+            },
+            {
+              "step": 14,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.3066,
+              "peeled_lpips": 0.0864,
+              "raw_psnr": 19.38,
+              "peeled_psnr": 56.72,
+              "drift_score": 81.1
+            },
+            {
+              "step": 15,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.314,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 19.2,
+              "peeled_psnr": 56.71,
+              "drift_score": 84.2
+            },
+            {
+              "step": 16,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.3301,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 18.78,
+              "peeled_psnr": 56.71,
+              "drift_score": 87.4
+            },
+            {
+              "step": 17,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.3613,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 18.24,
+              "peeled_psnr": 56.71,
+              "drift_score": 90.5
+            },
+            {
+              "step": 18,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.3781,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 17.99,
+              "peeled_psnr": 56.71,
+              "drift_score": 91.8
+            },
+            {
+              "step": 19,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.396,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 17.65,
+              "peeled_psnr": 56.71,
+              "drift_score": 92.7
+            },
+            {
+              "step": 20,
+              "instruction": "Add an apple on the table, and then remove the noise in this image while keep other elements in this image unchanged.",
+              "raw_lpips": 0.3877,
+              "peeled_lpips": 0.0867,
+              "raw_psnr": 17.47,
+              "peeled_psnr": 56.71,
+              "drift_score": 92.7
+            }
+          ]
+        }
+      ],
+      "mean_curve": [
+        {
+          "step": 1,
+          "n_chains": 1,
+          "raw_lpips": 0.0324,
+          "peeled_lpips": 0.0263,
+          "raw_psnr": 37.57,
+          "peeled_psnr": 69.56,
+          "drift_score": 11.3
+        },
+        {
+          "step": 2,
+          "n_chains": 1,
+          "raw_lpips": 0.0536,
+          "peeled_lpips": 0.0377,
+          "raw_psnr": 33.53,
+          "peeled_psnr": 65.75,
+          "drift_score": 19.0
+        },
+        {
+          "step": 3,
+          "n_chains": 1,
+          "raw_lpips": 0.0675,
+          "peeled_lpips": 0.0463,
+          "raw_psnr": 30.68,
+          "peeled_psnr": 63.2,
+          "drift_score": 23.2
+        },
+        {
+          "step": 4,
+          "n_chains": 1,
+          "raw_lpips": 0.0865,
+          "peeled_lpips": 0.0554,
+          "raw_psnr": 28.17,
+          "peeled_psnr": 61.59,
+          "drift_score": 30.4
+        },
+        {
+          "step": 5,
+          "n_chains": 1,
+          "raw_lpips": 0.1041,
+          "peeled_lpips": 0.0615,
+          "raw_psnr": 26.41,
+          "peeled_psnr": 60.61,
+          "drift_score": 35.7
+        },
+        {
+          "step": 6,
+          "n_chains": 1,
+          "raw_lpips": 0.1296,
+          "peeled_lpips": 0.0661,
+          "raw_psnr": 24.98,
+          "peeled_psnr": 59.49,
+          "drift_score": 41.5
+        },
+        {
+          "step": 7,
+          "n_chains": 1,
+          "raw_lpips": 0.1465,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 23.91,
+          "peeled_psnr": 57.16,
+          "drift_score": 44.9
+        },
+        {
+          "step": 8,
+          "n_chains": 1,
+          "raw_lpips": 0.1651,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 23.21,
+          "peeled_psnr": 57.16,
+          "drift_score": 49.4
+        },
+        {
+          "step": 9,
+          "n_chains": 1,
+          "raw_lpips": 0.1899,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 22.31,
+          "peeled_psnr": 57.16,
+          "drift_score": 54.5
+        },
+        {
+          "step": 10,
+          "n_chains": 1,
+          "raw_lpips": 0.2186,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 21.54,
+          "peeled_psnr": 57.16,
+          "drift_score": 58.8
+        },
+        {
+          "step": 11,
+          "n_chains": 1,
+          "raw_lpips": 0.2344,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 20.95,
+          "peeled_psnr": 57.16,
+          "drift_score": 63.6
+        },
+        {
+          "step": 12,
+          "n_chains": 1,
+          "raw_lpips": 0.2619,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 20.45,
+          "peeled_psnr": 57.16,
+          "drift_score": 70.4
+        },
+        {
+          "step": 13,
+          "n_chains": 1,
+          "raw_lpips": 0.2818,
+          "peeled_lpips": 0.0864,
+          "raw_psnr": 19.98,
+          "peeled_psnr": 56.72,
+          "drift_score": 74.7
+        },
+        {
+          "step": 14,
+          "n_chains": 1,
+          "raw_lpips": 0.3066,
+          "peeled_lpips": 0.0864,
+          "raw_psnr": 19.38,
+          "peeled_psnr": 56.72,
+          "drift_score": 81.1
+        },
+        {
+          "step": 15,
+          "n_chains": 1,
+          "raw_lpips": 0.314,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 19.2,
+          "peeled_psnr": 56.71,
+          "drift_score": 84.2
+        },
+        {
+          "step": 16,
+          "n_chains": 1,
+          "raw_lpips": 0.3301,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 18.78,
+          "peeled_psnr": 56.71,
+          "drift_score": 87.4
+        },
+        {
+          "step": 17,
+          "n_chains": 1,
+          "raw_lpips": 0.3613,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 18.24,
+          "peeled_psnr": 56.71,
+          "drift_score": 90.5
+        },
+        {
+          "step": 18,
+          "n_chains": 1,
+          "raw_lpips": 0.3781,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 17.99,
+          "peeled_psnr": 56.71,
+          "drift_score": 91.8
+        },
+        {
+          "step": 19,
+          "n_chains": 1,
+          "raw_lpips": 0.396,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 17.65,
+          "peeled_psnr": 56.71,
+          "drift_score": 92.7
+        },
+        {
+          "step": 20,
+          "n_chains": 1,
+          "raw_lpips": 0.3877,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 17.47,
+          "peeled_psnr": 56.71,
+          "drift_score": 92.7
+        }
+      ],
+      "checkpoints": [
+        {
+          "step": 1,
+          "n_chains": 1,
+          "raw_lpips": 0.0324,
+          "peeled_lpips": 0.0263,
+          "raw_psnr": 37.57,
+          "peeled_psnr": 69.56,
+          "drift_score": 11.3
+        },
+        {
+          "step": 5,
+          "n_chains": 1,
+          "raw_lpips": 0.1041,
+          "peeled_lpips": 0.0615,
+          "raw_psnr": 26.41,
+          "peeled_psnr": 60.61,
+          "drift_score": 35.7
+        },
+        {
+          "step": 10,
+          "n_chains": 1,
+          "raw_lpips": 0.2186,
+          "peeled_lpips": 0.0845,
+          "raw_psnr": 21.54,
+          "peeled_psnr": 57.16,
+          "drift_score": 58.8
+        },
+        {
+          "step": 20,
+          "n_chains": 1,
+          "raw_lpips": 0.3877,
+          "peeled_lpips": 0.0867,
+          "raw_psnr": 17.47,
+          "peeled_psnr": 56.71,
+          "drift_score": 92.7
+        }
+      ]
+    },
+    {
+      "id": "replica",
+      "label": "Replica chains: \u201cproduce an exact replica\u201d",
+      "note": "Nothing is requested, so the correct output at every step is the step-0 image. Peel returns it byte for byte by construction: this group shows the size of the raw drift, not a hard test of Peel.",
+      "chains": [
+        {
+          "image": "fog",
+          "chain": "replica",
+          "run": 1,
+          "instruction": "Produce an exact replica of the provided image, with no alterations.",
+          "seconds": 31.3,
+          "steps": [
+            {
+              "step": 1,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0307,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 29.92,
+              "peeled_psnr": 99.0,
+              "drift_score": 13.9
+            },
+            {
+              "step": 2,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0545,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 28.71,
+              "peeled_psnr": 99.0,
+              "drift_score": 22.4
+            },
+            {
+              "step": 3,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0831,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 27.74,
+              "peeled_psnr": 99.0,
+              "drift_score": 30.9
+            },
+            {
+              "step": 4,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1113,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 26.86,
+              "peeled_psnr": 99.0,
+              "drift_score": 38.8
+            },
+            {
+              "step": 5,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1357,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 26.07,
+              "peeled_psnr": 99.0,
+              "drift_score": 46.2
+            },
+            {
+              "step": 6,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1628,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 25.31,
+              "peeled_psnr": 99.0,
+              "drift_score": 53.6
+            },
+            {
+              "step": 7,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1941,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 24.76,
+              "peeled_psnr": 99.0,
+              "drift_score": 60.1
+            },
+            {
+              "step": 8,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2249,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 24.13,
+              "peeled_psnr": 99.0,
+              "drift_score": 66.1
+            },
+            {
+              "step": 9,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2573,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.55,
+              "peeled_psnr": 99.0,
+              "drift_score": 72.0
+            },
+            {
+              "step": 10,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2905,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.01,
+              "peeled_psnr": 99.0,
+              "drift_score": 77.0
+            },
+            {
+              "step": 11,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.317,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.47,
+              "peeled_psnr": 99.0,
+              "drift_score": 80.6
+            },
+            {
+              "step": 12,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3434,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.02,
+              "peeled_psnr": 99.0,
+              "drift_score": 83.7
+            },
+            {
+              "step": 13,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3692,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.62,
+              "peeled_psnr": 99.0,
+              "drift_score": 86.4
+            },
+            {
+              "step": 14,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3908,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.1,
+              "peeled_psnr": 99.0,
+              "drift_score": 88.4
+            },
+            {
+              "step": 15,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4046,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.6,
+              "peeled_psnr": 99.0,
+              "drift_score": 89.7
+            },
+            {
+              "step": 16,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4265,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.3,
+              "peeled_psnr": 99.0,
+              "drift_score": 91.3
+            },
+            {
+              "step": 17,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4468,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.86,
+              "peeled_psnr": 99.0,
+              "drift_score": 92.5
+            },
+            {
+              "step": 18,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4653,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.46,
+              "peeled_psnr": 99.0,
+              "drift_score": 93.7
+            },
+            {
+              "step": 19,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4838,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.04,
+              "peeled_psnr": 99.0,
+              "drift_score": 94.6
+            },
+            {
+              "step": 20,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.499,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.58,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.3
+            }
+          ]
+        },
+        {
+          "image": "library",
+          "chain": "replica",
+          "run": 1,
+          "instruction": "Produce an exact replica of the provided image, with no alterations.",
+          "seconds": 24.3,
+          "steps": [
+            {
+              "step": 1,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0121,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 33.27,
+              "peeled_psnr": 99.0,
+              "drift_score": 10.0
+            },
+            {
+              "step": 2,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0267,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 30.91,
+              "peeled_psnr": 99.0,
+              "drift_score": 19.3
+            },
+            {
+              "step": 3,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0466,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 28.77,
+              "peeled_psnr": 99.0,
+              "drift_score": 30.3
+            },
+            {
+              "step": 4,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0707,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 27.09,
+              "peeled_psnr": 99.0,
+              "drift_score": 41.3
+            },
+            {
+              "step": 5,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0913,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 26.13,
+              "peeled_psnr": 99.0,
+              "drift_score": 51.2
+            },
+            {
+              "step": 6,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1135,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 25.21,
+              "peeled_psnr": 99.0,
+              "drift_score": 61.0
+            },
+            {
+              "step": 7,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1406,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 24.34,
+              "peeled_psnr": 99.0,
+              "drift_score": 68.4
+            },
+            {
+              "step": 8,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1637,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.65,
+              "peeled_psnr": 99.0,
+              "drift_score": 74.8
+            },
+            {
+              "step": 9,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1887,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.97,
+              "peeled_psnr": 99.0,
+              "drift_score": 79.6
+            },
+            {
+              "step": 10,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2111,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.32,
+              "peeled_psnr": 99.0,
+              "drift_score": 84.1
+            },
+            {
+              "step": 11,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2333,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.48,
+              "peeled_psnr": 99.0,
+              "drift_score": 87.1
+            },
+            {
+              "step": 12,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.258,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.19,
+              "peeled_psnr": 99.0,
+              "drift_score": 89.2
+            },
+            {
+              "step": 13,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2829,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.68,
+              "peeled_psnr": 99.0,
+              "drift_score": 91.3
+            },
+            {
+              "step": 14,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3092,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.16,
+              "peeled_psnr": 99.0,
+              "drift_score": 92.7
+            },
+            {
+              "step": 15,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3297,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.79,
+              "peeled_psnr": 99.0,
+              "drift_score": 93.7
+            },
+            {
+              "step": 16,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3503,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.3,
+              "peeled_psnr": 99.0,
+              "drift_score": 94.5
+            },
+            {
+              "step": 17,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3725,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.85,
+              "peeled_psnr": 99.0,
+              "drift_score": 94.7
+            },
+            {
+              "step": 18,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3867,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.52,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.0
+            },
+            {
+              "step": 19,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4082,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.29,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.3
+            },
+            {
+              "step": 20,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4262,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.85,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.9
+            }
+          ]
+        },
+        {
+          "image": "peacock",
+          "chain": "replica",
+          "run": 1,
+          "instruction": "Produce an exact replica of the provided image, with no alterations.",
+          "seconds": 28.9,
+          "steps": [
+            {
+              "step": 1,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0363,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.92,
+              "peeled_psnr": 99.0,
+              "drift_score": 39.9
+            },
+            {
+              "step": 2,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0568,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.79,
+              "peeled_psnr": 99.0,
+              "drift_score": 52.2
+            },
+            {
+              "step": 3,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0799,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.81,
+              "peeled_psnr": 99.0,
+              "drift_score": 62.4
+            },
+            {
+              "step": 4,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1048,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.04,
+              "peeled_psnr": 99.0,
+              "drift_score": 70.0
+            },
+            {
+              "step": 5,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1305,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.46,
+              "peeled_psnr": 99.0,
+              "drift_score": 75.6
+            },
+            {
+              "step": 6,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1544,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.92,
+              "peeled_psnr": 99.0,
+              "drift_score": 80.0
+            },
+            {
+              "step": 7,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1795,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.49,
+              "peeled_psnr": 99.0,
+              "drift_score": 83.8
+            },
+            {
+              "step": 8,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2065,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.03,
+              "peeled_psnr": 99.0,
+              "drift_score": 86.8
+            },
+            {
+              "step": 9,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2314,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 16.71,
+              "peeled_psnr": 99.0,
+              "drift_score": 89.1
+            },
+            {
+              "step": 10,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.262,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 16.34,
+              "peeled_psnr": 99.0,
+              "drift_score": 90.9
+            },
+            {
+              "step": 11,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2928,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 16.02,
+              "peeled_psnr": 99.0,
+              "drift_score": 92.7
+            },
+            {
+              "step": 12,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3165,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.8,
+              "peeled_psnr": 99.0,
+              "drift_score": 94.0
+            },
+            {
+              "step": 13,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3465,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.6,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.1
+            },
+            {
+              "step": 14,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3739,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.38,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.8
+            },
+            {
+              "step": 15,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4024,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.19,
+              "peeled_psnr": 99.0,
+              "drift_score": 96.9
+            },
+            {
+              "step": 16,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4263,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.08,
+              "peeled_psnr": 99.0,
+              "drift_score": 97.4
+            },
+            {
+              "step": 17,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.448,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 14.94,
+              "peeled_psnr": 99.0,
+              "drift_score": 97.8
+            },
+            {
+              "step": 18,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.467,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 14.8,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.1
+            },
+            {
+              "step": 19,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.4856,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 14.6,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.4
+            },
+            {
+              "step": 20,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.5038,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 14.42,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.6
+            }
+          ]
+        },
+        {
+          "image": "sand",
+          "chain": "replica",
+          "run": 1,
+          "instruction": "Produce an exact replica of the provided image, with no alterations.",
+          "seconds": 23.1,
+          "steps": [
+            {
+              "step": 1,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0465,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.57,
+              "peeled_psnr": 99.0,
+              "drift_score": 70.3
+            },
+            {
+              "step": 2,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0643,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.9,
+              "peeled_psnr": 99.0,
+              "drift_score": 70.2
+            },
+            {
+              "step": 3,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0907,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.91,
+              "peeled_psnr": 99.0,
+              "drift_score": 71.1
+            },
+            {
+              "step": 4,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1109,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 23.42,
+              "peeled_psnr": 99.0,
+              "drift_score": 75.7
+            },
+            {
+              "step": 5,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.0865,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.58,
+              "peeled_psnr": 99.0,
+              "drift_score": 81.8
+            },
+            {
+              "step": 6,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1142,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 22.03,
+              "peeled_psnr": 99.0,
+              "drift_score": 84.7
+            },
+            {
+              "step": 7,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.138,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.55,
+              "peeled_psnr": 99.0,
+              "drift_score": 87.3
+            },
+            {
+              "step": 8,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1677,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 21.01,
+              "peeled_psnr": 99.0,
+              "drift_score": 89.3
+            },
+            {
+              "step": 9,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1998,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 20.32,
+              "peeled_psnr": 99.0,
+              "drift_score": 92.1
+            },
+            {
+              "step": 10,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1426,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.9,
+              "peeled_psnr": 99.0,
+              "drift_score": 90.7
+            },
+            {
+              "step": 11,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1667,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 19.24,
+              "peeled_psnr": 99.0,
+              "drift_score": 92.9
+            },
+            {
+              "step": 12,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.1926,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.74,
+              "peeled_psnr": 99.0,
+              "drift_score": 94.4
+            },
+            {
+              "step": 13,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2265,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 18.21,
+              "peeled_psnr": 99.0,
+              "drift_score": 95.6
+            },
+            {
+              "step": 14,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.2644,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.79,
+              "peeled_psnr": 99.0,
+              "drift_score": 96.3
+            },
+            {
+              "step": 15,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3039,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.36,
+              "peeled_psnr": 99.0,
+              "drift_score": 97.1
+            },
+            {
+              "step": 16,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3442,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 17.01,
+              "peeled_psnr": 99.0,
+              "drift_score": 97.5
+            },
+            {
+              "step": 17,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.3844,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 16.63,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.0
+            },
+            {
+              "step": 18,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.431,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 16.27,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.2
+            },
+            {
+              "step": 19,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.475,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.97,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.4
+            },
+            {
+              "step": 20,
+              "instruction": "Produce an exact replica of the provided image, with no alterations.",
+              "raw_lpips": 0.5184,
+              "peeled_lpips": 0.0,
+              "raw_psnr": 15.66,
+              "peeled_psnr": 99.0,
+              "drift_score": 98.5
+            }
+          ]
+        }
+      ],
+      "mean_curve": [
+        {
+          "step": 1,
+          "n_chains": 4,
+          "raw_lpips": 0.0314,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 27.17,
+          "peeled_psnr": 99.0,
+          "drift_score": 33.525
+        },
+        {
+          "step": 2,
+          "n_chains": 4,
+          "raw_lpips": 0.0506,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 26.0775,
+          "peeled_psnr": 99.0,
+          "drift_score": 41.025
+        },
+        {
+          "step": 3,
+          "n_chains": 4,
+          "raw_lpips": 0.0751,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 25.0575,
+          "peeled_psnr": 99.0,
+          "drift_score": 48.675
+        },
+        {
+          "step": 4,
+          "n_chains": 4,
+          "raw_lpips": 0.0994,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 24.1025,
+          "peeled_psnr": 99.0,
+          "drift_score": 56.45
+        },
+        {
+          "step": 5,
+          "n_chains": 4,
+          "raw_lpips": 0.111,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 23.31,
+          "peeled_psnr": 99.0,
+          "drift_score": 63.7
+        },
+        {
+          "step": 6,
+          "n_chains": 4,
+          "raw_lpips": 0.1362,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 22.6175,
+          "peeled_psnr": 99.0,
+          "drift_score": 69.825
+        },
+        {
+          "step": 7,
+          "n_chains": 4,
+          "raw_lpips": 0.1631,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 22.035,
+          "peeled_psnr": 99.0,
+          "drift_score": 74.9
+        },
+        {
+          "step": 8,
+          "n_chains": 4,
+          "raw_lpips": 0.1907,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 21.455,
+          "peeled_psnr": 99.0,
+          "drift_score": 79.25
+        },
+        {
+          "step": 9,
+          "n_chains": 4,
+          "raw_lpips": 0.2193,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 20.8875,
+          "peeled_psnr": 99.0,
+          "drift_score": 83.2
+        },
+        {
+          "step": 10,
+          "n_chains": 4,
+          "raw_lpips": 0.2266,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 20.3925,
+          "peeled_psnr": 99.0,
+          "drift_score": 85.675
+        },
+        {
+          "step": 11,
+          "n_chains": 4,
+          "raw_lpips": 0.2525,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 19.8025,
+          "peeled_psnr": 99.0,
+          "drift_score": 88.325
+        },
+        {
+          "step": 12,
+          "n_chains": 4,
+          "raw_lpips": 0.2776,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 19.4375,
+          "peeled_psnr": 99.0,
+          "drift_score": 90.325
+        },
+        {
+          "step": 13,
+          "n_chains": 4,
+          "raw_lpips": 0.3063,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 19.0275,
+          "peeled_psnr": 99.0,
+          "drift_score": 92.1
+        },
+        {
+          "step": 14,
+          "n_chains": 4,
+          "raw_lpips": 0.3346,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 18.6075,
+          "peeled_psnr": 99.0,
+          "drift_score": 93.3
+        },
+        {
+          "step": 15,
+          "n_chains": 4,
+          "raw_lpips": 0.3601,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 18.235,
+          "peeled_psnr": 99.0,
+          "drift_score": 94.35
+        },
+        {
+          "step": 16,
+          "n_chains": 4,
+          "raw_lpips": 0.3868,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 17.9225,
+          "peeled_psnr": 99.0,
+          "drift_score": 95.175
+        },
+        {
+          "step": 17,
+          "n_chains": 4,
+          "raw_lpips": 0.4129,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 17.57,
+          "peeled_psnr": 99.0,
+          "drift_score": 95.75
+        },
+        {
+          "step": 18,
+          "n_chains": 4,
+          "raw_lpips": 0.4375,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 17.2625,
+          "peeled_psnr": 99.0,
+          "drift_score": 96.25
+        },
+        {
+          "step": 19,
+          "n_chains": 4,
+          "raw_lpips": 0.4631,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 16.975,
+          "peeled_psnr": 99.0,
+          "drift_score": 96.675
+        },
+        {
+          "step": 20,
+          "n_chains": 4,
+          "raw_lpips": 0.4869,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 16.6275,
+          "peeled_psnr": 99.0,
+          "drift_score": 97.075
+        }
+      ],
+      "checkpoints": [
+        {
+          "step": 1,
+          "n_chains": 4,
+          "raw_lpips": 0.0314,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 27.17,
+          "peeled_psnr": 99.0,
+          "drift_score": 33.525
+        },
+        {
+          "step": 5,
+          "n_chains": 4,
+          "raw_lpips": 0.111,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 23.31,
+          "peeled_psnr": 99.0,
+          "drift_score": 63.7
+        },
+        {
+          "step": 10,
+          "n_chains": 4,
+          "raw_lpips": 0.2266,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 20.3925,
+          "peeled_psnr": 99.0,
+          "drift_score": 85.675
+        },
+        {
+          "step": 20,
+          "n_chains": 4,
+          "raw_lpips": 0.4869,
+          "peeled_lpips": 0.0,
+          "raw_psnr": 16.6275,
+          "peeled_psnr": 99.0,
+          "drift_score": 97.075
+        }
+      ]
+    }
+  ]
+}
