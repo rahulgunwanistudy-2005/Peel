@@ -4,16 +4,16 @@
     {
       "parameters": {
         "width": 520,
-        "height": 330,
-        "content": "## Peel gate\nAn AI edit only goes through if it left the rest of the photo alone.\n\n1. Open **Config** and set `peelApi` (your Peel URL, no trailing slash), `geminiModel` and `maxDriftScore`.\n2. Pick your **Google Gemini(PaLM) Api** credential on *Edit with Nano Banana*.\n3. Optional: put a Slack or Discord incoming-webhook URL in `chatWebhook`.\n4. Activate, open the form URL, upload a product photo and an instruction.\n\nPass: the AI edit is returned as is. Fail: Peel's repaired image is returned instead, and the ledger summary is posted to chat.\n\nDocs: https://github.com/rahulgunwanistudy-2005/Peel/tree/main/integrations/n8n"
+        "height": 350,
+        "content": "## Peel gate\nAn AI edit only goes through if it left the rest of the photo alone.\n\n1. Pick your **Google Gemini(PaLM) Api** credential on *Edit with Nano Banana*.\n2. Open **Config**: `maxDriftScore` is the gate (5 is strict). `peelApi` points at the public demo server; change it if you run your own. `geminiModel` must be an image-editing model your key can use.\n3. Optional: put a Slack or Discord incoming-webhook URL in `chatWebhook`.\n4. Activate, open the form URL, upload a product photo and an instruction.\n\nPass: the AI edit is returned as is. Fail: Peel's repaired image is returned instead, and the ledger summary is posted to chat.\n\nDocs: https://github.com/rahulgunwanistudy-2005/Peel/tree/main/integrations/n8n"
       },
-      "id": "7040efdd-3b7f-409c-8722-2277db6e2294",
-      "name": "Sticky note",
+      "id": "5c7f7979-47ab-5c90-a3bd-32f12e9c8ea5",
+      "name": "Read me",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         -760,
-        -420
+        -440
       ]
     },
     {
@@ -38,7 +38,7 @@
         },
         "options": {}
       },
-      "id": "169c2a15-bf93-44ac-a0f4-94f725d0a387",
+      "id": "49fd5af2-962e-547d-836a-952dae400dcb",
       "name": "On form submission",
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
@@ -46,32 +46,32 @@
         -760,
         0
       ],
-      "webhookId": "30d079cc-44df-4ac2-9307-15ef289d4f2a"
+      "webhookId": "d0b31c7e-2707-5773-9e6e-09cd72615d0a"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "600f2cc6-b9c3-4048-8853-2625945de652",
+              "id": "9b189a9e-4ee8-5e9b-a0e7-09de25b5d6b0",
               "name": "peelApi",
-              "value": "https://YOUR-PEEL-API",
+              "value": "https://peel-api-rahulgunwanistudy-5466s-projects.vercel.app",
               "type": "string"
             },
             {
-              "id": "2f60fc94-7ef4-4cd0-90a6-1c3b6cfc59ff",
+              "id": "1957bf8e-d382-5953-bc9a-75b768050bf1",
               "name": "geminiModel",
               "value": "gemini-2.5-flash-image",
               "type": "string"
             },
             {
-              "id": "7b0f71bc-cf79-4efe-b625-98fa2a145f1b",
+              "id": "4ccc61fa-0a28-5922-8cf3-8a8fd1d5ff49",
               "name": "maxDriftScore",
               "value": 5,
               "type": "number"
             },
             {
-              "id": "f7a12162-669d-41b6-bcc2-9f43981b957b",
+              "id": "361f3a03-fe91-599a-95d2-c3fe2201dab1",
               "name": "chatWebhook",
               "value": "",
               "type": "string"
@@ -84,7 +84,7 @@
           "includeBinary": true
         }
       },
-      "id": "b8c4cb90-595d-4fee-ae99-0140dbbf4854",
+      "id": "20b17cb8-0595-51ca-895b-e0fc42ff28e4",
       "name": "Config",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -100,7 +100,7 @@
         "destinationKey": "photoBase64",
         "options": {}
       },
-      "id": "a8345ca7-f3fa-4781-be93-566b40934a6f",
+      "id": "748e0148-ab8c-5008-be07-6e2461815db9",
       "name": "Photo to base64",
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
@@ -122,7 +122,7 @@
           "timeout": 120000
         }
       },
-      "id": "e3a79f1e-7674-453a-bfcc-80a8d56c3171",
+      "id": "854154e1-d278-5424-8f35-36acefeafa64",
       "name": "Edit with Nano Banana",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -135,7 +135,7 @@
       "parameters": {
         "jsCode": "// Gemini answers with text and image parts; keep the first image.\nconst parts = $input.first().json.candidates?.[0]?.content?.parts ?? [];\nconst image = parts.map((p) => p.inlineData ?? p.inline_data).find((d) => d && d.data);\nif (!image) {\n  throw new Error('The image model answered without an image. Try another instruction.');\n}\nreturn [{ json: { editedBase64: image.data, editedMime: image.mimeType ?? image.mime_type ?? 'image/png' } }];"
       },
-      "id": "c374cc70-e469-42de-8d5b-487bdc9e0df7",
+      "id": "9c8fa47c-d43c-5678-b937-5de9a6b8ca1b",
       "name": "Pick the edited image",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -154,7 +154,7 @@
           "mimeType": "={{ $json.editedMime }}"
         }
       },
-      "id": "8f680a1d-8fef-4ecd-b337-b152c5f742e1",
+      "id": "70142393-e58e-5339-92b7-080f49b5425e",
       "name": "Edited image to file",
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
@@ -169,7 +169,7 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "2d0b9b04-7fc4-41df-ab12-049526c68d7d",
+      "id": "8c967f45-f9ee-5b15-b38c-a466ceb5c704",
       "name": "Original + edit",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
@@ -181,7 +181,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $('Config').first().json.peelApi }}/v1/peel",
+        "url": "={{ $('Config').first().json.peelApi }}/v1/peel?inline=base64",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -206,7 +206,7 @@
           "timeout": 180000
         }
       },
-      "id": "9f89d60a-524f-4942-b446-d849a32c514e",
+      "id": "9e51b8bb-bde7-5b55-aff7-41bd185c6cf4",
       "name": "Peel: measure the drift",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -226,7 +226,7 @@
           },
           "conditions": [
             {
-              "id": "fa32af44-c620-4b5b-a349-217b3bb34639",
+              "id": "38b264bc-fc4b-5c94-a6e4-05cf31209b69",
               "leftValue": "={{ $json.ledger.drift_score }}",
               "rightValue": "={{ $('Config').first().json.maxDriftScore }}",
               "operator": {
@@ -239,7 +239,7 @@
         },
         "options": {}
       },
-      "id": "3adb2eb7-6665-4943-8aa4-0d5dd1b52cd9",
+      "id": "fc3ddeeb-e177-52a8-bcdf-dc0a002e9f70",
       "name": "Drift within limit?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -250,20 +250,18 @@
     },
     {
       "parameters": {
-        "url": "={{ $('Config').first().json.peelApi }}{{ $json.images.edited }}",
+        "operation": "toBinary",
+        "sourceProperty": "images.edited",
+        "binaryPropertyName": "image",
         "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file",
-              "outputPropertyName": "image"
-            }
-          }
+          "fileName": "edit.webp",
+          "mimeType": "image/webp"
         }
       },
-      "id": "e37ea205-f7ff-41d7-a7bd-aab0927d4c5d",
+      "id": "23ccfbfb-66d1-5acb-ac61-06cf0f8f3c15",
       "name": "Pass: keep the AI edit",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
       "position": [
         1240,
         -120
@@ -271,20 +269,18 @@
     },
     {
       "parameters": {
-        "url": "={{ $('Config').first().json.peelApi }}{{ $json.images.peeled }}",
+        "operation": "toBinary",
+        "sourceProperty": "images.peeled",
+        "binaryPropertyName": "image",
         "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file",
-              "outputPropertyName": "image"
-            }
-          }
+          "fileName": "peeled.webp",
+          "mimeType": "image/webp"
         }
       },
-      "id": "afa85eb7-539d-45c0-9f2d-1cc633af7804",
+      "id": "1ed19089-98de-54fa-a500-f7224e37ec49",
       "name": "Fail: use Peel's repair",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
       "position": [
         1240,
         120
@@ -301,7 +297,7 @@
           },
           "conditions": [
             {
-              "id": "281f45c8-e030-464a-9f6f-4e85cfb71c79",
+              "id": "51051d66-2ff4-5492-9371-d162289ed929",
               "leftValue": "={{ $('Config').first().json.chatWebhook }}",
               "rightValue": "",
               "operator": {
@@ -315,7 +311,7 @@
         },
         "options": {}
       },
-      "id": "0ca52931-742f-4d45-9478-3adccc54f61b",
+      "id": "a1e9ac09-852b-52eb-91e2-3446b8554fb7",
       "name": "Chat webhook set?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -330,10 +326,10 @@
         "url": "={{ $('Config').first().json.chatWebhook }}",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({\n  text: 'Peel gate blocked an AI edit (drift score ' + $('Peel: measure the drift').first().json.ledger.drift_score + ', limit ' + $('Config').first().json.maxDriftScore + ').\\n'\n    + 'Instruction: ' + $('Peel: measure the drift').first().json.ledger.instruction + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.headline + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.regions.filter((r) => r.decision === 'revert').slice(0, 5).map((r) => '- ' + r.sentence).join('\\n') + '\\n'\n    + 'Repaired image: ' + $('Config').first().json.peelApi + $('Peel: measure the drift').first().json.images.peeled\n}) }}",
+        "jsonBody": "={{ JSON.stringify({\n  text: 'Peel gate blocked an AI edit (drift score ' + $('Peel: measure the drift').first().json.ledger.drift_score + ', limit ' + $('Config').first().json.maxDriftScore + ').\\n'\n    + 'Instruction: ' + $('Peel: measure the drift').first().json.ledger.instruction + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.headline + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.regions.filter((r) => r.decision === 'revert').slice(0, 5).map((r) => '- ' + r.sentence).join('\\n') + '\\n'\n    + 'The repaired image was used instead; it is attached to this workflow run.'\n}) }}",
         "options": {}
       },
-      "id": "d9ad9cfe-3d3a-41e0-8209-2e71903b265f",
+      "id": "9ba6cd4f-e235-520d-8dd3-f5f822c32e1c",
       "name": "Post the ledger to chat",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,

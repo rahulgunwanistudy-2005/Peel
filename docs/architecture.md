@@ -73,6 +73,13 @@ bounding box of the kept regions only.
 One worker process, one pipeline at a time (the hosts have one or two vCPUs). Jobs live in a
 byte-budgeted LRU with a 30-minute TTL; identical requests are answered from a SHA-256 content
 hash. Progress is real: each pipeline stage emits an event that the web app receives over SSE.
+
+**Stateless hosts.** A serverless host may answer the next request from another instance, where
+the job does not exist. So the main path is one request: `POST /v1/peel/stream` streams the
+stages and then the result, and with `?inline` the images travel in that response. Flipping a
+region on such a host re-sends the pair with the decisions in `options.overrides`; the pipeline
+is deterministic, so region ids are stable. `/healthz` advertises `stateless` and the size limits,
+and the web app adapts (inline images, uploads scaled to fit, chain upload disabled).
 Curated examples are permanent jobs loaded from disk, so they are served without compute and still
 support region flipping (analysed lazily on first use, warmed in the background at start).
 

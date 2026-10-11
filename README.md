@@ -125,15 +125,25 @@ The first run downloads about 900 MB of model weights.
 ## API
 
 ```bash
-curl -s $PEEL_API/v1/peel \
+PEEL_API=https://peel-api-rahulgunwanistudy-5466s-projects.vercel.app
+
+curl -s "$PEEL_API/v1/peel?inline=base64" \
   -F original=@original.png -F edited=@edited.png \
-  -F 'instruction=Make the jacket red' | jq '.ledger.headline, .ledger.drift_score'
+  -F 'instruction=Make the jacket red' > result.json
+
+jq '.ledger.headline, .ledger.drift_score' result.json
+jq -r .images.peeled result.json | base64 --decode > peeled.webp
 ```
+
+`/healthz` tells you what a host can do: its size limits, and `stateless: true` when results
+cannot be fetched by a later request (the public demo host). On such a host ask for `inline`
+images, as above.
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /v1/peel` | Peel one edit; returns ledger, timings and image URLs. |
-| `POST /v1/peel/jobs`, `GET /v1/jobs/{id}/events` | Same, with stage progress over Server-Sent Events. |
+| `POST /v1/peel` | Peel one edit; returns ledger, timings and image URLs. `?inline=base64` or `dataurl` puts the images in the response. |
+| `POST /v1/peel/stream` | Same in one streamed response: stage progress, then the result (Server-Sent Events). What the web app uses. |
+| `POST /v1/peel/jobs`, `GET /v1/jobs/{id}/events` | Start a job and follow it separately. Needs a host that keeps results in memory. |
 | `POST /v1/recomposite` | Flip regions between keep and revert without re-analysing. |
 | `POST /v1/chain` | A sequence of chained edits with a drift curve. |
 | `POST /v1/edit` | Edit with Nano Banana server-side (needs `GEMINI_API_KEY`; otherwise `EDIT_UNAVAILABLE`). |

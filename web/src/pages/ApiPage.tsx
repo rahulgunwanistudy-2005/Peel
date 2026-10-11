@@ -5,25 +5,26 @@ import { GITHUB_URL } from '../components/TopBar'
 // itself, or the local dev address when this copy of the site has no API behind it.
 const API_BASE = !API_ENABLED ? 'http://127.0.0.1:7860' : CONFIGURED_BASE || window.location.origin
 
-const CURL = `curl -s ${API_BASE}/v1/peel \\
+const CURL = `curl -s "${API_BASE}/v1/peel?inline=base64" \\
   -F original=@original.png \\
   -F edited=@edited.png \\
-  -F 'instruction=Make the jacket red' \\
-  | tee result.json | jq '.ledger.headline, .ledger.drift_score'
+  -F 'instruction=Make the jacket red' > result.json
 
-# The result lists image URLs relative to the API root:
-curl -s -o peeled.png "${API_BASE}$(jq -r .images.peeled result.json)"`
+jq '.ledger.headline, .ledger.drift_score' result.json
+jq -r .images.peeled result.json | base64 --decode > peeled.webp`
 
-const PYTHON = `import requests
+const PYTHON = `import base64
+import requests
 
 API = "${API_BASE}"
 
 with open("original.png", "rb") as original, open("edited.png", "rb") as edited:
     response = requests.post(
         f"{API}/v1/peel",
+        params={"inline": "base64"},  # images come back inside the response (WebP)
         files={"original": original, "edited": edited},
         data={"instruction": "Make the jacket red"},
-        timeout=120,
+        timeout=180,
     )
 result = response.json()
 if "error" in result:
@@ -34,22 +35,20 @@ print(ledger["headline"], "| drift score", ledger["drift_score"])
 for region in ledger["regions"]:
     print(region["decision"], "-", region["sentence"])
 
-open("peeled.png", "wb").write(requests.get(API + result["images"]["peeled"]).content)
+open("peeled.webp", "wb").write(base64.b64decode(result["images"]["peeled"]))
 
-# Flip a region and recomposite without re-analysing:
-flipped = requests.post(
-    f"{API}/v1/recomposite",
-    json={"job_id": result["id"], "overrides": {"r2": "keep"}},
-).json()`
+# Keep a region the classifier peeled: send the pair again with the decision.
+# (On a server that keeps results, POST /v1/recomposite does this without re-analysing.)`
 
 const ENDPOINTS: [string, string][] = [
-  ['POST /v1/peel', 'Original, edit and instruction in; ledger, timings and image URLs out.'],
-  ['POST /v1/peel/jobs', 'Same, but returns at once. Follow GET /v1/jobs/{id}/events (Server-Sent Events) for stage progress.'],
+  ['POST /v1/peel', 'Original, edit and instruction in; ledger, timings and images out. Add ?inline=base64 to get the images in the response.'],
+  ['POST /v1/peel/stream', 'The same in one streamed response: stage progress, then the result. This page uses it.'],
+  ['POST /v1/peel/jobs', 'Start a job and follow GET /v1/jobs/{id}/events. Needs a server that keeps results in memory.'],
   ['POST /v1/recomposite', 'Flip regions between keep and revert on a finished job. No re-analysis.'],
   ['POST /v1/chain', 'A sequence of chained edits, anchored to the step-0 image, with a drift curve.'],
   ['POST /v1/edit', 'Edit an image with Nano Banana on the server. Answers EDIT_UNAVAILABLE when no key is set.'],
   ['GET /v1/examples', 'Curated pairs with precomputed results.'],
-  ['GET /healthz', 'Status, model warm flags, version.'],
+  ['GET /healthz', 'Status, model warm flags, size limits, and whether the host is stateless.'],
 ]
 
 export default function ApiPage() {
