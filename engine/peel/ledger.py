@@ -252,9 +252,15 @@ def build_ledger(
     )
 
     warnings: list[str] = []
+    # Only worth saying when something changed: with no regions there is nothing to mis-assign.
     grounding_failed = (
-        mode == "local" and not intent.grounded and not intent.is_noop and bool(intent.phrases)
+        mode == "local"
+        and not intent.grounded
+        and not intent.is_noop
+        and bool(intent.phrases)
+        and bool(items)
     )
+
     if registration.confidence == "low":
         warnings.append(reg.sentence)
     if grounding_failed:

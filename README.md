@@ -161,8 +161,9 @@ summary is posted to chat. Setup notes are in [integrations/n8n](integrations/n8
 
 ## Limitations
 
-- **Vague instructions.** "Make it better" names nothing to locate. Peel then keeps the strongest
-  change, flags it, and says so; the region switches are the fallback.
+- **Vague instructions.** If the instruction names nothing Peel can locate, it keeps the strongest
+  change, flags it for review and says so; the region switches are the fallback. "Make it better"
+  reads as a whole-image instruction and is treated as one.
 - **Whole-image instructions** ("make it night", "watercolour style") change every pixel by design.
   Peel keeps the edit and only locks faces and text; nothing is bit-identical in that mode.
 - **Crops and big reframings.** Where the edit does not cover the original frame, those pixels come

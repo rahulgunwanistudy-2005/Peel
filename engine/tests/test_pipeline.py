@@ -186,3 +186,11 @@ def test_content_hash_depends_on_every_input() -> None:
         )
         == 5
     )
+
+
+def test_identical_pair_is_reported_calmly(astronaut: U8) -> None:
+    output = peel_arrays(astronaut, astronaut.copy(), "Add a yellow balloon")
+    assert np.array_equal(output.peeled, astronaut)
+    assert output.ledger.regions == [] and output.ledger.warnings == []
+    assert output.ledger.confidence == "high" and output.ledger.drift_score == 0.0
+    assert output.ledger.headline.startswith("Nothing changed")
