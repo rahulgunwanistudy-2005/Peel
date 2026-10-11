@@ -5,7 +5,7 @@ API_PORT ?= 7860
 .PHONY: setup dev api web test lint format openapi examples eval build deploy clean
 
 setup:
-	uv venv --python 3.11 .venv
+	uv venv --python 3.11 --allow-existing .venv
 	uv pip install --python $(PY) -e "engine[dev]" -r api/requirements.txt -r eval/requirements.txt
 	cd web && npm install
 

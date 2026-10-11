@@ -28,7 +28,7 @@ jobs:
           key: models-v1
       - name: Install
         run: |
-          uv venv --python 3.11 .venv
+          uv venv --python 3.11 --clear .venv
           uv pip install --python .venv/bin/python torch torchvision --index-url https://download.pytorch.org/whl/cpu
           uv pip install --python .venv/bin/python -e "engine[dev]" -r api/requirements.txt -r eval/requirements.txt
       - name: Lint and type-check
