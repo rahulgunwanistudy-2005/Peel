@@ -8,7 +8,8 @@ from peel import models
 
 from app import gemini, service
 from app.config import VERSION, settings
-from app.schemas import Health
+from app.limits import MAX_BYTES
+from app.schemas import Health, Limits
 
 router = APIRouter(tags=["meta"])
 
@@ -27,4 +28,10 @@ def healthz() -> Health:
         if hasattr(os, "sched_getaffinity")
         else (os.cpu_count() or 1),
         platform=f"{platform.system()} {platform.machine()}",
+        limits=Limits(
+            max_upload_bytes=min(MAX_BYTES, settings.max_upload_bytes),
+            max_request_bytes=settings.max_request_bytes,
+            max_long_side=settings.max_long_side,
+            max_chain_steps=settings.max_chain_steps,
+        ),
     )

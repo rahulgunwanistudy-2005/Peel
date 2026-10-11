@@ -29,6 +29,7 @@ __all__ = [
     "JobCreated",
     "JobStatus",
     "Ledger",
+    "Limits",
     "PeelImages",
     "PeelOptions",
     "PeelResult",
@@ -57,6 +58,17 @@ class EditStatus(BaseModel):
     model: str | None = None
 
 
+class Limits(BaseModel):
+    max_upload_bytes: int = Field(description="Largest single image this server accepts.")
+    max_request_bytes: int = Field(
+        description="Largest whole request body this host accepts; 0 means no cap beyond the per-image one."
+    )
+    max_long_side: int = Field(
+        description="Images are downscaled to this long side before analysis."
+    )
+    max_chain_steps: int
+
+
 class Health(BaseModel):
     status: Literal["ok", "warming"]
     version: str
@@ -66,6 +78,7 @@ class Health(BaseModel):
     examples: int
     cpus: int = Field(description="CPU cores visible to the process.")
     platform: str
+    limits: Limits
 
 
 class ProgressEvent(BaseModel):

@@ -7,10 +7,11 @@ import time
 from dataclasses import dataclass
 
 from fastapi import Request, UploadFile
-from peel.io import MAX_BYTES
 from peel.types import ErrorCode, PeelError
 
 from app.config import settings
+
+MAX_BYTES = 15 * 1024 * 1024  # the engine's own limit; tests lower it
 
 
 @dataclass
@@ -79,10 +80,13 @@ def rate_limit(cost: float = 1.0):  # type: ignore[no-untyped-def]
 
 async def read_upload(upload: UploadFile, label: str) -> bytes:
     """Read at most the limit plus one byte, so an oversized upload is rejected without buffering it."""
-    data = await upload.read(MAX_BYTES + 1)
-    if len(data) > MAX_BYTES:
+    limit = min(MAX_BYTES, settings.max_upload_bytes)
+    data = await upload.read(limit + 1)
+    if len(data) > limit:
         raise PeelError(
-            ErrorCode.IMAGE_TOO_LARGE, f"The {label} is over the 15 MB limit.", status=413
+            ErrorCode.IMAGE_TOO_LARGE,
+            f"The {label} is over this server's {limit / 1e6:.0f} MB limit per image.",
+            status=413,
         )
     if not data:
         raise PeelError(ErrorCode.INVALID_IMAGE, f"The {label} is empty.")

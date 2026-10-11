@@ -1,0 +1,50 @@
+# Peel API as a Vercel container function (Hobby: 1 vCPU, 2 GB RAM, 4.5 MB request and response
+# bodies). The roomier deployment is the Hugging Face Space built from deploy/Dockerfile.
+# Build context: the repository root.
+FROM python:3.11-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HF_HOME=/opt/peel/huggingface \
+    TORCH_HOME=/opt/peel/torch \
+    PEEL_MODEL_DIR=/opt/peel/models \
+    HF_HUB_DISABLE_TELEMETRY=1 \
+    TOKENIZERS_PARALLELISM=false \
+    OMP_NUM_THREADS=1 \
+    PEEL_THREADS=1
+WORKDIR /app
+
+# CPU-only torch: the default wheel drags in gigabytes of CUDA libraries.
+RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+COPY engine/pyproject.toml engine/pyproject.toml
+COPY engine/peel engine/peel
+COPY api/requirements.txt api/requirements.txt
+RUN pip install ./engine -r api/requirements.txt
+
+# Bake every model into the image so a cold start never downloads anything.
+RUN python -c "from peel import models; print(models.warmup())" && chmod -R a+rX /opt/peel
+ENV HF_HUB_OFFLINE=1
+
+COPY api/app api/app
+COPY api/examples_data api/examples_data
+
+ARG VERCEL_GIT_COMMIT_SHA=unknown
+ENV PEEL_GIT_SHA=$VERCEL_GIT_COMMIT_SHA \
+    PEEL_EXAMPLES_DIR=/app/api/examples_data \
+    PEEL_WEB_DIST=/app/no-web-build \
+    PEEL_MAX_LONG_SIDE=1280 \
+    PEEL_MAX_UPLOAD_BYTES=4000000 \
+    PEEL_MAX_REQUEST_BYTES=4300000 \
+    PEEL_MEMORY_BUDGET_MB=250 \
+    PEEL_MAX_JOBS=6 \
+    PEEL_MAX_CHAIN_STEPS=6 \
+    PEEL_WARM_EXAMPLES=0
+
+# Vercel sends traffic to $PORT (80 unless the project overrides it).
+CMD ["sh", "-c", "exec python -m uvicorn app.main:app --app-dir api --host 0.0.0.0 --port ${PORT:-80} --proxy-headers --forwarded-allow-ips '*'"]

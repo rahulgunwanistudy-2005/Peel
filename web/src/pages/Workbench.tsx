@@ -10,11 +10,13 @@ import {
   recomposite,
   type Decision,
   type Example,
+  type Limits,
   type PeelResult,
   type ProgressEvent,
   type Region,
 } from '../api/client'
 import { ExampleStrip } from '../components/ExampleStrip'
+import { fitImages } from '../lib/fit'
 import { Ledger } from '../components/Ledger'
 import { Progress } from '../components/Progress'
 import { Stage, type Overlay, type View } from '../components/Stage'
@@ -44,6 +46,7 @@ export function Workbench() {
   const [notice, setNotice] = useState<Notice | null>(null)
   const [own, setOwn] = useState(first === null)
   const [editModel, setEditModel] = useState<string | null>(null)
+  const [limits, setLimits] = useState<Limits | null>(null)
   const noticeRef = useRef<HTMLDivElement>(null)
 
   const show = useCallback((next: PeelResult, key: string) => {
@@ -62,7 +65,10 @@ export function Workbench() {
     if (!API_ENABLED) return
     const controller = new AbortController()
     getHealth(controller.signal)
-      .then((health) => setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null))
+      .then((health) => {
+        setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null)
+        setLimits(health.limits)
+      })
       .catch(() => setEditModel(null))
     return () => controller.abort()
   }, [])
@@ -82,9 +88,18 @@ export function Workbench() {
     setNotice(null)
     setProgress({ stage: 'queued', pct: 0, label: 'Sending the images' })
     try {
-      const next = await peel(original, edited, instruction, { onProgress: setProgress })
+      // Hosts with a small request limit get both images scaled down to the same size first.
+      const budget = limits && limits.max_request_bytes > 0 ? limits.max_request_bytes - 64_000 : 0
+      const fitted = await fitImages([original, edited], budget, Math.min(limits?.max_long_side ?? 4096, 1536))
+      const next = await peel(fitted.files[0], fitted.files[1], instruction, { onProgress: setProgress })
       setExample(null)
       show(next, `job-${next.id}`)
+      if (fitted.resizedTo !== null) {
+        setNotice({
+          code: 'RESIZED',
+          message: `This server accepts about ${Math.round(budget / 1e6)} MB per request, so both images were resized to ${fitted.resizedTo} px on the long side before upload. Run Peel locally for full resolution.`,
+        })
+      }
     } catch (error) {
       setNotice(toNotice(error))
     } finally {

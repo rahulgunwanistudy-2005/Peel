@@ -1,0 +1,17 @@
+.git
+.venv
+**/node_modules
+**/__pycache__
+**/*.pyc
+.cache
+eval/cache
+eval/out
+eval/results
+docs
+web/dist
+web/test-results
+web/public
+integrations
+.pytest_cache
+.mypy_cache
+.ruff_cache

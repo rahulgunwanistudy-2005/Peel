@@ -527,6 +527,9 @@
             "title": "Git Sha",
             "type": "string"
           },
+          "limits": {
+            "$ref": "#/components/schemas/Limits"
+          },
           "models": {
             "additionalProperties": {
               "type": "boolean"
@@ -560,7 +563,8 @@
           "edit",
           "examples",
           "cpus",
-          "platform"
+          "platform",
+          "limits"
         ],
         "title": "Health",
         "type": "object"
@@ -796,6 +800,37 @@
           "background_delta_e"
         ],
         "title": "LedgerSummary",
+        "type": "object"
+      },
+      "Limits": {
+        "properties": {
+          "max_chain_steps": {
+            "title": "Max Chain Steps",
+            "type": "integer"
+          },
+          "max_long_side": {
+            "description": "Images are downscaled to this long side before analysis.",
+            "title": "Max Long Side",
+            "type": "integer"
+          },
+          "max_request_bytes": {
+            "description": "Largest whole request body this host accepts; 0 means no cap beyond the per-image one.",
+            "title": "Max Request Bytes",
+            "type": "integer"
+          },
+          "max_upload_bytes": {
+            "description": "Largest single image this server accepts.",
+            "title": "Max Upload Bytes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_upload_bytes",
+          "max_request_bytes",
+          "max_long_side",
+          "max_chain_steps"
+        ],
+        "title": "Limits",
         "type": "object"
       },
       "PeelImages": {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { ApiError, imageUrl, peelChain, type ChainResult, type ProgressEvent } from '../api/client'
+import { API_ENABLED, ApiError, getHealth, imageUrl, peelChain, type ChainResult, type Limits, type ProgressEvent } from '../api/client'
+import { fitImages } from '../lib/fit'
 import { LineChart } from '../components/LineChart'
 import { Num } from '../components/Num'
 import { fixed } from '../lib/format'
@@ -20,6 +21,16 @@ export default function Chain() {
   const [instructions, setInstructions] = useState('')
   const [progress, setProgress] = useState<ProgressEvent | null>(null)
   const [problem, setProblem] = useState<string | null>(null)
+  const [limits, setLimits] = useState<Limits | null>(null)
+
+  useEffect(() => {
+    if (!API_ENABLED) return
+    const controller = new AbortController()
+    getHealth(controller.signal)
+      .then((health) => setLimits(health.limits))
+      .catch(() => undefined)
+    return () => controller.abort()
+  }, [])
 
   useEffect(() => {
     let live = true
@@ -51,7 +62,9 @@ export default function Chain() {
     try {
       const sorted = [...edits].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
       const list = lines.length === 1 ? sorted.map(() => lines[0]) : lines
-      const result = await peelChain(original, sorted, list, { onProgress: setProgress })
+      const budget = limits && limits.max_request_bytes > 0 ? limits.max_request_bytes - 64_000 : 0
+      const fitted = await fitImages([original, ...sorted], budget, 1024)
+      const result = await peelChain(fitted.files[0], fitted.files.slice(1), list, { onProgress: setProgress })
       setChain(result)
       setStep(result.steps.length - 1)
     } catch (error) {

@@ -54,6 +54,12 @@ class Settings:
     rate_capacity: int = int(os.environ.get("PEEL_RATE_CAPACITY", 12))
     rate_refill_seconds: float = float(os.environ.get("PEEL_RATE_REFILL", 5.0))
     warm_on_start: bool = os.environ.get("PEEL_WARM", "1") != "0"
+    warm_examples: bool = os.environ.get("PEEL_WARM_EXAMPLES", "1") != "0"
+    # Hosts with small request/response bodies or little memory tighten these.
+    max_upload_bytes: int = int(os.environ.get("PEEL_MAX_UPLOAD_BYTES", 15 * 1024 * 1024))
+    max_request_bytes: int = int(os.environ.get("PEEL_MAX_REQUEST_BYTES", 0))  # 0 = no extra cap
+    max_long_side: int = int(os.environ.get("PEEL_MAX_LONG_SIDE", 4096))
+    memory_budget_bytes: int = int(os.environ.get("PEEL_MEMORY_BUDGET_MB", 1500)) * 1_000_000
     gemini_api_key: str | None = os.environ.get("GEMINI_API_KEY") or os.environ.get(
         "GOOGLE_API_KEY"
     )

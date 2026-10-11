@@ -54,9 +54,12 @@ STAGE_LABELS = {
 
 def parse_options(raw: str | None) -> PeelOptions:
     if raw is None or not raw.strip():
-        return PeelOptions()
+        return PeelOptions(max_long_side=settings.max_long_side)
     try:
-        return PeelOptions.model_validate_json(raw)
+        options = PeelOptions.model_validate_json(raw)
+        if options.max_long_side > settings.max_long_side:
+            options = options.model_copy(update={"max_long_side": settings.max_long_side})
+        return options
     except ValueError as exc:
         first = str(exc).splitlines()[1:3]
         detail = " ".join(line.strip() for line in first) or "it is not valid JSON"
@@ -165,7 +168,7 @@ def ensure_analysed(job: Job) -> PeelOutput:
                 raise PeelError(ErrorCode.JOB_NOT_FOUND, "This result has expired.", status=404)
             original, edited, instruction = job.source
             with _pipeline_lock:
-                output = peel_bytes(original, edited, instruction)
+                output = peel_bytes(original, edited, instruction, parse_options(None))
             _attach(job, output)
         return job.output
 

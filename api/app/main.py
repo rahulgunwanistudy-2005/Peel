@@ -44,7 +44,8 @@ def _startup_work() -> None:
     except Exception:
         log.exception("model warm-up failed")
     gemini.status()
-    service.warm_examples()
+    if settings.warm_examples:
+        service.warm_examples()
 
 
 @asynccontextmanager

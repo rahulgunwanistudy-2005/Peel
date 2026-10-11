@@ -443,6 +443,7 @@ export interface components {
             examples: number;
             /** Git Sha */
             git_sha: string;
+            limits: components["schemas"]["Limits"];
             /**
              * Models
              * @description Warm flag per model.
@@ -547,6 +548,26 @@ export interface components {
             n_regions: number;
             /** Peeled Area Pct */
             peeled_area_pct: number;
+        };
+        /** Limits */
+        Limits: {
+            /** Max Chain Steps */
+            max_chain_steps: number;
+            /**
+             * Max Long Side
+             * @description Images are downscaled to this long side before analysis.
+             */
+            max_long_side: number;
+            /**
+             * Max Request Bytes
+             * @description Largest whole request body this host accepts; 0 means no cap beyond the per-image one.
+             */
+            max_request_bytes: number;
+            /**
+             * Max Upload Bytes
+             * @description Largest single image this server accepts.
+             */
+            max_upload_bytes: number;
         };
         /**
          * PeelImages

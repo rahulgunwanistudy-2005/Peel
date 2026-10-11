@@ -344,3 +344,10 @@ def test_rate_limit_response(
         headers={"x-forwarded-for": "203.0.113.10"},
     )
     assert other.status_code == 200, "another address has its own bucket"
+
+
+def test_health_reports_the_host_limits(client: TestClient) -> None:
+    limits = client.get("/healthz").json()["limits"]
+    assert limits["max_upload_bytes"] == 15 * 1024 * 1024
+    assert limits["max_long_side"] == 4096 and limits["max_request_bytes"] == 0
+    assert limits["max_chain_steps"] == 8

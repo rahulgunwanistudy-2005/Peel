@@ -18,8 +18,6 @@ from peel.pipeline import PeelOutput
 from app.config import settings
 from app.schemas import ChainResult, ErrorDetail, JobKind, JobState, PeelResult, ProgressEvent
 
-MEMORY_BUDGET_BYTES = 1_500_000_000
-
 
 @dataclass
 class Job:
@@ -113,7 +111,9 @@ class JobStore:
                 self._drop(job.id)
         disposable = [j for j in self._jobs.values() if not j.permanent and j.state != "running"]
         total = sum(j.size_bytes() for j in self._jobs.values())
-        while disposable and (len(disposable) > self.max_jobs or total > MEMORY_BUDGET_BYTES):
+        while disposable and (
+            len(disposable) > self.max_jobs or total > settings.memory_budget_bytes
+        ):
             oldest = disposable.pop(0)  # OrderedDict order is least recently used first
             total -= oldest.size_bytes()
             self._drop(oldest.id)
