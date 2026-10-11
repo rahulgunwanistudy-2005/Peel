@@ -1,0 +1,1809 @@
+{
+  "components": {
+    "schemas": {
+      "BBox": {
+        "properties": {
+          "h": {
+            "title": "H",
+            "type": "integer"
+          },
+          "w": {
+            "title": "W",
+            "type": "integer"
+          },
+          "x": {
+            "title": "X",
+            "type": "integer"
+          },
+          "y": {
+            "title": "Y",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "w",
+          "h"
+        ],
+        "title": "BBox",
+        "type": "object"
+      },
+      "Body_chain_v1_chain_post": {
+        "properties": {
+          "edited": {
+            "description": "Raw editor outputs, in order.",
+            "items": {
+              "contentMediaType": "application/octet-stream",
+              "type": "string"
+            },
+            "title": "Edited",
+            "type": "array"
+          },
+          "instructions": {
+            "description": "One instruction per edit: a JSON array, or one per line. A single line is reused for every step.",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PeelOptions as a JSON string (optional).",
+            "title": "Options"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The step-0 image.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "instructions"
+        ],
+        "title": "Body_chain_v1_chain_post",
+        "type": "object"
+      },
+      "Body_create_chain_job_v1_chain_jobs_post": {
+        "properties": {
+          "edited": {
+            "description": "Raw editor outputs, in order.",
+            "items": {
+              "contentMediaType": "application/octet-stream",
+              "type": "string"
+            },
+            "title": "Edited",
+            "type": "array"
+          },
+          "instructions": {
+            "description": "One instruction per edit: a JSON array, or one per line. A single line is reused for every step.",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PeelOptions as a JSON string (optional).",
+            "title": "Options"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The step-0 image.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "instructions"
+        ],
+        "title": "Body_create_chain_job_v1_chain_jobs_post",
+        "type": "object"
+      },
+      "Body_create_job_v1_peel_jobs_post": {
+        "properties": {
+          "edited": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image the AI editor returned.",
+            "title": "Edited",
+            "type": "string"
+          },
+          "instruction": {
+            "description": "What you asked the editor to do.",
+            "maxLength": 2000,
+            "title": "Instruction",
+            "type": "string"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PeelOptions as a JSON string (optional).",
+            "title": "Options"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image before the AI edit.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "instruction"
+        ],
+        "title": "Body_create_job_v1_peel_jobs_post",
+        "type": "object"
+      },
+      "Body_edit_v1_edit_post": {
+        "properties": {
+          "instruction": {
+            "maxLength": 2000,
+            "title": "Instruction",
+            "type": "string"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image to edit.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "instruction"
+        ],
+        "title": "Body_edit_v1_edit_post",
+        "type": "object"
+      },
+      "Body_peel_v1_peel_post": {
+        "properties": {
+          "edited": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image the AI editor returned.",
+            "title": "Edited",
+            "type": "string"
+          },
+          "instruction": {
+            "description": "What you asked the editor to do.",
+            "maxLength": 2000,
+            "title": "Instruction",
+            "type": "string"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "PeelOptions as a JSON string (optional).",
+            "title": "Options"
+          },
+          "original": {
+            "contentMediaType": "application/octet-stream",
+            "description": "The image before the AI edit.",
+            "title": "Original",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "instruction"
+        ],
+        "title": "Body_peel_v1_peel_post",
+        "type": "object"
+      },
+      "ChainResult": {
+        "properties": {
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/ChainStepMetrics"
+            },
+            "title": "Metrics",
+            "type": "array"
+          },
+          "original": {
+            "title": "Original",
+            "type": "string"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/ChainStepResult"
+            },
+            "title": "Steps",
+            "type": "array"
+          },
+          "total_ms": {
+            "title": "Total Ms",
+            "type": "number"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "original",
+          "width",
+          "height",
+          "steps",
+          "metrics",
+          "total_ms"
+        ],
+        "title": "ChainResult",
+        "type": "object"
+      },
+      "ChainStepMetrics": {
+        "properties": {
+          "drift_score": {
+            "title": "Drift Score",
+            "type": "number"
+          },
+          "instruction": {
+            "title": "Instruction",
+            "type": "string"
+          },
+          "peeled_lpips": {
+            "title": "Peeled Lpips",
+            "type": "number"
+          },
+          "peeled_psnr": {
+            "title": "Peeled Psnr",
+            "type": "number"
+          },
+          "raw_lpips": {
+            "description": "Unedited-region LPIPS of the raw chain vs step 0.",
+            "title": "Raw Lpips",
+            "type": "number"
+          },
+          "raw_psnr": {
+            "title": "Raw Psnr",
+            "type": "number"
+          },
+          "step": {
+            "title": "Step",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "step",
+          "instruction",
+          "raw_lpips",
+          "peeled_lpips",
+          "raw_psnr",
+          "peeled_psnr",
+          "drift_score"
+        ],
+        "title": "ChainStepMetrics",
+        "type": "object"
+      },
+      "ChainStepResult": {
+        "properties": {
+          "instruction": {
+            "title": "Instruction",
+            "type": "string"
+          },
+          "peeled": {
+            "title": "Peeled",
+            "type": "string"
+          },
+          "raw": {
+            "description": "URL of the raw edit in the original's frame.",
+            "title": "Raw",
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/PeelResult"
+          },
+          "step": {
+            "title": "Step",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "step",
+          "instruction",
+          "raw",
+          "peeled",
+          "result"
+        ],
+        "title": "ChainStepResult",
+        "type": "object"
+      },
+      "EditStatus": {
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "required": [
+          "available"
+        ],
+        "title": "EditStatus",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "code": {
+            "examples": [
+              "NOT_SAME_SCENE"
+            ],
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "description": "Written for the person using the app.",
+            "title": "Message",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "Example": {
+        "properties": {
+          "blurb": {
+            "title": "Blurb",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "instruction": {
+            "title": "Instruction",
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/PeelResult"
+          },
+          "source": {
+            "description": "Where the image pair came from, with licence.",
+            "title": "Source",
+            "type": "string"
+          },
+          "synthetic": {
+            "description": "True when the drift was generated in code, not by an AI editor.",
+            "title": "Synthetic",
+            "type": "boolean"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "blurb",
+          "instruction",
+          "source",
+          "synthetic",
+          "result"
+        ],
+        "title": "Example",
+        "type": "object"
+      },
+      "GlobalCast": {
+        "properties": {
+          "delta_a": {
+            "title": "Delta A",
+            "type": "number"
+          },
+          "delta_b": {
+            "title": "Delta B",
+            "type": "number"
+          },
+          "delta_l": {
+            "title": "Delta L",
+            "type": "number"
+          },
+          "detected": {
+            "title": "Detected",
+            "type": "boolean"
+          },
+          "magnitude": {
+            "description": "Euclidean length of the Lab shift.",
+            "title": "Magnitude",
+            "type": "number"
+          },
+          "sentence": {
+            "title": "Sentence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "detected",
+          "delta_l",
+          "delta_a",
+          "delta_b",
+          "magnitude",
+          "sentence"
+        ],
+        "title": "GlobalCast",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "edit": {
+            "$ref": "#/components/schemas/EditStatus"
+          },
+          "examples": {
+            "title": "Examples",
+            "type": "integer"
+          },
+          "git_sha": {
+            "title": "Git Sha",
+            "type": "string"
+          },
+          "models": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "description": "Warm flag per model.",
+            "title": "Models",
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "warming"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "version",
+          "git_sha",
+          "models",
+          "edit",
+          "examples"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "JobCreated": {
+        "properties": {
+          "events_url": {
+            "title": "Events Url",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "peel",
+              "chain"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "status_url": {
+            "title": "Status Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "status_url",
+          "events_url"
+        ],
+        "title": "JobCreated",
+        "type": "object"
+      },
+      "JobStatus": {
+        "properties": {
+          "chain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChainResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "peel",
+              "chain"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/ProgressEvent"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PeelResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "error"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "state",
+          "progress"
+        ],
+        "title": "JobStatus",
+        "type": "object"
+      },
+      "Ledger": {
+        "properties": {
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "drift_score": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Drift Score",
+            "type": "number"
+          },
+          "global_cast": {
+            "$ref": "#/components/schemas/GlobalCast"
+          },
+          "headline": {
+            "title": "Headline",
+            "type": "string"
+          },
+          "instruction": {
+            "title": "Instruction",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "local",
+              "global"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "regions": {
+            "items": {
+              "$ref": "#/components/schemas/Region"
+            },
+            "title": "Regions",
+            "type": "array"
+          },
+          "registration": {
+            "$ref": "#/components/schemas/RegistrationReport"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LedgerSummary"
+          },
+          "target_phrases": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Target Phrases",
+            "type": "array"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "instruction",
+          "target_phrases",
+          "mode",
+          "drift_score",
+          "headline",
+          "confidence",
+          "summary",
+          "global_cast",
+          "registration",
+          "regions"
+        ],
+        "title": "Ledger",
+        "type": "object"
+      },
+      "LedgerSummary": {
+        "properties": {
+          "background_delta_e": {
+            "description": "Mean CIEDE2000 of the raw edit against the original, outside kept regions.",
+            "title": "Background Delta E",
+            "type": "number"
+          },
+          "bit_identical_pct": {
+            "description": "Share of output pixels that are byte-for-byte the original.",
+            "title": "Bit Identical Pct",
+            "type": "number"
+          },
+          "changed_area_pct": {
+            "title": "Changed Area Pct",
+            "type": "number"
+          },
+          "kept_area_pct": {
+            "title": "Kept Area Pct",
+            "type": "number"
+          },
+          "n_ambiguous": {
+            "title": "N Ambiguous",
+            "type": "integer"
+          },
+          "n_collateral": {
+            "title": "N Collateral",
+            "type": "integer"
+          },
+          "n_intended": {
+            "title": "N Intended",
+            "type": "integer"
+          },
+          "n_regions": {
+            "title": "N Regions",
+            "type": "integer"
+          },
+          "peeled_area_pct": {
+            "title": "Peeled Area Pct",
+            "type": "number"
+          }
+        },
+        "required": [
+          "n_regions",
+          "n_intended",
+          "n_collateral",
+          "n_ambiguous",
+          "changed_area_pct",
+          "kept_area_pct",
+          "peeled_area_pct",
+          "bit_identical_pct",
+          "background_delta_e"
+        ],
+        "title": "LedgerSummary",
+        "type": "object"
+      },
+      "PeelImages": {
+        "description": "URLs (relative to the API root) for the rendered images of one result.",
+        "properties": {
+          "change_map": {
+            "title": "Change Map",
+            "type": "string"
+          },
+          "diff": {
+            "description": "Amplified difference between the peeled result and the original.",
+            "title": "Diff",
+            "type": "string"
+          },
+          "edited": {
+            "description": "The AI edit after alignment to the original.",
+            "title": "Edited",
+            "type": "string"
+          },
+          "original": {
+            "title": "Original",
+            "type": "string"
+          },
+          "peeled": {
+            "title": "Peeled",
+            "type": "string"
+          },
+          "raw_diff": {
+            "description": "Amplified difference between the raw AI edit and the original.",
+            "title": "Raw Diff",
+            "type": "string"
+          }
+        },
+        "required": [
+          "original",
+          "edited",
+          "peeled",
+          "change_map",
+          "diff",
+          "raw_diff"
+        ],
+        "title": "PeelImages",
+        "type": "object"
+      },
+      "PeelResult": {
+        "properties": {
+          "cached": {
+            "default": false,
+            "title": "Cached",
+            "type": "boolean"
+          },
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "images": {
+            "$ref": "#/components/schemas/PeelImages"
+          },
+          "ledger": {
+            "$ref": "#/components/schemas/Ledger"
+          },
+          "timings": {
+            "items": {
+              "$ref": "#/components/schemas/StageTiming"
+            },
+            "title": "Timings",
+            "type": "array"
+          },
+          "total_ms": {
+            "title": "Total Ms",
+            "type": "number"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "width",
+          "height",
+          "ledger",
+          "timings",
+          "total_ms",
+          "images"
+        ],
+        "title": "PeelResult",
+        "type": "object"
+      },
+      "ProgressEvent": {
+        "properties": {
+          "label": {
+            "default": "",
+            "title": "Label",
+            "type": "string"
+          },
+          "pct": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Pct",
+            "type": "number"
+          },
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "pct"
+        ],
+        "title": "ProgressEvent",
+        "type": "object"
+      },
+      "RecompositeRequest": {
+        "properties": {
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "overrides": {
+            "additionalProperties": {
+              "enum": [
+                "keep",
+                "revert"
+              ],
+              "type": "string"
+            },
+            "description": "Region id to keep/revert. Regions not listed go back to the classifier's decision.",
+            "examples": [
+              {
+                "r2": "keep"
+              }
+            ],
+            "title": "Overrides",
+            "type": "object"
+          }
+        },
+        "required": [
+          "job_id"
+        ],
+        "title": "RecompositeRequest",
+        "type": "object"
+      },
+      "Region": {
+        "properties": {
+          "area_pct": {
+            "title": "Area Pct",
+            "type": "number"
+          },
+          "bbox": {
+            "$ref": "#/components/schemas/BBox"
+          },
+          "classification": {
+            "enum": [
+              "intended",
+              "collateral",
+              "ambiguous"
+            ],
+            "title": "Classification",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "decision": {
+            "enum": [
+              "keep",
+              "revert"
+            ],
+            "title": "Decision",
+            "type": "string"
+          },
+          "face_distance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Face Distance"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "intent_overlap": {
+            "title": "Intent Overlap",
+            "type": "number"
+          },
+          "mean_delta_e": {
+            "description": "Mean CIEDE2000 inside the region.",
+            "title": "Mean Delta E",
+            "type": "number"
+          },
+          "mean_lpips": {
+            "title": "Mean Lpips",
+            "type": "number"
+          },
+          "overridden": {
+            "default": false,
+            "title": "Overridden",
+            "type": "boolean"
+          },
+          "polygon": {
+            "description": "Simplified outer contour.",
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            "title": "Polygon",
+            "type": "array"
+          },
+          "sentence": {
+            "description": "One plain-language sentence describing the change.",
+            "title": "Sentence",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "color_cast",
+              "texture",
+              "structure",
+              "face_identity",
+              "text",
+              "object"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "bbox",
+          "polygon",
+          "area_pct",
+          "type",
+          "classification",
+          "decision",
+          "confidence",
+          "intent_overlap",
+          "mean_delta_e",
+          "mean_lpips",
+          "sentence"
+        ],
+        "title": "Region",
+        "type": "object"
+      },
+      "RegistrationReport": {
+        "properties": {
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "flow_applied": {
+            "title": "Flow Applied",
+            "type": "boolean"
+          },
+          "inlier_ratio": {
+            "title": "Inlier Ratio",
+            "type": "number"
+          },
+          "n_matches": {
+            "title": "N Matches",
+            "type": "integer"
+          },
+          "reprojection_error_px": {
+            "title": "Reprojection Error Px",
+            "type": "number"
+          },
+          "residual_flow_px": {
+            "title": "Residual Flow Px",
+            "type": "number"
+          },
+          "resized": {
+            "description": "True when the edit came back at a different size.",
+            "title": "Resized",
+            "type": "boolean"
+          },
+          "sentence": {
+            "title": "Sentence",
+            "type": "string"
+          },
+          "shift_px": {
+            "description": "Largest corner displacement that was corrected.",
+            "title": "Shift Px",
+            "type": "number"
+          }
+        },
+        "required": [
+          "confidence",
+          "inlier_ratio",
+          "reprojection_error_px",
+          "n_matches",
+          "shift_px",
+          "flow_applied",
+          "residual_flow_px",
+          "resized",
+          "sentence"
+        ],
+        "title": "RegistrationReport",
+        "type": "object"
+      },
+      "StageTiming": {
+        "properties": {
+          "ms": {
+            "title": "Ms",
+            "type": "number"
+          },
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "ms"
+        ],
+        "title": "StageTiming",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "\n**Keep the edit. Peel the drift.**\n\nGive Peel the original image, the AI-edited image and the instruction. It returns a composite that\nkeeps the requested change and restores every other pixel, plus a ledger of everything the editor\nchanged without being asked.\n\nImages are held in memory for 30 minutes and never written to disk. Errors are\n`{\"error\": {\"code\", \"message\", \"request_id\"}}` with messages written for people.\n",
+    "license": {
+      "name": "MIT"
+    },
+    "title": "Peel",
+    "version": "0.1.0",
+    "x-note": "Generated by `make openapi`. Do not edit by hand."
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Liveness, model warm flags and version",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/v1/chain": {
+      "post": {
+        "operationId": "chain_v1_chain_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_chain_v1_chain_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChainResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "An upload is over 15 MB."
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not a PNG, JPEG or WebP."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Rate limited."
+          }
+        },
+        "summary": "Peel a sequence of chained edits, anchored to the step-0 image",
+        "tags": [
+          "chain"
+        ]
+      }
+    },
+    "/v1/chain/jobs": {
+      "post": {
+        "operationId": "create_chain_job_v1_chain_jobs_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_chain_job_v1_chain_jobs_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "An upload is over 15 MB."
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not a PNG, JPEG or WebP."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Rate limited."
+          }
+        },
+        "summary": "Start a chain and follow it over Server-Sent Events",
+        "tags": [
+          "chain"
+        ]
+      }
+    },
+    "/v1/edit": {
+      "post": {
+        "operationId": "edit_v1_edit_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_edit_v1_edit_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "image/png": {}
+            },
+            "description": "The edited image. `X-Peel-Edit-Model` names the model."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "EDIT_UNAVAILABLE: no key, no quota, or no image model."
+          }
+        },
+        "summary": "Edit an image with Nano Banana (Gemini), server-side",
+        "tags": [
+          "edit"
+        ]
+      }
+    },
+    "/v1/examples": {
+      "get": {
+        "operationId": "list_examples_v1_examples_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Example"
+                  },
+                  "title": "Response List Examples V1 Examples Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Curated pairs with precomputed results (served instantly, no compute)",
+        "tags": [
+          "examples"
+        ]
+      }
+    },
+    "/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "job_status_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Job state and, when finished, the result",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/jobs/{job_id}/events": {
+      "get": {
+        "operationId": "job_events_v1_jobs__job_id__events_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/event-stream": {}
+            },
+            "description": "Events: `progress` (ProgressEvent), then `done` (JobStatus) or `error` (ErrorDetail)."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Stage progress as Server-Sent Events",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/jobs/{job_id}/images/{name}.png": {
+      "get": {
+        "operationId": "job_image_v1_jobs__job_id__images__name__png_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Downscale so the long side is at most this (0 = full size).",
+            "in": "query",
+            "name": "max",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "description": "Downscale so the long side is at most this (0 = full size).",
+              "maximum": 4096,
+              "minimum": 0,
+              "title": "Max",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Send as an attachment.",
+            "in": "query",
+            "name": "download",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "Send as an attachment.",
+              "title": "Download",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "image/png": {}
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "One rendered image of a result",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/peel": {
+      "post": {
+        "operationId": "peel_v1_peel_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_peel_v1_peel_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeelResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "An upload is over 15 MB."
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not a PNG, JPEG or WebP."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Rate limited."
+          }
+        },
+        "summary": "Peel an edit and wait for the result",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/peel/jobs": {
+      "post": {
+        "operationId": "create_job_v1_peel_jobs_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_job_v1_peel_jobs_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "An upload is over 15 MB."
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not a PNG, JPEG or WebP."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "NOT_SAME_SCENE, INVALID_OPTIONS or EMPTY_INSTRUCTION."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Rate limited."
+          }
+        },
+        "summary": "Start a peel and follow its progress over Server-Sent Events",
+        "tags": [
+          "peel"
+        ]
+      }
+    },
+    "/v1/recomposite": {
+      "post": {
+        "operationId": "recomposite_v1_recomposite_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecompositeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeelResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "Flip regions between keep and revert without re-analysing",
+        "tags": [
+          "peel"
+        ]
+      }
+    }
+  }
+}
