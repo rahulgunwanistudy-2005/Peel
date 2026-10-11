@@ -25,12 +25,12 @@ test:
 
 lint:
 	cd engine && ../.venv/bin/ruff check peel tests && ../.venv/bin/ruff format --check peel tests && ../.venv/bin/mypy -p peel
-	.venv/bin/ruff check api eval --config engine/pyproject.toml && .venv/bin/ruff format --check api eval --config engine/pyproject.toml
+	.venv/bin/ruff check api eval deploy && .venv/bin/ruff format --check api eval deploy
 	cd web && npm run typecheck && npm run lint
 
 format:
-	.venv/bin/ruff format engine api eval --config engine/pyproject.toml
-	.venv/bin/ruff check engine api eval --fix --config engine/pyproject.toml
+	cd engine && ../.venv/bin/ruff format peel tests && ../.venv/bin/ruff check peel tests --fix
+	.venv/bin/ruff format api eval deploy && .venv/bin/ruff check api eval deploy --fix
 
 openapi:
 	cd api && ../$(PY) -m app.export_openapi
@@ -41,6 +41,7 @@ examples:
 
 eval:
 	$(PY) -m eval.run_all
+	$(PY) -m eval.report
 
 build:
 	cd web && npm run build

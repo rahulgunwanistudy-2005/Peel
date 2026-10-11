@@ -38,7 +38,7 @@ jobs:
           ../.venv/bin/ruff format --check peel tests
           ../.venv/bin/mypy -p peel
           cd ..
-          .venv/bin/ruff check api eval --config engine/pyproject.toml
+          .venv/bin/ruff check api eval deploy
       - name: Engine tests
         run: cd engine && ../.venv/bin/python -m pytest
       - name: API tests
