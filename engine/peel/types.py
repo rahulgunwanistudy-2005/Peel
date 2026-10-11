@@ -42,7 +42,7 @@ class PeelOptions(BaseModel):
     intended_overlap: float = Field(0.6, ge=0.0, le=1.0)
     collateral_overlap: float = Field(0.2, ge=0.0, le=1.0)
     face_distance_threshold: float = Field(
-        0.30, ge=0.0, le=2.0, description="SFace cosine distance above which a face has drifted."
+        0.25, ge=0.0, le=2.0, description="SFace cosine distance above which a face has drifted."
     )
     blend: BlendMode = "laplacian"
     harmonize: bool = True
@@ -144,7 +144,12 @@ class PeelImages(BaseModel):
     edited: str = Field(description="The AI edit after alignment to the original.")
     peeled: str
     change_map: str
-    diff: str
+    diff: str = Field(
+        description="Amplified difference between the peeled result and the original."
+    )
+    raw_diff: str = Field(
+        description="Amplified difference between the raw AI edit and the original."
+    )
 
 
 class PeelResult(BaseModel):

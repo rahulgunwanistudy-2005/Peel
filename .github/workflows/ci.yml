@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            ~/.cache/torch
+            ~/.cache/peel
+          key: models-v1
+      - name: Install
+        run: |
+          uv venv --python 3.11 .venv
+          uv pip install --python .venv/bin/python torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          uv pip install --python .venv/bin/python -e "engine[dev]" -r api/requirements.txt -r eval/requirements.txt
+      - name: Lint and type-check
+        run: |
+          cd engine
+          ../.venv/bin/ruff check peel tests
+          ../.venv/bin/ruff format --check peel tests
+          ../.venv/bin/mypy -p peel
+          cd ..
+          .venv/bin/ruff check api eval --config engine/pyproject.toml
+      - name: Engine tests
+        run: cd engine && ../.venv/bin/python -m pytest
+      - name: API tests
+        run: cd api && ../.venv/bin/python -m pytest
