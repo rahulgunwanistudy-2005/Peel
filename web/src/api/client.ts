@@ -14,7 +14,10 @@ export type ErrorDetail = components['schemas']['ErrorDetail']
 export type Decision = 'keep' | 'revert'
 export type ImageName = keyof PeelResult['images']
 
-export const API_BASE: string = (import.meta.env.VITE_API_BASE ?? 'http://127.0.0.1:7860').replace(/\/$/, '')
+// In development the API runs on its own port. In a production build with no VITE_API_BASE the
+// page is being served by the API itself (the Space), so requests are same-origin.
+const FALLBACK_BASE = import.meta.env.DEV ? 'http://127.0.0.1:7860' : ''
+export const API_BASE: string = (import.meta.env.VITE_API_BASE ?? FALLBACK_BASE).replace(/\/$/, '')
 
 /** An error the interface can show as is: the server writes messages for people. */
 export class ApiError extends Error {
@@ -38,10 +41,11 @@ async function unwrap<T>(response: Response): Promise<T> {
   } catch {
     detail = undefined
   }
-  throw new ApiError(
-    detail?.code ?? 'INTERNAL',
-    detail?.message ?? `The server answered ${response.status}. Try again.`,
-  )
+  if (!detail) {
+    // Not a Peel error body: a proxy, a sleeping host or a static file server answered instead.
+    throw response.status === 404 || response.status >= 502 ? OFFLINE : new ApiError('INTERNAL', `The server answered ${response.status}. Try again.`)
+  }
+  throw new ApiError(detail.code, detail.message)
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {

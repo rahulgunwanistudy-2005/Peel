@@ -173,11 +173,8 @@ def main(max_steps: int = 20) -> None:
             f"raw LPIPS {last['raw_lpips']} PSNR {last['raw_psnr']} -> peeled LPIPS {last['peeled_lpips']} PSNR {last['peeled_psnr']}",
             flush=True,
         )
-        if (
-            not is_replica
-            and not (WEB_CHAIN / "chain.json").exists()
-            or (not is_replica and meta["image"] == "table")
-        ):
+        # The Chains page shows an edit chain (the desk scene when it is available).
+        if not is_replica and (meta["image"] == "table" or not (WEB_CHAIN / "chain.json").exists()):
             write_web_example(meta, result, instructions)
 
     groups = []

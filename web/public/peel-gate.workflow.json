@@ -1,0 +1,490 @@
+{
+  "name": "Peel gate: check AI product-photo edits for drift",
+  "nodes": [
+    {
+      "parameters": {
+        "width": 520,
+        "height": 330,
+        "content": "## Peel gate\nAn AI edit only goes through if it left the rest of the photo alone.\n\n1. Open **Config** and set `peelApi` (your Peel URL, no trailing slash), `geminiModel` and `maxDriftScore`.\n2. Pick your **Google Gemini(PaLM) Api** credential on *Edit with Nano Banana*.\n3. Optional: put a Slack or Discord incoming-webhook URL in `chatWebhook`.\n4. Activate, open the form URL, upload a product photo and an instruction.\n\nPass: the AI edit is returned as is. Fail: Peel's repaired image is returned instead, and the ledger summary is posted to chat.\n\nDocs: https://github.com/rahulgunwanistudy-2005/Peel/tree/main/integrations/n8n"
+      },
+      "id": "7040efdd-3b7f-409c-8722-2277db6e2294",
+      "name": "Sticky note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "formTitle": "Edit a product photo (with a drift gate)",
+        "formDescription": "Upload a product photo and say what to change. The edit is checked by Peel before it is accepted.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Product photo",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".png, .jpg, .jpeg, .webp",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Instruction",
+              "placeholder": "Put the bottle on a marble counter",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "169c2a15-bf93-44ac-a0f4-94f725d0a387",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -760,
+        0
+      ],
+      "webhookId": "30d079cc-44df-4ac2-9307-15ef289d4f2a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "600f2cc6-b9c3-4048-8853-2625945de652",
+              "name": "peelApi",
+              "value": "https://YOUR-PEEL-API",
+              "type": "string"
+            },
+            {
+              "id": "2f60fc94-7ef4-4cd0-90a6-1c3b6cfc59ff",
+              "name": "geminiModel",
+              "value": "gemini-2.5-flash-image",
+              "type": "string"
+            },
+            {
+              "id": "7b0f71bc-cf79-4efe-b625-98fa2a145f1b",
+              "name": "maxDriftScore",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "f7a12162-669d-41b6-bcc2-9f43981b957b",
+              "name": "chatWebhook",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {
+          "stripBinary": false,
+          "includeBinary": true
+        }
+      },
+      "id": "b8c4cb90-595d-4fee-ae99-0140dbbf4854",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -540,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "Product_photo",
+        "destinationKey": "photoBase64",
+        "options": {}
+      },
+      "id": "a8345ca7-f3fa-4781-be93-566b40934a6f",
+      "name": "Photo to base64",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/{{ $('Config').first().json.geminiModel }}:generateContent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  contents: [{\n    parts: [\n      { inline_data: { mime_type: $('On form submission').first().binary.Product_photo.mimeType, data: $json.photoBase64 } },\n      { text: $('On form submission').first().json.Instruction }\n    ]\n  }],\n  generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }\n}) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e3a79f1e-7674-453a-bfcc-80a8d56c3171",
+      "name": "Edit with Nano Banana",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -100,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Gemini answers with text and image parts; keep the first image.\nconst parts = $input.first().json.candidates?.[0]?.content?.parts ?? [];\nconst image = parts.map((p) => p.inlineData ?? p.inline_data).find((d) => d && d.data);\nif (!image) {\n  throw new Error('The image model answered without an image. Try another instruction.');\n}\nreturn [{ json: { editedBase64: image.data, editedMime: image.mimeType ?? image.mime_type ?? 'image/png' } }];"
+      },
+      "id": "c374cc70-e469-42de-8d5b-487bdc9e0df7",
+      "name": "Pick the edited image",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        120,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "editedBase64",
+        "binaryPropertyName": "edited",
+        "options": {
+          "fileName": "edited.png",
+          "mimeType": "={{ $json.editedMime }}"
+        }
+      },
+      "id": "8f680a1d-8fef-4ecd-b337-b152c5f742e1",
+      "name": "Edited image to file",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "2d0b9b04-7fc4-41df-ab12-049526c68d7d",
+      "name": "Original + edit",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        560,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').first().json.peelApi }}/v1/peel",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "original",
+              "inputDataFieldName": "Product_photo"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "edited",
+              "inputDataFieldName": "edited"
+            },
+            {
+              "name": "instruction",
+              "value": "={{ $('On form submission').first().json.Instruction }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "9f89d60a-524f-4942-b446-d849a32c514e",
+      "name": "Peel: measure the drift",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        780,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fa32af44-c620-4b5b-a349-217b3bb34639",
+              "leftValue": "={{ $json.ledger.drift_score }}",
+              "rightValue": "={{ $('Config').first().json.maxDriftScore }}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3adb2eb7-6665-4943-8aa4-0d5dd1b52cd9",
+      "name": "Drift within limit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1000,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Config').first().json.peelApi }}{{ $json.images.edited }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image"
+            }
+          }
+        }
+      },
+      "id": "e37ea205-f7ff-41d7-a7bd-aab0927d4c5d",
+      "name": "Pass: keep the AI edit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1240,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Config').first().json.peelApi }}{{ $json.images.peeled }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image"
+            }
+          }
+        }
+      },
+      "id": "afa85eb7-539d-45c0-9f2d-1cc633af7804",
+      "name": "Fail: use Peel's repair",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1240,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "281f45c8-e030-464a-9f6f-4e85cfb71c79",
+              "leftValue": "={{ $('Config').first().json.chatWebhook }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0ca52931-742f-4d45-9478-3adccc54f61b",
+      "name": "Chat webhook set?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1460,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').first().json.chatWebhook }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  text: 'Peel gate blocked an AI edit (drift score ' + $('Peel: measure the drift').first().json.ledger.drift_score + ', limit ' + $('Config').first().json.maxDriftScore + ').\\n'\n    + 'Instruction: ' + $('Peel: measure the drift').first().json.ledger.instruction + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.headline + '\\n'\n    + $('Peel: measure the drift').first().json.ledger.regions.filter((r) => r.decision === 'revert').slice(0, 5).map((r) => '- ' + r.sentence).join('\\n') + '\\n'\n    + 'Repaired image: ' + $('Config').first().json.peelApi + $('Peel: measure the drift').first().json.images.peeled\n}) }}",
+        "options": {}
+      },
+      "id": "d9ad9cfe-3d3a-41e0-8209-2e71903b265f",
+      "name": "Post the ledger to chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1700,
+        40
+      ],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Original + edit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Photo to base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Photo to base64": {
+      "main": [
+        [
+          {
+            "node": "Edit with Nano Banana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit with Nano Banana": {
+      "main": [
+        [
+          {
+            "node": "Pick the edited image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick the edited image": {
+      "main": [
+        [
+          {
+            "node": "Edited image to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edited image to file": {
+      "main": [
+        [
+          {
+            "node": "Original + edit",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Original + edit": {
+      "main": [
+        [
+          {
+            "node": "Peel: measure the drift",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Peel: measure the drift": {
+      "main": [
+        [
+          {
+            "node": "Drift within limit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Drift within limit?": {
+      "main": [
+        [
+          {
+            "node": "Pass: keep the AI edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fail: use Peel's repair",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fail: use Peel's repair": {
+      "main": [
+        [
+          {
+            "node": "Chat webhook set?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat webhook set?": {
+      "main": [
+        [
+          {
+            "node": "Post the ledger to chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
