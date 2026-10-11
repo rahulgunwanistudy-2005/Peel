@@ -685,25 +685,41 @@
 .drift-ticks span {
   position: absolute;
   top: 14px;
-  width: 1.5px;
-  height: 5px;
-  margin-left: -1px;
-  background: var(--ink);
+  padding-top: 7px;
   font-size: var(--t-12);
   color: var(--ink-2);
   line-height: 1;
-  text-indent: -0.5ch;
-  padding-top: 7px;
   white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.drift-ticks span::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1.5px;
+  height: 5px;
+  margin-left: -0.75px;
+  background: var(--ink);
 }
 
 .drift-ticks span:first-child {
+  transform: none;
+}
+
+.drift-ticks span:first-child::before {
+  left: 0;
   margin-left: 0;
-  text-indent: 0;
 }
 
 .drift-ticks span:last-child {
-  text-indent: -2.6ch;
+  transform: translateX(-100%);
+}
+
+.drift-ticks span:last-child::before {
+  left: 100%;
+  margin-left: -1.5px;
 }
 
 .drift-note {

@@ -953,34 +953,34 @@
       "timings": [
         {
           "stage": "register",
-          "ms": 234.8
+          "ms": 203.7
         },
         {
           "stage": "change",
-          "ms": 2029.1
+          "ms": 1930.1
         },
         {
           "stage": "intent",
-          "ms": 4747.6
+          "ms": 8527.3
         },
         {
           "stage": "faces",
-          "ms": 96.6
+          "ms": 102.5
         },
         {
           "stage": "classify",
-          "ms": 32.1
+          "ms": 34.5
         },
         {
           "stage": "composite",
-          "ms": 109.7
+          "ms": 109.5
         },
         {
           "stage": "ledger",
-          "ms": 5.2
+          "ms": 7.6
         }
       ],
-      "total_ms": 7255.1,
+      "total_ms": 10915.2,
       "images": {
         "original": "./examples/desk-apple/original.webp",
         "edited": "./examples/desk-apple/edited.webp",
@@ -1048,19 +1048,19 @@
       "timings": [
         {
           "stage": "register",
-          "ms": 235.7
+          "ms": 223.9
         },
         {
           "stage": "change",
-          "ms": 251.5
+          "ms": 247.7
         },
         {
           "stage": "intent",
-          "ms": 537.6
+          "ms": 1109.3
         },
         {
           "stage": "faces",
-          "ms": 8.7
+          "ms": 9.4
         },
         {
           "stage": "classify",
@@ -1072,10 +1072,10 @@
         },
         {
           "stage": "ledger",
-          "ms": 3.1
+          "ms": 2.9
         }
       ],
-      "total_ms": 1044.3,
+      "total_ms": 1600.9,
       "images": {
         "original": "./examples/library-replica/original.webp",
         "edited": "./examples/library-replica/edited.webp",
@@ -1708,34 +1708,34 @@
       "timings": [
         {
           "stage": "register",
-          "ms": 146.3
+          "ms": 144.9
         },
         {
           "stage": "change",
-          "ms": 234.9
+          "ms": 231.1
         },
         {
           "stage": "intent",
-          "ms": 531.7
+          "ms": 545.8
         },
         {
           "stage": "faces",
-          "ms": 38.3
+          "ms": 36.7
         },
         {
           "stage": "classify",
-          "ms": 18.7
+          "ms": 18.8
         },
         {
           "stage": "composite",
-          "ms": 84.8
+          "ms": 85.7
         },
         {
           "stage": "ledger",
-          "ms": 2.4
+          "ms": 2.5
         }
       ],
-      "total_ms": 1057.1,
+      "total_ms": 1065.5,
       "images": {
         "original": "./examples/astronaut-face/original.webp",
         "edited": "./examples/astronaut-face/edited.webp",
@@ -2056,34 +2056,34 @@
       "timings": [
         {
           "stage": "register",
-          "ms": 198.0
+          "ms": 182.0
         },
         {
           "stage": "change",
-          "ms": 201.5
+          "ms": 208.0
         },
         {
           "stage": "intent",
-          "ms": 563.6
+          "ms": 565.1
         },
         {
           "stage": "faces",
-          "ms": 7.2
+          "ms": 7.3
         },
         {
           "stage": "classify",
-          "ms": 7.0
+          "ms": 7.6
         },
         {
           "stage": "composite",
-          "ms": 65.6
+          "ms": 67.7
         },
         {
           "stage": "ledger",
           "ms": 2.3
         }
       ],
-      "total_ms": 1045.2,
+      "total_ms": 1040.0,
       "images": {
         "original": "./examples/coffee-recolor/original.webp",
         "edited": "./examples/coffee-recolor/edited.webp",

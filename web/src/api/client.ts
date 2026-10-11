@@ -1,3 +1,4 @@
+import bundledExamples from './fixtures/examples.json'
 import type { components } from './types'
 
 export type PeelResult = components['schemas']['PeelResult']
@@ -15,9 +16,12 @@ export type Decision = 'keep' | 'revert'
 export type ImageName = keyof PeelResult['images']
 
 // In development the API runs on its own port. In a production build with no VITE_API_BASE the
-// page is being served by the API itself (the Space), so requests are same-origin.
+// page is being served by the API itself (the Space), so requests are same-origin. The value
+// "off" marks a deployment that has no analysis server behind it yet.
 const FALLBACK_BASE = import.meta.env.DEV ? 'http://127.0.0.1:7860' : ''
-export const API_BASE: string = (import.meta.env.VITE_API_BASE ?? FALLBACK_BASE).replace(/\/$/, '')
+const CONFIGURED: string = import.meta.env.VITE_API_BASE ?? FALLBACK_BASE
+export const API_ENABLED = CONFIGURED !== 'off'
+export const API_BASE: string = API_ENABLED ? CONFIGURED.replace(/\/$/, '') : ''
 
 /** An error the interface can show as is: the server writes messages for people. */
 export class ApiError extends Error {
@@ -31,6 +35,11 @@ export class ApiError extends Error {
 const OFFLINE = new ApiError(
   'OFFLINE',
   'The analysis server is not answering. It sleeps when idle and takes about a minute to wake; try again shortly.',
+)
+
+const NOT_CONNECTED = new ApiError(
+  'NOT_CONNECTED',
+  'This copy of the site has no analysis server connected, so it can only show the bundled examples. Run Peel locally (make dev) to analyse your own images.',
 )
 
 async function unwrap<T>(response: Response): Promise<T> {
@@ -49,6 +58,7 @@ async function unwrap<T>(response: Response): Promise<T> {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!API_ENABLED) throw NOT_CONNECTED
   let response: Response
   try {
     response = await fetch(`${API_BASE}${path}`, init)
@@ -58,9 +68,19 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return unwrap<T>(response)
 }
 
-/** API image URLs start with /v1/; bundled example images are relative to the page. */
+const PHOTO = /\/(original|edited|peeled)\.webp$/
+
+/**
+ * API image URLs start with /v1/; bundled example images are relative to the page. Bundled
+ * photographs have a lossy display copy and a thumbnail next to the lossless file: pass `maxSide`
+ * for display, and nothing when exact pixels are needed (the loupe).
+ */
 export function imageUrl(url: string, maxSide = 0): string {
-  if (!url.startsWith('/v1/')) return url
+  if (!url.startsWith('/v1/')) {
+    if (maxSide > 0 && maxSide <= 360 && PHOTO.test(url)) return url.replace(PHOTO, '/thumb.webp')
+    if (maxSide > 0 && PHOTO.test(url)) return url.replace(/\.webp$/, '.display.webp')
+    return url
+  }
   const full = `${API_BASE}${url}`
   if (!maxSide) return full
   return `${full}${full.includes('?') ? '&' : '?'}max=${maxSide}`
@@ -170,6 +190,7 @@ export async function editWithModel(original: Blob, instruction: string): Promis
   const form = new FormData()
   form.append('original', original, 'original')
   form.append('instruction', instruction)
+  if (!API_ENABLED) throw NOT_CONNECTED
   let response: Response
   try {
     response = await fetch(`${API_BASE}/v1/edit`, { method: 'POST', body: form })
@@ -180,9 +201,8 @@ export async function editWithModel(original: Blob, instruction: string): Promis
   return { image: await response.blob(), model: response.headers.get('X-Peel-Edit-Model') ?? 'Gemini' }
 }
 
-/** Curated examples are bundled with the web build, so the first view never waits for the server. */
-export async function loadExamples(): Promise<Example[]> {
-  const response = await fetch('./examples/index.json')
-  if (!response.ok) return []
-  return (await response.json()) as Example[]
-}
+/**
+ * Curated examples are compiled into the bundle (and their images are static files), so the first
+ * view needs no request to the server and reserves its layout before anything loads.
+ */
+export const EXAMPLES = bundledExamples as unknown as Example[]

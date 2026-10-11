@@ -82,11 +82,13 @@ export function Stage({ result, view, overlay, onView, onOverlay, highlighted, p
     [result.images],
   )
 
-  // The loupe needs pixel access to all three images; fetch them once someone reaches for it.
+  // The loupe needs exact pixels of all three images: the lossless files for bundled examples, the
+  // same PNGs as the display for API results. They are fetched once someone reaches for the loupe.
+  const exact = (url: string) => (url.startsWith('/v1/') ? imageUrl(url, DISPLAY_MAX) : imageUrl(url))
   const loupeImages: LoupeImages = {
-    original: useImage(loupeWanted ? urls.original : null),
-    edited: useImage(loupeWanted ? urls.edited : null),
-    peeled: useImage(loupeWanted ? urls.peeled : null),
+    original: useImage(loupeWanted ? exact(result.images.original) : null),
+    edited: useImage(loupeWanted ? exact(result.images.edited) : null),
+    peeled: useImage(loupeWanted ? exact(result.images.peeled) : null),
   }
 
   // Register, then reveal. Runs on first load and for every new analysis.

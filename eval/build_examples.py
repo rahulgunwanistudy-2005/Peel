@@ -270,6 +270,12 @@ def main() -> None:
         for folder in (API_DIR / spec.id, WEB_DIR / spec.id):
             for name, rgb in images.items():
                 write_webp(folder / f"{name}.webp", rgb, lossless=name in LOSSLESS, quality=90)
+        # Lossy display copies and a thumbnail keep the first view light; the loupe reads the
+        # lossless files, so its pixel-identity readout is exact.
+        for name in sorted(LOSSLESS & set(images)):
+            write_webp(WEB_DIR / spec.id / f"{name}.display.webp", images[name], quality=84)
+        thumb = fit_long_side(images["edited"], 360)
+        write_webp(WEB_DIR / spec.id / "thumb.webp", thumb, quality=78)
         # The API re-analyses an example from its inputs the first time a region is flipped.
         write_webp(API_DIR / spec.id / "source_edit.webp", spec.edited, lossless=True)
         assert np.array_equal(read_rgb(WEB_DIR / spec.id / "peeled.webp"), output.peeled), (
@@ -307,6 +313,8 @@ def main() -> None:
     (FIXTURES / "examples.json").write_text(json.dumps(web_index, indent=2) + "\n")
 
     first = all_specs[0]
+    if first.id != "desk-apple":
+        print(f"NOTE: web/index.html preloads the first example's image; update it for {first.id!r}.")
     SOURCE_EDIT = first.edited
     how_figures(outputs[first.id], outputs.get("astronaut-face"))
     size = sum(f.stat().st_size for f in WEB_DIR.rglob("*") if f.is_file()) / 1e6

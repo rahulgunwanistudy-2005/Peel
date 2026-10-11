@@ -38,7 +38,7 @@ test('load an example, toggle views, flip a region', async ({ page }) => {
   await kept.getByRole('button', { name: 'Peel', exact: true }).click()
   await expect(kept.locator('.region-state')).toContainText('Peeled by you')
   await expect(ledger).toContainText('100.0% of the result is byte-for-byte your original')
-  await expect(stageImage).toHaveAttribute('src', /\/v1\/jobs\/ex-astronaut-face\/images\/peeled\.png\?v=1/)
+  await expect(stageImage).toHaveAttribute('src', /\/v1\/jobs\/ex-astronaut-face\/images\/peeled\.png\?v=\d+/)
 
   // Flip it back.
   await kept.getByRole('button', { name: 'Keep', exact: true }).click()

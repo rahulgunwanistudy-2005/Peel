@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
+  API_ENABLED,
   ApiError,
+  EXAMPLES,
   editWithModel,
   getHealth,
-  loadExamples,
   peel,
   recomposite,
   type Decision,
@@ -30,19 +31,19 @@ function toNotice(error: unknown): Notice {
 }
 
 export function Workbench() {
-  const [examples, setExamples] = useState<Example[]>([])
-  const [example, setExample] = useState<Example | null>(null)
-  const [result, setResult] = useState<PeelResult | null>(null)
-  const [playKey, setPlayKey] = useState('initial')
-  const [view, setView] = useState<View>('peeled')
-  const [overlay, setOverlay] = useState<Overlay>('map')
+  const examples = EXAMPLES
+  const first = examples[0] ?? null
+  const [example, setExample] = useState<Example | null>(first)
+  const [result, setResult] = useState<PeelResult | null>(first?.result ?? null)
+  const [playKey, setPlayKey] = useState(first ? `example-${first.id}` : 'initial')
+  const [view, setView] = useState<View>(first && first.result.ledger.regions.length === 0 ? 'edited' : 'peeled')
+  const [overlay, setOverlay] = useState<Overlay>(first && first.result.ledger.regions.length === 0 ? 'diff' : 'map')
   const [highlighted, setHighlighted] = useState<string | null>(null)
   const [progress, setProgress] = useState<ProgressEvent | null>(null)
   const [flipping, setFlipping] = useState<string | null>(null)
   const [notice, setNotice] = useState<Notice | null>(null)
-  const [own, setOwn] = useState(false)
+  const [own, setOwn] = useState(first === null)
   const [editModel, setEditModel] = useState<string | null>(null)
-  const [loadState, setLoadState] = useState<'loading' | 'ready' | 'empty'>('loading')
   const noticeRef = useRef<HTMLDivElement>(null)
 
   const show = useCallback((next: PeelResult, key: string) => {
@@ -56,34 +57,9 @@ export function Workbench() {
     setHighlighted(null)
   }, [])
 
-  useEffect(() => {
-    let live = true
-    loadExamples()
-      .then((list) => {
-        if (!live) return
-        setExamples(list)
-        if (list.length > 0) {
-          setExample(list[0])
-          show(list[0].result, `example-${list[0].id}`)
-          setLoadState('ready')
-        } else {
-          setLoadState('empty')
-          setOwn(true)
-        }
-      })
-      .catch(() => {
-        if (live) {
-          setLoadState('empty')
-          setOwn(true)
-        }
-      })
-    return () => {
-      live = false
-    }
-  }, [show])
-
   // Only to learn whether live editing is offered. The page works without the server.
   useEffect(() => {
+    if (!API_ENABLED) return
     const controller = new AbortController()
     getHealth(controller.signal)
       .then((health) => setEditModel(health.edit.available ? (health.edit.model ?? 'Gemini') : null))
@@ -179,9 +155,7 @@ export function Workbench() {
             <section className="stage stage-empty" aria-label="Image stage">
               <div className="stage-well">
                 <p>
-                  {loadState === 'loading'
-                    ? 'Loading the example'
-                    : 'Add an original, its AI edit and the instruction below. The result appears here.'}
+                  Add an original, its AI edit and the instruction below. The result appears here.
                 </p>
               </div>
             </section>
