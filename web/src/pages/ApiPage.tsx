@@ -1,5 +1,9 @@
-import { API_BASE } from '../api/client'
+import { API_BASE as CONFIGURED_BASE, API_ENABLED } from '../api/client'
 import { GITHUB_URL } from '../components/TopBar'
+
+// What to print in the snippets: the connected API, this origin when the API serves the page
+// itself, or the local dev address when this copy of the site has no API behind it.
+const API_BASE = !API_ENABLED ? 'http://127.0.0.1:7860' : CONFIGURED_BASE || window.location.origin
 
 const CURL = `curl -s ${API_BASE}/v1/peel \\
   -F original=@original.png \\
@@ -57,6 +61,12 @@ export default function ApiPage() {
           Everything the workbench does is one HTTP call. Images are kept in memory for 30 minutes and never written
           to disk. Errors come back as a code and a sentence you can show to a person.
         </p>
+        {!API_ENABLED && (
+          <p className="empty-data">
+            This copy of the site has no analysis server connected. The snippets below use the local address you get
+            from <code>make dev</code>.
+          </p>
+        )}
       </header>
 
       <section className="block">
